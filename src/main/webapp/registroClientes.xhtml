@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Registrarse</title>
+        <link rel="stylesheet" href="css/estilo.css"/>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form>
+                <p:menubar>
+                    <p:menuitem value="Salir" icon="pi pi-sign-out" action="index?faces-redirect=true"/>
+                    <p:divider layout="vertical"/>
+                    <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
+                </p:menubar>
+            </h:form>
+        </div>
+
+        <h:form class="centrarFormulario">
+            <p:panel header="Registrarse" class="panRegistrarse">
+                <h:panelGrid columns="3">
+                    <p:panel header="Infomaci&oacute;n Personal">
+                        <h:panelGrid columns="2" cellpadding="5"> 
+                            <label>Nombre: </label>
+                            <p:inputText></p:inputText>
+                            <label>Apellido: </label>
+                            <p:inputText></p:inputText>
+                            <label>Email: </label>
+                            <p:inputText></p:inputText>
+                            <label>Tel&eacute;fono: </label>
+                            <p:inputText></p:inputText>
+                            <label>Horario: </label>
+                            <p:datePicker id="range" selectionMode="range" readonlyInput="true"/>
+                            <br></br>
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <p:panel header="Direcci&oacute;n">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <label>Provincia: </label>
+                            <p:selectOneMenu>
+                                <f:selectItems></f:selectItems>
+                            </p:selectOneMenu>
+                            <label>Cant&oacute;n: </label>
+                            <p:selectOneMenu>
+                                <f:selectItems></f:selectItems>
+                            </p:selectOneMenu>
+                            <label>Distrito: </label>
+                            <p:selectOneMenu>
+                                <f:selectItems></f:selectItems>
+                            </p:selectOneMenu>
+                            <label>Barrio: </label>
+                            <p:selectOneMenu>
+                                <f:selectItems></f:selectItems>
+                            </p:selectOneMenu>
+                            <label>Otras Señas: </label>
+                            <p:inputTextarea></p:inputTextarea>
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <p:panel header="Direcci&oacute;n de Entrega">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <label>Provincia: </label>
+                            <p:selectOneMenu>
+                                <f:selectItems></f:selectItems>
+                            </p:selectOneMenu>
+                            <label>Cant&oacute;n: </label>
+                            <p:selectOneMenu>
+                                <f:selectItems></f:selectItems>
+                            </p:selectOneMenu>
+                            <label>Distrito: </label>
+                            <p:selectOneMenu>
+                                <f:selectItems></f:selectItems>
+                            </p:selectOneMenu>
+                            <label>Barrio: </label>
+                            <p:selectOneMenu>
+                                <f:selectItems></f:selectItems>
+                            </p:selectOneMenu>
+                            <label>Otras Señas: </label>
+                            <p:inputTextarea></p:inputTextarea>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:panelGrid>
+                <div class="centBot">
+                    <p:commandButton value="Registrarse" icon="pi pi-save"></p:commandButton>
+                </div>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+

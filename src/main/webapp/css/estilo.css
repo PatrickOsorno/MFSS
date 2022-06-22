@@ -1,0 +1,54 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 21/06/2022, 05:33:48 PM
+    Author     : Patrick Osorno
+*/
+
+body{
+    background-image: url(../img/bg.jpg);
+}
+.centBot{
+    text-align: center;
+    padding-top: 1%;
+}
+/*Estilo Pagina Inicio Sesion*/
+.centrarFormulario{
+    display: grid;
+    place-items: center;
+}
+.panInSes{
+    margin-top: 9%;
+    text-align: center;
+    width: 25%;
+}
+.contenedorimg{
+    margin: 0 auto;
+    width: 30%;
+    height: 30%;
+    margin-bottom: 4%;
+}
+.usIcon{
+    width: 100%;
+    height: 100%
+}
+
+.boton{
+    width: 37%
+}
+
+button.ui-button {
+    margin-right: .5rem;
+    margin-left: .5rem;
+}
+/*Estilo Pagina Inicio Sesion*/
+
+/*Estilo Pagina Registro Clientes*/
+.panRegistrarse{
+    margin-top: 2%;
+    text-align: center;
+}
+/*Estilo Pagina Registro Clientes*/
+
