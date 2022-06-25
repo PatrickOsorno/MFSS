@@ -22,11 +22,13 @@
         <h:form class="centrarFormulario">
             <p:panel header="Registrarse" class="panRegistrarse">
                 <h:panelGrid columns="3">
-                    <p:panel header="Infomaci&oacute;n Personal">
-                        <h:panelGrid columns="2" cellpadding="5"> 
+                    <p:panel header="Infomaci&oacute;n Personal" class="panInfoPer">
+                        <h:panelGrid columns="2" cellpadding="3"> 
+                            <label>Identificaci&oacute;n: </label>
+                            <p:inputText></p:inputText>
                             <label>Nombre: </label>
                             <p:inputText></p:inputText>
-                            <label>Apellido: </label>
+                            <label>Apellidos: </label>
                             <p:inputText></p:inputText>
                             <label>Email: </label>
                             <p:inputText></p:inputText>
@@ -34,7 +36,6 @@
                             <p:inputText></p:inputText>
                             <label>Horario: </label>
                             <p:datePicker id="range" selectionMode="range" readonlyInput="true"/>
-                            <br></br>
                         </h:panelGrid>
                     </p:panel>
 
