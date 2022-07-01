@@ -14,16 +14,14 @@
                 <p:growl id="messages"/>
 
                 <p:menubar>
-
-                    <p:submenu label="Clientes" icon="pi pi-user">
-                        <p:menuitem value="Solicitudes" icon="pi pi-user-plus"/>
+                    <p:submenu label="Usuarios" icon="pi pi-user">
+                        <p:menuitem value="Gestionar Usuarios" icon="pi pi-user-plus" action="gestionUsuarios?faces-redirect=true"/>
                     </p:submenu>
 
                     <p:divider layout="vertical"/>
 
                     <p:submenu label="Productos" icon="pi pi-inbox">
-                        <p:menuitem value="Registrar" icon="pi pi-plus"/>
-                        <p:menuitem value="Catalogo" icon="pi pi-book"/>
+                        <p:menuitem value="Gestionar Productos" icon="pi pi-book" action="gestionProductos?faces-redirect=true"/>
                     </p:submenu>
 
                     <p:divider layout="vertical"/>
@@ -41,8 +39,7 @@
                     <p:divider layout="vertical"/>
 
                     <p:submenu label="Reportes" icon="pi pi-file-o">
-                        <p:menuitem value="Pedidos" icon="pi pi-box"/>
-                        <p:menuitem value="Ventas" icon="pi pi-dollar"/>
+                        <p:menuitem value="Mostrar Reportes" icon="pi pi-eye"/>
                     </p:submenu>
 
                     <p:divider layout="vertical"/>
@@ -50,11 +47,24 @@
                     <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
 
                     <f:facet name="options">
-                        <p:commandButton value="Salir" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" action="index?faces-redirect=true"/>
+                        <p:commandButton value="Cerrar Sesi&oacute;n" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" process="@this"
+                                 oncomplete="PF('dlgSalir').show()"/>
                     </f:facet>
                 </p:menubar>
+
+                <p:confirmDialog widgetVar="dlgSalir" showEffect="fade" width="300"
+                                 message="Salir de la aplicaci&oacute;n?" header="Confirmaci&oacute;n" severity="info">
+                    
+                    <p:commandButton value="S&iacute;" icon="pi pi-check" action="index?faces-redirect=true"
+                                     process="@this" oncomplete="PF('dlgSalir').hide()"/>
+                    
+                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                     onclick="PF('dlgSalir').hide()"/>
+                </p:confirmDialog>
             </h:form>
+            <div class="centrarFormulario">  
+                <!--<img src="img/logo.jpg" alt="alt" width="700" height="500"/>-->
+            </div>
         </div>
     </h:body>
 </html>
-
