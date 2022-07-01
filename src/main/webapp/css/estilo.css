@@ -16,13 +16,21 @@ body{
 }
 /*Estilo Pagina Inicio Sesion*/
 .centrarFormulario{
-    display: grid;
+/*    display: grid;
+    place-items: center;*/
+    
     place-items: center;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
 }
 .panInSes{
-    margin-top: 9%;
+    /*margin-top: 9%;*/
     text-align: center;
     width: 25%;
+}
+.cbxTipoUs{
+    width: 81%;
 }
 .contenedorimg{
     margin: 0 auto;
@@ -47,8 +55,30 @@ button.ui-button {
 
 /*Estilo Pagina Registro Clientes*/
 .panRegistrarse{
-    margin-top: 2%;
     text-align: center;
+}
+.centrar{
+    margin: 0 auto;
 }
 /*Estilo Pagina Registro Clientes*/
 
+/*Estilo Pagina Solicitudes*/
+.lblPend{
+    padding-left: 15%;
+}
+
+.lblAc{
+    padding-left: 40%;
+}
+
+.panNuevoUs{
+    text-align: center;
+}
+/*Estilo Pagina Solicitudes*/
+
+/*Estilo Pagina Gestion de Productos*/
+
+.panGestProd{
+    text-align: center;
+}
+/*Estilo Pagina Gestion de Productos*/

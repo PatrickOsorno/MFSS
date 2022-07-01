@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Gesti&oacute;n de Productos</title>
+        <link rel="stylesheet" href="css/estilo.css"/>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form>
+                <p:menubar>
+                    <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" action="principal?faces-redirect=true"/>
+                    <p:divider layout="vertical"/>
+                    <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
+                </p:menubar>
+            </h:form>
+        </div>
+
+        <h:form class="centrarFormulario">
+            <p:panel header="Gesti&oacute;n de Productos" class="panGestProd">
+                <p:tabView>
+                    <p:tab title="Mantenimiento de Productos">
+                        <p:toolbar>
+                            <p:toolbarGroup>
+                                <p:commandButton value="Nuevo" icon="pi pi-plus" 
+                                                 oncomplete="PF('dlgNuevoProd').show()"
+                                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                        <p:dataTable var="producto" value="#" paginator="true"
+                                     rows="10" rowSelectMode="add" paginatorPosition="bottom">>
+
+                            <p:column headerText="C&oacute;digo">
+                                <h:outputText/>
+                            </p:column>
+
+                            <p:column headerText="Descripci&oacute;n">
+                                <h:outputText/>
+                            </p:column>
+
+                            <p:column headerText="Foto">
+                                <p:graphicImage name="images/product/"/>
+                            </p:column>
+
+                            <p:column headerText="Precio">
+                                <h:outputText>
+                                    <f:convertNumber currencySymbol="₡" type="currency"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Stock">
+                                <h:outputText/>
+                            </p:column>
+
+                            <p:column headerText="Cantidad M&iacute;nima">
+                                <h:outputText/>
+                            </p:column>
+
+                            <p:column exportable="false">
+                                <p:commandButton icon="pi pi-pencil" oncomplete="PF('dlgModificarProd').show()"
+                                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                </p:commandButton>
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                                 oncomplete="PF('dlgEliminarProd').show()">
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dialog header="Nuevo Producto" showEffect="fade" modal="true"
+                                  widgetVar="dlgNuevoProd" responsive="true">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <label>C&oacute;digo: </label>
+                                <p:inputText/>
+
+                                <label>Descripci&oacute;n: </label>
+                                <p:inputText/>
+
+                                <label>Foto: </label>
+                                <p:inputText/>
+
+                                <label>Precio: </label>
+                                <p:inputText/>
+
+                                <label>Stock: </label>
+                                <p:inputText/>
+
+                                <label>Cantidad m&iacute;nima: </label>
+                                <p:inputText/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="1" cellpadding="5" class="centrar">
+                                <p:commandButton value="Guardar" icon="pi pi-save" oncomplete="PF('dlgNuevoProd').hide()"/>
+                            </h:panelGrid>
+                        </p:dialog>
+                        
+                        <p:dialog header="Modificar Producto" showEffect="fade" modal="true"
+                                  widgetVar="dlgModificarProd" responsive="true">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <label>C&oacute;digo: </label>
+                                <p:inputText disabled="true"/>
+
+                                <label>Descripci&oacute;n: </label>
+                                <p:inputText/>
+
+                                <label>Foto: </label>
+                                <p:inputText/>
+
+                                <label>Precio: </label>
+                                <p:inputText/>
+
+                                <label>Stock: </label>
+                                <p:inputText/>
+
+                                <label>Cantidad m&iacute;nima: </label>
+                                <p:inputText/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="1" cellpadding="5" class="centrar">
+                                <p:commandButton value="Guardar" icon="pi pi-save" oncomplete="PF('dlgModificarProd').hide()"/>
+                            </h:panelGrid>
+                        </p:dialog>
+
+                        <p:confirmDialog widgetVar="dlgEliminarProd" showEffect="fade" width="300"
+                                         message="Desea Eliminar el Producto Seleccionado?" header="Confirmaci&oacute;n" severity="info">
+
+                            <p:commandButton value="S&iacute;" icon="pi pi-check"
+                                             process="@this" oncomplete="PF('dlgEliminarProd').hide()"/>
+
+                            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                             onclick="PF('dlgEliminarProd').hide()"/>
+                        </p:confirmDialog>
+
+                    </p:tab>
+
+                    <p:tab title="Cat&aacute;logo de Productos">
+                        <p:dataTable var="productos" value="#" paginator="true"
+                                     rows="10" rowSelectMode="add" paginatorPosition="bottom">>
+
+                            <p:column headerText="C&oacute;digo">
+                                <h:outputText/>
+                            </p:column>
+
+                            <p:column headerText="Descripci&oacute;n">
+                                <h:outputText/>
+                            </p:column>
+
+                            <p:column headerText="Foto">
+                                <p:graphicImage name="images/product/"/>
+                            </p:column>
+
+                            <p:column headerText="Precio">
+                                <h:outputText>
+                                    <f:convertNumber currencySymbol="₡" type="currency"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:tab>
+                </p:tabView>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Gesti&oacute;n de Usuarios</title>
+        <link rel="stylesheet" href="css/estilo.css"/>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form>
+                <p:menubar>
+                    <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" action="principal?faces-redirect=true"/>
+                    <p:divider layout="vertical"/>
+                    <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
+                </p:menubar>
+            </h:form>
+        </div>
+
+        <h:form class="centrarFormulario">
+            <p:panel header="Gestion de Usuarios" class="panNuevoUs">
+                <p:tabView>
+                    <p:tab title="Solicitudes">
+                        <h:panelGrid columns="1" cellpadding="5">
+                            <div style="display: flex">
+                                <label class="lblPend">Solicitudes</label>
+                                <label class="lblAc">Seleccionadas</label>
+                            </div>
+                            <p:pickList id="pickList" value="#{solicitudesBean.listaUsuarios}" var="usuarios" itemLabel="#{usuarios}" itemValue="#{usuarios}"/>
+                            <h:panelGrid columns="2" class="centrar">
+                                <p:commandButton value="Aceptar" icon="pi pi-check"/>
+                                <p:commandButton value="Denegar" icon="pi pi-times"/>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Nuevo Usuario">
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <label>Correo Electr&oacute;nico: *</label>
+                            <p:inputText id="email">
+                                <f:validateLength minimum="3"/>
+                                <p:ajax update="msgEmail" event="keyup"/>
+                            </p:inputText>
+                            <p:message for="email" id="msgEmail" display="icon"/>
+
+                            <label>Contraseña: *</label>
+                            <p:inputText id="contrasena">
+                                <f:validateLength minimum="3"/>
+                                <p:ajax update="msgContrasena" event="keyup"/>
+                            </p:inputText>
+                            <p:message for="contrasena" id="msgContrasena" display="icon"/>
+
+                            <label>Rol de Usuario: </label>
+                            <p:selectOneMenu>
+                                <f:selectItems/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <br></br>
+                        <h:panelGrid columns="1" class="centrar">
+                            <p:commandButton value="Crear Usuario" icon="pi pi-save"/>
+                        </h:panelGrid>
+                    </p:tab>
+                </p:tabView>
+
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+
