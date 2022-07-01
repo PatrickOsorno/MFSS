@@ -12,7 +12,7 @@
         <div class="card">
             <h:form>
                 <p:menubar>
-                    <p:menuitem value="Salir" icon="pi pi-sign-out" action="index?faces-redirect=true"/>
+                    <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" action="index?faces-redirect=true"/>
                     <p:divider layout="vertical"/>
                     <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
                 </p:menubar>
@@ -21,73 +21,92 @@
 
         <h:form class="centrarFormulario">
             <p:panel header="Registrarse" class="panRegistrarse">
-                <h:panelGrid columns="3">
-                    <p:panel header="Infomaci&oacute;n Personal" class="panInfoPer">
-                        <h:panelGrid columns="2" cellpadding="3"> 
-                            <label>Identificaci&oacute;n: </label>
-                            <p:inputText></p:inputText>
-                            <label>Nombre: </label>
-                            <p:inputText></p:inputText>
-                            <label>Apellidos: </label>
-                            <p:inputText></p:inputText>
-                            <label>Email: </label>
-                            <p:inputText></p:inputText>
-                            <label>Tel&eacute;fono: </label>
-                            <p:inputText></p:inputText>
-                            <label>Horario: </label>
-                            <p:datePicker id="range" selectionMode="range" readonlyInput="true"/>
-                        </h:panelGrid>
-                    </p:panel>
+                <p:tabView>
+                    <p:tab title="Registro de Cliente">
+                        <h:panelGrid columns="3" cellpadding="5" class="centrar"> 
+                            <label>Identificaci&oacute;n: *</label>
+                            <p:inputText id="identificacion" required="true">
+                                <f:validateLength minimum="3"/>
+                                <p:ajax update="msgId" event="keyup"/>
+                            </p:inputText>
+                            <p:message for="identificacion" id="msgId" display="icon"/>
 
-                    <p:panel header="Direcci&oacute;n">
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <label>Provincia: </label>
+                            <label>Nombre: *</label>
+                            <p:inputText id="nombre">
+                                <f:validateLength minimum="3"/>
+                                <p:ajax update="msgNombre" event="keyup"/>
+                            </p:inputText>
+                            <p:message for="nombre" id="msgNombre" display="icon"/>
+
+                            <label>Apellidos: *</label>
+                            <p:inputText id="apellido">
+                                <f:validateLength minimum="3"/>
+                                <p:ajax update="msgApellido" event="keyup"/>
+                            </p:inputText>
+                            <p:message for="apellido" id="msgApellido" display="icon"/>
+
+                            <label>Correo Electr&oacute;nico:  *</label>
+                            <p:inputText id="email">
+                                <f:validateLength minimum="3"/>
+                                <p:ajax update="msgEmail" event="keyup"/>
+                            </p:inputText>
+                            <p:message for="email" id="msgEmail" display="icon"/>
+                            
+                            <label>Tel&eacute;fono: *</label>
+                            <p:inputText id="telefono">
+                                <f:validateLength minimum="3"/>
+                                <p:ajax update="msgTel" event="keyup"/>
+                            </p:inputText>
+                            <p:message for="telefono" id="msgTel" display="icon"/>
+
+                        </h:panelGrid>
+                        <div class="centBot">
+                            <p:commandButton value="Guardar" icon="pi pi-save"></p:commandButton>
+                        </div>
+                    </p:tab>
+
+                    <p:tab title="Registro de Direcci&oacute;n">
+                        <h:panelGrid columns="2" cellpadding="5" class="centrar">
+                            <label>Tipo de Direcci&oacute;n: *</label>
                             <p:selectOneMenu>
                                 <f:selectItems></f:selectItems>
                             </p:selectOneMenu>
-                            <label>Cant&oacute;n: </label>
+                            <label>Provincia: *</label>
                             <p:selectOneMenu>
                                 <f:selectItems></f:selectItems>
                             </p:selectOneMenu>
-                            <label>Distrito: </label>
+                            <label>Cant&oacute;n: *</label>
                             <p:selectOneMenu>
                                 <f:selectItems></f:selectItems>
                             </p:selectOneMenu>
-                            <label>Barrio: </label>
+                            <label>Distrito: *</label>
                             <p:selectOneMenu>
                                 <f:selectItems></f:selectItems>
                             </p:selectOneMenu>
-                            <label>Otras Señas: </label>
+                            <label>Barrio: *</label>
+                            <p:selectOneMenu>
+                                <f:selectItems></f:selectItems>
+                            </p:selectOneMenu>
+                            <label>Otras Señas: *</label>
                             <p:inputTextarea></p:inputTextarea>
                         </h:panelGrid>
-                    </p:panel>
+                        <div class="centBot">
+                            <p:commandButton value="Guardar" icon="pi pi-save"></p:commandButton>
+                        </div>
+                    </p:tab>
 
-                    <p:panel header="Direcci&oacute;n de Entrega">
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <label>Provincia: </label>
-                            <p:selectOneMenu>
-                                <f:selectItems></f:selectItems>
-                            </p:selectOneMenu>
-                            <label>Cant&oacute;n: </label>
-                            <p:selectOneMenu>
-                                <f:selectItems></f:selectItems>
-                            </p:selectOneMenu>
-                            <label>Distrito: </label>
-                            <p:selectOneMenu>
-                                <f:selectItems></f:selectItems>
-                            </p:selectOneMenu>
-                            <label>Barrio: </label>
-                            <p:selectOneMenu>
-                                <f:selectItems></f:selectItems>
-                            </p:selectOneMenu>
-                            <label>Otras Señas: </label>
-                            <p:inputTextarea></p:inputTextarea>
+                    <p:tab title="Registro de Horario">
+                        <h:panelGrid columns="2" cellpadding="5" class="centrar">
+                            <label>Fecha y Hora Inicio: *</label>
+                            <p:datePicker showTime="true"/>
+                            <label>Fecha y Hora Fin: *</label>
+                            <p:datePicker showTime="true"/>
                         </h:panelGrid>
-                    </p:panel>
-                </h:panelGrid>
-                <div class="centBot">
-                    <p:commandButton value="Registrarse" icon="pi pi-save"></p:commandButton>
-                </div>
+                        <div class="centBot">
+                            <p:commandButton value="Guardar" icon="pi pi-save"></p:commandButton>
+                        </div>
+                    </p:tab>
+                </p:tabView>
             </p:panel>
         </h:form>
     </h:body>
