@@ -7,9 +7,10 @@
     <h:head>
         <title>Gesti&oacute;n de Productos</title>
         <link rel="stylesheet" href="css/estilo.css"/>
+       
     </h:head>
     <h:body>
-        <div class="card">
+         <div class="card">
             <h:form>
                 <p:menubar>
                     <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" action="principal?faces-redirect=true"/>
@@ -30,9 +31,16 @@
                                                  styleClass="ui-button-success" style="margin-right: .5rem">
                                 </p:commandButton>
                             </p:toolbarGroup>
+                            <p:toolbarGroup align="right">
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText placeholder="Buscar"/>
+                                    <p:commandButton value="Buscar" icon="pi pi-search"/>
+                                </span>
+                            </p:toolbarGroup>
                         </p:toolbar>
                         <p:dataTable var="producto" value="#" paginator="true"
-                                     rows="10" rowSelectMode="add" paginatorPosition="bottom">>
+                                     rows="10" rowSelectMode="add" paginatorPosition="bottom">
 
                             <p:column headerText="C&oacute;digo">
                                 <h:outputText/>
@@ -62,9 +70,9 @@
 
                             <p:column exportable="false">
                                 <p:commandButton icon="pi pi-pencil" oncomplete="PF('dlgModificarProd').show()"
-                                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                                 styleClass="edit-button rounded-button" process="@this">
                                 </p:commandButton>
-                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                <p:commandButton class="ui-button-danger rounded-button" icon="pi pi-trash" process="@this"
                                                  oncomplete="PF('dlgEliminarProd').show()">
                                 </p:commandButton>
                             </p:column>
@@ -72,50 +80,96 @@
 
                         <p:dialog header="Nuevo Producto" showEffect="fade" modal="true"
                                   widgetVar="dlgNuevoProd" responsive="true">
-                            <h:panelGrid columns="2" cellpadding="5">
+
+                            <h:panelGrid columns="3" cellpadding="5">
                                 <label>C&oacute;digo: </label>
-                                <p:inputText/>
+                                <p:inputText id="codigo">
+                                    <f:validateLength minimum="3"/>
+                                    <p:ajax update="msgCod" event="keyup"/>
+                                </p:inputText>
+                                <p:message for="codigo" id="msgCod" display="icon"/>
 
                                 <label>Descripci&oacute;n: </label>
-                                <p:inputText/>
+                                <p:inputText id="descrip">
+                                    <f:validateLength minimum="3"/>
+                                    <p:ajax update="msgDesc" event="keyup"/>
+                                </p:inputText>
+                                <p:message for="descrip" id="msgDesc" display="icon"/>
 
                                 <label>Foto: </label>
-                                <p:inputText/>
+                                <p:inputText id="foto">
+                                    <f:validateLength minimum="3"/>
+                                    <p:ajax update="msgFot" event="keyup"/>
+                                </p:inputText>
+                                <p:message for="foto" id="msgFot" display="icon"/>
 
                                 <label>Precio: </label>
-                                <p:inputText/>
+                                <p:inputText id="precio">
+                                    <f:validateLength minimum="3"/>
+                                    <p:ajax update="msgPre" event="keyup"/>
+                                </p:inputText>
+                                <p:message for="precio" id="msgPre" display="icon"/>
 
                                 <label>Stock: </label>
-                                <p:inputText/>
+                                <p:spinner id="stock" class="spin" min="0" max="999999999">
+                                    <f:validateLength minimum="1"/>
+                                    <p:ajax update="msgSt" event="change"/>
+                                </p:spinner>
+                                <p:message for="stock" id="msgSt" display="icon"/>
 
                                 <label>Cantidad m&iacute;nima: </label>
-                                <p:inputText/>
+                                <p:spinner id="cantMin" class="spin" min="0" max="999999999">
+                                    <f:validateLength minimum="1"/>
+                                    <p:ajax update="msgCant" event="change"/>
+                                </p:spinner>
+                                <p:message for="cantMin" id="msgCant" display="icon"/>
                             </h:panelGrid>
                             <h:panelGrid columns="1" cellpadding="5" class="centrar">
                                 <p:commandButton value="Guardar" icon="pi pi-save" oncomplete="PF('dlgNuevoProd').hide()"/>
                             </h:panelGrid>
                         </p:dialog>
-                        
+
                         <p:dialog header="Modificar Producto" showEffect="fade" modal="true"
                                   widgetVar="dlgModificarProd" responsive="true">
-                            <h:panelGrid columns="2" cellpadding="5">
+                            <h:panelGrid columns="3" cellpadding="5">
                                 <label>C&oacute;digo: </label>
-                                <p:inputText disabled="true"/>
+                                <p:inputText id="cod" disabled="true"/>
+                                <p:message for="cod" id="msgCodigo" display="icon"/>
 
                                 <label>Descripci&oacute;n: </label>
-                                <p:inputText/>
+                                <p:inputText id="descripc">
+                                    <f:validateLength minimum="3"/>
+                                    <p:ajax update="msgDescr" event="keyup"/>
+                                </p:inputText>
+                                <p:message for="descripc" id="msgDescr" display="icon"/>
 
                                 <label>Foto: </label>
-                                <p:inputText/>
+                                <p:inputText id="fot">
+                                    <f:validateLength minimum="3"/>
+                                    <p:ajax update="msgFoto" event="keyup"/>
+                                </p:inputText>
+                                <p:message for="fot" id="msgFoto" display="icon"/>
 
                                 <label>Precio: </label>
-                                <p:inputText/>
+                                <p:inputText id="prec">
+                                    <f:validateLength minimum="3"/>
+                                    <p:ajax update="msgPrec" event="keyup"/>
+                                </p:inputText>
+                                <p:message for="prec" id="msgPrec" display="icon"/>
 
                                 <label>Stock: </label>
-                                <p:inputText/>
+                                <p:spinner id="sto" class="spin" min="0" max="999999999">
+                                    <f:validateLength minimum="1"/>
+                                    <p:ajax update="msgSto" event="change"/>
+                                </p:spinner>
+                                <p:message for="sto" id="msgSto" display="icon"/>
 
                                 <label>Cantidad m&iacute;nima: </label>
-                                <p:inputText/>
+                                <p:spinner id="cantMi" class="spin" min="0" max="999999999">
+                                    <f:validateLength minimum="1"/>
+                                    <p:ajax update="msgCantM" event="change"/>
+                                </p:spinner>
+                                <p:message for="cantMi" id="msgCantM" display="icon"/>
                             </h:panelGrid>
                             <h:panelGrid columns="1" cellpadding="5" class="centrar">
                                 <p:commandButton value="Guardar" icon="pi pi-save" oncomplete="PF('dlgModificarProd').hide()"/>
@@ -138,14 +192,6 @@
                         <p:dataTable var="productos" value="#" paginator="true"
                                      rows="10" rowSelectMode="add" paginatorPosition="bottom">>
 
-                            <p:column headerText="C&oacute;digo">
-                                <h:outputText/>
-                            </p:column>
-
-                            <p:column headerText="Descripci&oacute;n">
-                                <h:outputText/>
-                            </p:column>
-
                             <p:column headerText="Foto">
                                 <p:graphicImage name="images/product/"/>
                             </p:column>
@@ -155,6 +201,11 @@
                                     <f:convertNumber currencySymbol="₡" type="currency"/>
                                 </h:outputText>
                             </p:column>
+                            
+                            <p:column headerText="Cantidad M&iacute;nima">
+                                <h:outputText/>
+                            </p:column>
+
                         </p:dataTable>
 
                     </p:tab>

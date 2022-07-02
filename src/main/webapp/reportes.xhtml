@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Reportes</title>
+        <link rel="stylesheet" href="css/estilo.css"/>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form>
+                <p:menubar>
+                    <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" action="principal?faces-redirect=true"/>
+                    <p:divider layout="vertical"/>
+                    <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
+                </p:menubar>
+            </h:form>
+
+            <h:form class="centrarFormulario">
+                <p:panel header="Reportes" class="panReportes">
+                    <p:tabView>
+                        <p:tab title="Reporte de Pedidos">
+                            <h:panelGrid columns="5" cellpadding="10">
+
+                                <label>Rango de Fechas: </label>
+                                <p:datePicker selectionMode="range" readonlyInput="true"/>
+
+                                <label>Filtrar Por:</label>
+                                <p:selectOneMenu>
+                                    <f:selectItem itemLabel="Estado" itemValue="Estado"/>
+                                </p:selectOneMenu>
+
+                                <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o"/>
+                            </h:panelGrid>
+
+                            <p:dataTable var="pedido" value="#" paginator="true"
+                                         rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                                <p:column headerText="Cliente">
+                                    <h:outputText/>
+                                </p:column>
+
+                                <p:column headerText="Fecha de Entrega">
+                                    <h:outputText/>
+                                </p:column>
+
+                                <p:column headerText="Direcci&oacute;n">
+                                    <h:outputText/>
+                                </p:column>
+
+                                <p:column headerText="Horario de Entrega">
+                                    <h:outputText/>
+                                </p:column>
+
+                                <p:column headerText="Estado">
+                                    <h:outputText/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+
+                        <p:tab title="Reporte de Ventas">
+                            <h:panelGrid columns="5" cellpadding="10">
+
+                                <label>Rango de Fechas: </label>
+                                <p:datePicker selectionMode="range" readonlyInput="true"/>
+
+                                <label>Filtrar Por:</label>
+                                <p:selectOneMenu>
+                                    <f:selectItem itemLabel="Tipo de Pago" itemValue="Estado"/>
+                                </p:selectOneMenu>
+
+                                <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o"/>
+                            </h:panelGrid>
+
+                            <p:dataTable var="pedido" value="#" paginator="true"
+                                         rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                                <p:column headerText="Pedido">
+                                    <h:outputText/>
+                                </p:column>
+
+                                <p:column headerText="Fecha">
+                                    <h:outputText/>
+                                </p:column>
+
+                                <p:column headerText="Tipo de Pago">
+                                    <h:outputText/>
+                                </p:column>
+
+
+                                <p:column headerText="Total">
+                                    <h:outputText>
+                                        <f:convertNumber currencySymbol="₡" type="currency"/>
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+                    </p:tabView>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>
+

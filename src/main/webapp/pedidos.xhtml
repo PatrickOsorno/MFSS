@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Pedidos</title>
+        <link rel="stylesheet" href="css/estilo.css"/>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form>
+                <p:menubar>
+                    <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" action="principal?faces-redirect=true"/>
+                    <p:divider layout="vertical"/>
+                    <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
+                </p:menubar>
+            </h:form>
+        </div>
+
+        <h:form class="centrarFormulario">
+            <p:panel header="Registrar Pedido" class="panPedido">
+                <p:tabView>
+                    <p:tab title="Catalogo de Productos">
+                        <p:toolbar>
+                            <p:toolbarGroup align="right">
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText placeholder="Buscar"/>
+                                    <p:commandButton value="Buscar" icon="pi pi-search"/>
+                                </span>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                        <p:dataTable var="productos" value="#" paginator="true"
+                                     rows="10" rowSelectMode="add" paginatorPosition="bottom">
+
+                            <p:column headerText="Foto">
+                                <p:graphicImage name="images/product/"/>
+                            </p:column>
+
+                            <p:column headerText="Precio">
+                                <h:outputText>
+                                    <f:convertNumber currencySymbol="₡" type="currency"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Cantidad M&iacute;nima">
+                                <h:outputText/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton icon="pi pi-plus" value="Agregar a la Orden">
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:tab>
+
+                    <p:tab title="Confirmar Orden">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:panel header="Productos Seleccionados">
+                                <p:orderList value="#{pedidosBean.prods}" var="prods" controlsLocation="none" itemLabel="#{prods}" itemValue="#{prods}" />
+                                <p:commandButton value="Eliminar de la Orden" icon="pi pi-times" styleClass="ui-button-danger"/>
+                            </p:panel>
+
+                            <p:panel header="Datos de Entrega" >
+                                <h:panelGrid columns="2" cellpadding="10" class="panDatosEnt">
+                                <label>Fecha de entrega: </label>
+                                <p:datePicker/>
+                                <label>Direcci&oacute;n de Entrega: </label>
+                                <p:selectOneMenu>
+                                    <f:selectItem itemLabel="Direccion1" itemValue="Direccion1"></f:selectItem>
+                                </p:selectOneMenu>
+                                <label>Horario de Entrega: </label>
+                                <p:selectOneMenu>
+                                    <f:selectItem itemLabel="Horario1" itemValue="Horario1"></f:selectItem>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                            </p:panel>
+                        </h:panelGrid>
+                        <p:commandButton value="Confirmar Pedido" icon="pi pi-check"/>
+                    </p:tab>
+                </p:tabView>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+

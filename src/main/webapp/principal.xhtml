@@ -26,38 +26,44 @@
 
                     <p:divider layout="vertical"/>
 
-                    <p:submenu label="Compras" icon="pi pi-shopping-cart">
-                        <p:menuitem value="Nueva" icon="pi pi-plus"/>
+                    <p:submenu label="Pedidos" icon="pi pi-shopping-cart">
+                        <p:menuitem value="Nuevo" icon="pi pi-plus" action="pedidos?faces-redirect=true"/>
+                    </p:submenu>
+
+                    <p:divider layout="vertical"/>
+                    
+                    <p:submenu label="Facturaci&oacute;n" icon="pi pi-print">
+                        <p:menuitem value="Facturar" icon="pi pi-plus" action="facturar?faces-redirect=true"/>
                     </p:submenu>
 
                     <p:divider layout="vertical"/>
 
                     <p:submenu label="Despachos" icon="pi pi-car">
-                        <p:menuitem value="Registrar" icon="pi pi-plus"/>
+                        <p:menuitem value="Registrar" icon="pi pi-plus" action="despachos?faces-redirect=true"/>
                     </p:submenu>
 
                     <p:divider layout="vertical"/>
 
                     <p:submenu label="Reportes" icon="pi pi-file-o">
-                        <p:menuitem value="Mostrar Reportes" icon="pi pi-eye"/>
+                        <p:menuitem value="Mostrar Reportes" icon="pi pi-eye" action="reportes?faces-redirect=true"/>
                     </p:submenu>
 
                     <p:divider layout="vertical"/>
 
-                    <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
+                    <p:menuitem value="Ayuda" icon="pi pi-question-circle" action="ayuda?faces-redirect=true"/>
 
                     <f:facet name="options">
                         <p:commandButton value="Cerrar Sesi&oacute;n" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" process="@this"
-                                 oncomplete="PF('dlgSalir').show()"/>
+                                         oncomplete="PF('dlgSalir').show()"/>
                     </f:facet>
                 </p:menubar>
 
                 <p:confirmDialog widgetVar="dlgSalir" showEffect="fade" width="300"
                                  message="Salir de la aplicaci&oacute;n?" header="Confirmaci&oacute;n" severity="info">
-                    
+
                     <p:commandButton value="S&iacute;" icon="pi pi-check" action="index?faces-redirect=true"
                                      process="@this" oncomplete="PF('dlgSalir').hide()"/>
-                    
+
                     <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
                                      onclick="PF('dlgSalir').hide()"/>
                 </p:confirmDialog>

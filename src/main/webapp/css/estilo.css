@@ -81,4 +81,39 @@ button.ui-button {
 .panGestProd{
     text-align: center;
 }
+.spin{
+    width: 86%;
+}
 /*Estilo Pagina Gestion de Productos*/
+
+/*Estilo Pagina Reportes*/
+.panReportes{
+    text-align: center;
+}
+/*Estilo Pagina Reportes*/
+
+/*Estilo Pagina Pedidos*/
+.panPedido{
+    text-align: center;
+}
+
+.panDatosEnt{
+    padding-bottom: 17%;
+}
+/*Estilo Pagina Pedidos*/
+
+
+/*Estilo Pagina Despachos*/
+.panDespach{
+    text-align: center;
+}
+.panAyuda{
+    text-align: center;
+}
+/*Estilo Pagina Despachos*/
+
+/*Estilo Pagina Facturar*/
+.panFacturar{
+    text-align: center;
+}
+/*Estilo Pagina Facturar*/

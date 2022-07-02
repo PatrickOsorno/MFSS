@@ -28,4 +28,9 @@
         <managed-bean-class>Controller.solicitudesBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>pedidosBean</managed-bean-name>
+        <managed-bean-class>Controller.pedidosBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 </faces-config>

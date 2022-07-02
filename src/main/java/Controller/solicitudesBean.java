@@ -22,7 +22,7 @@ public class solicitudesBean {
         List<String> userSource = new ArrayList<>();
         List<String> userTarget = new ArrayList<>();
         userSource.add("Patrick");
-        userSource.add("Mauricio");
+        userSource.add("Melissa");
         listaUsuarios = new DualListModel<>(userSource, userTarget);
     }
 
