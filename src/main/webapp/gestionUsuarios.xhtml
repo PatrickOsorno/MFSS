@@ -7,6 +7,8 @@
     <h:head>
         <title>Gesti&oacute;n de Usuarios</title>
         <link rel="stylesheet" href="css/estilo.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" href="img/logo.png"/>
     </h:head>
     <h:body>
         <div class="card">
@@ -14,7 +16,7 @@
                 <p:menubar>
                     <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" action="principal?faces-redirect=true"/>
                     <p:divider layout="vertical"/>
-                    <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
+                    <p:menuitem value="Ayuda" icon="pi pi-question-circle" action="ayuda?faces-redirect=true"/>
                 </p:menubar>
             </h:form>
         </div>
@@ -28,37 +30,37 @@
                                 <label class="lblPend">Solicitudes</label>
                                 <label class="lblAc">Seleccionadas</label>
                             </div>
-                            <p:pickList id="pickList" value="#{solicitudesBean.listaUsuarios}" var="usuarios" itemLabel="#{usuarios}" itemValue="#{usuarios}"/>
+                            <p:pickList id="pickList" value="#{gestionUsuariosBean.clientes}" var="clientes" itemLabel="#{clientes}" itemValue="#{clientes}"/>
                             <h:panelGrid columns="2" class="centrar">
-                                <p:commandButton value="Aceptar" icon="pi pi-check"/>
-                                <p:commandButton value="Denegar" icon="pi pi-times"/>
+                                <p:commandButton value="Aceptar" icon="pi pi-check" action="#{gestionUsuariosBean.aceptarCliente()}"/>
+                                <p:commandButton value="Denegar" icon="pi pi-times" action="#{gestionUsuariosBean.denegarCliente()}"/>
                             </h:panelGrid>
                         </h:panelGrid>
                     </p:tab>
                     <p:tab title="Nuevo Usuario">
                         <h:panelGrid columns="3" cellpadding="5">
                             <label>Correo Electr&oacute;nico: *</label>
-                            <p:inputText id="email">
+                            <p:inputText id="correo" value="#{gestionUsuariosBean.correo}">
                                 <f:validateLength minimum="3"/>
-                                <p:ajax update="msgEmail" event="keyup"/>
+                                <p:ajax update="msgCorreo" event="keyup"/>
                             </p:inputText>
-                            <p:message for="email" id="msgEmail" display="icon"/>
+                            <p:message for="correo" id="msgCorreo" display="icon"/>
 
                             <label>Contraseña: *</label>
-                            <p:inputText id="contrasena">
+                            <p:inputText id="contrasena" value="#{gestionUsuariosBean.contrasena}">
                                 <f:validateLength minimum="3"/>
                                 <p:ajax update="msgContrasena" event="keyup"/>
                             </p:inputText>
                             <p:message for="contrasena" id="msgContrasena" display="icon"/>
 
                             <label>Rol de Usuario: </label>
-                            <p:selectOneMenu>
-                                <f:selectItems/>
+                            <p:selectOneMenu value="#{gestionUsuariosBean.rolUsuario}">
+                                <f:selectItems value="#{gestionUsuariosBean.rolesUsuario}"/>
                             </p:selectOneMenu>
                         </h:panelGrid>
                         <br></br>
                         <h:panelGrid columns="1" class="centrar">
-                            <p:commandButton value="Crear Usuario" icon="pi pi-save"/>
+                            <p:commandButton value="Crear Usuario" icon="pi pi-save" action="#{gestionUsuariosBean.agregarUsuario()}"/>
                         </h:panelGrid>
                     </p:tab>
                 </p:tabView>

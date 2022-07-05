@@ -7,6 +7,8 @@
     <h:head>
         <title>Reportes</title>
         <link rel="stylesheet" href="css/estilo.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" href="img/logo.png"/>
     </h:head>
     <h:body>
         <div class="card">
@@ -14,7 +16,7 @@
                 <p:menubar>
                     <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" action="principal?faces-redirect=true"/>
                     <p:divider layout="vertical"/>
-                    <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
+                    <p:menuitem value="Ayuda" icon="pi pi-question-circle" action="ayuda?faces-redirect=true"/>
                 </p:menubar>
             </h:form>
 
@@ -25,17 +27,17 @@
                             <h:panelGrid columns="5" cellpadding="10">
 
                                 <label>Rango de Fechas: </label>
-                                <p:datePicker selectionMode="range" readonlyInput="true"/>
+                                <p:datePicker selectionMode="range" readonlyInput="true" value="#{reportesBean.rangoFechas}"/>
 
                                 <label>Filtrar Por:</label>
-                                <p:selectOneMenu>
-                                    <f:selectItem itemLabel="Estado" itemValue="Estado"/>
+                                <p:selectOneMenu value="#{reportesBean.estado}">
+                                    <f:selectItems />
                                 </p:selectOneMenu>
 
-                                <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o"/>
+                                <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o" action="#{reportesBean.mostrarReportePedidos()}"/>
                             </h:panelGrid>
 
-                            <p:dataTable var="pedido" value="#" paginator="true"
+                            <p:dataTable var="pedido" value="#{reportesBean.pedidos}" paginator="true"
                                          rows="10" rowSelectMode="add" paginatorPosition="bottom">
                                 <p:column headerText="Cliente">
                                     <h:outputText/>
@@ -63,14 +65,14 @@
                             <h:panelGrid columns="5" cellpadding="10">
 
                                 <label>Rango de Fechas: </label>
-                                <p:datePicker selectionMode="range" readonlyInput="true"/>
+                                <p:datePicker selectionMode="range" readonlyInput="true" value="#{reportesBean.rangoFechas}"/>
 
                                 <label>Filtrar Por:</label>
-                                <p:selectOneMenu>
-                                    <f:selectItem itemLabel="Tipo de Pago" itemValue="Estado"/>
+                                <p:selectOneMenu value="#{reportesBean.tipoPago}">
+                                    <f:selectItem />
                                 </p:selectOneMenu>
 
-                                <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o"/>
+                                <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o" action="#{reportesBean.mostrarReporteVentas()}"/>
                             </h:panelGrid>
 
                             <p:dataTable var="pedido" value="#" paginator="true"

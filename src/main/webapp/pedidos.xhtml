@@ -7,6 +7,8 @@
     <h:head>
         <title>Pedidos</title>
         <link rel="stylesheet" href="css/estilo.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" href="img/logo.png"/>
     </h:head>
     <h:body>
         <div class="card">
@@ -14,7 +16,7 @@
                 <p:menubar>
                     <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" action="principal?faces-redirect=true"/>
                     <p:divider layout="vertical"/>
-                    <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
+                    <p:menuitem value="Ayuda" icon="pi pi-question-circle" action="ayuda?faces-redirect=true"/>
                 </p:menubar>
             </h:form>
         </div>
@@ -27,12 +29,12 @@
                             <p:toolbarGroup align="right">
                                 <span class="filter-container ui-input-icon-left">
                                     <i class="pi pi-search"></i>
-                                    <p:inputText placeholder="Buscar"/>
-                                    <p:commandButton value="Buscar" icon="pi pi-search"/>
+                                    <p:inputText placeholder="Buscar" value="#{pedidosBean.txtBuscar}" />
+                                    <p:commandButton value="Buscar" icon="pi pi-search" action="#{pedidosBean.buscar()}"/>
                                 </span>
                             </p:toolbarGroup>
                         </p:toolbar>
-                        <p:dataTable var="productos" value="#" paginator="true"
+                        <p:dataTable var="producto" value="#{pedidosBean.productos}" paginator="true"
                                      rows="10" rowSelectMode="add" paginatorPosition="bottom">
 
                             <p:column headerText="Foto">
@@ -49,7 +51,7 @@
                                 <h:outputText/>
                             </p:column>
                             <p:column>
-                                <p:commandButton icon="pi pi-plus" value="Agregar a la Orden">
+                                <p:commandButton icon="pi pi-plus" value="Agregar a la Orden" action="#{pedidosBean.agregarAOrden()}">
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>
@@ -58,26 +60,26 @@
                     <p:tab title="Confirmar Orden">
                         <h:panelGrid columns="2" cellpadding="10">
                             <p:panel header="Productos Seleccionados">
-                                <p:orderList value="#{pedidosBean.prods}" var="prods" controlsLocation="none" itemLabel="#{prods}" itemValue="#{prods}" />
-                                <p:commandButton value="Eliminar de la Orden" icon="pi pi-times" styleClass="ui-button-danger"/>
+                                <p:orderList value="#{pedidosBean.prodsSel}" var="prodsSel" controlsLocation="none" itemLabel="#{prodsSel}" itemValue="#{prodsSel}" />
+                                <p:commandButton value="Eliminar de la Orden" icon="pi pi-times" styleClass="ui-button-danger" action="#{pedidosBean.eliminarDeOrden()}"/>
                             </p:panel>
 
                             <p:panel header="Datos de Entrega" >
                                 <h:panelGrid columns="2" cellpadding="10" class="panDatosEnt">
                                 <label>Fecha de entrega: </label>
-                                <p:datePicker/>
+                                <p:datePicker value="#{pedidosBean.fechaEntrega}"/>
                                 <label>Direcci&oacute;n de Entrega: </label>
-                                <p:selectOneMenu>
+                                <p:selectOneMenu value="#{pedidosBean.direccionEntrega}">
                                     <f:selectItem itemLabel="Direccion1" itemValue="Direccion1"></f:selectItem>
                                 </p:selectOneMenu>
                                 <label>Horario de Entrega: </label>
-                                <p:selectOneMenu>
+                                <p:selectOneMenu value="#{pedidosBean.horarioEntrega}">
                                     <f:selectItem itemLabel="Horario1" itemValue="Horario1"></f:selectItem>
                                 </p:selectOneMenu>
                             </h:panelGrid>
                             </p:panel>
                         </h:panelGrid>
-                        <p:commandButton value="Confirmar Pedido" icon="pi pi-check"/>
+                        <p:commandButton value="Confirmar Pedido" icon="pi pi-check" action="#{pedidosBean.confirmarPedido()}"/>
                     </p:tab>
                 </p:tabView>
             </p:panel>

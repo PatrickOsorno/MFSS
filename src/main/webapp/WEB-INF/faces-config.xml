@@ -24,13 +24,48 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd">
     <managed-bean>
-        <managed-bean-name>solicitudesBean</managed-bean-name>
-        <managed-bean-class>Controller.solicitudesBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
+        <managed-bean-name>gestionUsuariosBean</managed-bean-name>
+        <managed-bean-class>Controller.gestionUsuariosBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope></managed-bean>
+        
     <managed-bean>
         <managed-bean-name>pedidosBean</managed-bean-name>
         <managed-bean-class>Controller.pedidosBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>principalBean</managed-bean-name>
+        <managed-bean-class>Controller.principalBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>inicioBean</managed-bean-name>
+        <managed-bean-class>Controller.inicioBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>registroBean</managed-bean-name>
+        <managed-bean-class>Controller.registroBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>gestionProductosBean</managed-bean-name>
+        <managed-bean-class>Controller.gestionProductosBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>facturacionBean</managed-bean-name>
+        <managed-bean-class>Controller.facturacionBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>despachoBean</managed-bean-name>
+        <managed-bean-class>Controller.despachoBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>reportesBean</managed-bean-name>
+        <managed-bean-class>Controller.reportesBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
 </faces-config>

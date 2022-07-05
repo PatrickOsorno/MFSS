@@ -9,6 +9,27 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    
+    <context-param>
+        <param-name>DRIVER-JDBC</param-name>
+        <param-value>com.microsoft.sqlserver.jdbc.SQLServerDriver</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>SERVIDOR-BD</param-name>
+        <param-value>jdbc:sqlserver://localhost:1433;databaseName=MFSS</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>USUARIO-BD</param-name>
+        <param-value>sa</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>CONTRASENA-BD</param-name>
+        <param-value>12345</param-value>
+    </context-param>
+    
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>

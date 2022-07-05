@@ -7,7 +7,8 @@
     <h:head>
         <title>Gesti&oacute;n de Productos</title>
         <link rel="stylesheet" href="css/estilo.css"/>
-       
+       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+       <link rel="icon" href="img/logo.png"/>
     </h:head>
     <h:body>
          <div class="card">
@@ -15,7 +16,7 @@
                 <p:menubar>
                     <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" action="principal?faces-redirect=true"/>
                     <p:divider layout="vertical"/>
-                    <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
+                    <p:menuitem value="Ayuda" icon="pi pi-question-circle" action="ayuda?faces-redirect=true"/>
                 </p:menubar>
             </h:form>
         </div>
@@ -34,12 +35,12 @@
                             <p:toolbarGroup align="right">
                                 <span class="filter-container ui-input-icon-left">
                                     <i class="pi pi-search"></i>
-                                    <p:inputText placeholder="Buscar"/>
-                                    <p:commandButton value="Buscar" icon="pi pi-search"/>
+                                    <p:inputText placeholder="Buscar" value="#{gestionProductosBean.txtBuscar}"/>
+                                    <p:commandButton value="Buscar" icon="pi pi-search" action="#{gestionProductosBean.buscar()}"/>
                                 </span>
                             </p:toolbarGroup>
                         </p:toolbar>
-                        <p:dataTable var="producto" value="#" paginator="true"
+                        <p:dataTable var="producto" value="#{gestionProductosBean.productos}" paginator="true"
                                      rows="10" rowSelectMode="add" paginatorPosition="bottom">
 
                             <p:column headerText="C&oacute;digo">
@@ -83,49 +84,49 @@
 
                             <h:panelGrid columns="3" cellpadding="5">
                                 <label>C&oacute;digo: </label>
-                                <p:inputText id="codigo">
+                                <p:inputText id="codigo" value="#{gestionProductosBean.codigo}">
                                     <f:validateLength minimum="3"/>
                                     <p:ajax update="msgCod" event="keyup"/>
                                 </p:inputText>
                                 <p:message for="codigo" id="msgCod" display="icon"/>
 
                                 <label>Descripci&oacute;n: </label>
-                                <p:inputText id="descrip">
+                                <p:inputText id="descrip" value="#{gestionProductosBean.descripcion}">
                                     <f:validateLength minimum="3"/>
                                     <p:ajax update="msgDesc" event="keyup"/>
                                 </p:inputText>
                                 <p:message for="descrip" id="msgDesc" display="icon"/>
 
                                 <label>Foto: </label>
-                                <p:inputText id="foto">
+                                <p:inputText id="foto" value="#{gestionProductosBean.foto}">
                                     <f:validateLength minimum="3"/>
                                     <p:ajax update="msgFot" event="keyup"/>
                                 </p:inputText>
                                 <p:message for="foto" id="msgFot" display="icon"/>
 
                                 <label>Precio: </label>
-                                <p:inputText id="precio">
+                                <p:inputText id="precio" value="#{gestionProductosBean.precio}">
                                     <f:validateLength minimum="3"/>
                                     <p:ajax update="msgPre" event="keyup"/>
                                 </p:inputText>
                                 <p:message for="precio" id="msgPre" display="icon"/>
 
                                 <label>Stock: </label>
-                                <p:spinner id="stock" class="spin" min="0" max="999999999">
+                                <p:spinner id="stock" class="spin" min="0" max="999999999" value="#{gestionProductosBean.stock}">
                                     <f:validateLength minimum="1"/>
                                     <p:ajax update="msgSt" event="change"/>
                                 </p:spinner>
                                 <p:message for="stock" id="msgSt" display="icon"/>
 
                                 <label>Cantidad m&iacute;nima: </label>
-                                <p:spinner id="cantMin" class="spin" min="0" max="999999999">
+                                <p:spinner id="cantMin" class="spin" min="0" max="999999999" value="#{gestionProductosBean.cantMin}">
                                     <f:validateLength minimum="1"/>
                                     <p:ajax update="msgCant" event="change"/>
                                 </p:spinner>
                                 <p:message for="cantMin" id="msgCant" display="icon"/>
                             </h:panelGrid>
                             <h:panelGrid columns="1" cellpadding="5" class="centrar">
-                                <p:commandButton value="Guardar" icon="pi pi-save" oncomplete="PF('dlgNuevoProd').hide()"/>
+                                <p:commandButton value="Guardar" icon="pi pi-save" action="#{gestionProductosBean.agregarProducto()}" oncomplete="PF('dlgNuevoProd').hide()"/>
                             </h:panelGrid>
                         </p:dialog>
 
@@ -133,46 +134,46 @@
                                   widgetVar="dlgModificarProd" responsive="true">
                             <h:panelGrid columns="3" cellpadding="5">
                                 <label>C&oacute;digo: </label>
-                                <p:inputText id="cod" disabled="true"/>
+                                <p:inputText id="cod" disabled="true" value="#{gestionProductosBean.codigo}"/>
                                 <p:message for="cod" id="msgCodigo" display="icon"/>
 
                                 <label>Descripci&oacute;n: </label>
-                                <p:inputText id="descripc">
+                                <p:inputText id="descripc" value="#{gestionProductosBean.descripcion}">
                                     <f:validateLength minimum="3"/>
                                     <p:ajax update="msgDescr" event="keyup"/>
                                 </p:inputText>
                                 <p:message for="descripc" id="msgDescr" display="icon"/>
 
                                 <label>Foto: </label>
-                                <p:inputText id="fot">
+                                <p:inputText id="fot" value="#{gestionProductosBean.foto}">
                                     <f:validateLength minimum="3"/>
                                     <p:ajax update="msgFoto" event="keyup"/>
                                 </p:inputText>
                                 <p:message for="fot" id="msgFoto" display="icon"/>
 
                                 <label>Precio: </label>
-                                <p:inputText id="prec">
+                                <p:inputText id="prec" value="#{gestionProductosBean.precio}">
                                     <f:validateLength minimum="3"/>
                                     <p:ajax update="msgPrec" event="keyup"/>
                                 </p:inputText>
                                 <p:message for="prec" id="msgPrec" display="icon"/>
 
                                 <label>Stock: </label>
-                                <p:spinner id="sto" class="spin" min="0" max="999999999">
+                                <p:spinner id="sto" class="spin" min="0" max="999999999" value="#{gestionProductosBean.stock}">
                                     <f:validateLength minimum="1"/>
                                     <p:ajax update="msgSto" event="change"/>
                                 </p:spinner>
                                 <p:message for="sto" id="msgSto" display="icon"/>
 
                                 <label>Cantidad m&iacute;nima: </label>
-                                <p:spinner id="cantMi" class="spin" min="0" max="999999999">
+                                <p:spinner id="cantMi" class="spin" min="0" max="999999999" value="#{gestionProductosBean.cantMin}">
                                     <f:validateLength minimum="1"/>
                                     <p:ajax update="msgCantM" event="change"/>
                                 </p:spinner>
                                 <p:message for="cantMi" id="msgCantM" display="icon"/>
                             </h:panelGrid>
                             <h:panelGrid columns="1" cellpadding="5" class="centrar">
-                                <p:commandButton value="Guardar" icon="pi pi-save" oncomplete="PF('dlgModificarProd').hide()"/>
+                                <p:commandButton value="Guardar" icon="pi pi-save" action="#{gestionProductosBean.modificarProducto()}" oncomplete="PF('dlgModificarProd').hide()"/>
                             </h:panelGrid>
                         </p:dialog>
 
@@ -180,7 +181,7 @@
                                          message="Desea Eliminar el Producto Seleccionado?" header="Confirmaci&oacute;n" severity="info">
 
                             <p:commandButton value="S&iacute;" icon="pi pi-check"
-                                             process="@this" oncomplete="PF('dlgEliminarProd').hide()"/>
+                                             process="@this" action="#{gestionProductosBean.eliminarProducto()}" oncomplete="PF('dlgEliminarProd').hide()"/>
 
                             <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
                                              onclick="PF('dlgEliminarProd').hide()"/>
@@ -189,7 +190,7 @@
                     </p:tab>
 
                     <p:tab title="Cat&aacute;logo de Productos">
-                        <p:dataTable var="productos" value="#" paginator="true"
+                        <p:dataTable var="productos" value="#{gestionProductosBean.productos}" paginator="true"
                                      rows="10" rowSelectMode="add" paginatorPosition="bottom">>
 
                             <p:column headerText="Foto">
@@ -205,9 +206,7 @@
                             <p:column headerText="Cantidad M&iacute;nima">
                                 <h:outputText/>
                             </p:column>
-
                         </p:dataTable>
-
                     </p:tab>
                 </p:tabView>
             </p:panel>

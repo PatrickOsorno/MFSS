@@ -7,6 +7,8 @@
     <h:head>
         <title>Despachos</title>
         <link rel="stylesheet" href="css/estilo.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" href="img/logo.png"/>
     </h:head>
     <h:body>
         <div class="card">
@@ -14,7 +16,7 @@
                 <p:menubar>
                     <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" action="principal?faces-redirect=true"/>
                     <p:divider layout="vertical"/>
-                    <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
+                    <p:menuitem value="Ayuda" icon="pi pi-question-circle" action="ayuda?faces-redirect=true"/>
                 </p:menubar>
             </h:form>
         </div>
@@ -27,12 +29,12 @@
                     <p:toolbarGroup align="right">
                         <span class="filter-container ui-input-icon-left">
                             <i class="pi pi-search"></i>
-                            <p:inputText placeholder="Buscar"/>
-                            <p:commandButton value="Buscar" icon="pi pi-search"/>
+                            <p:inputText placeholder="Buscar" value="#{despachoBean.txtBuscar}"/>
+                            <p:commandButton value="Buscar" icon="pi pi-search" action="#{despachoBean.buscar()}"/>
                         </span>
                     </p:toolbarGroup>
                 </p:toolbar>
-                <p:dataTable var="pedido" value="#" paginator="true"
+                <p:dataTable var="pedido" value="#{despachoBean.pedidos}" paginator="true"
                              rows="10" rowSelectMode="add" paginatorPosition="bottom">
                     <p:column headerText="Cliente">
                         <h:outputText/>
@@ -58,14 +60,15 @@
                      widgetVar="dlgRegistrarDesp" responsive="true">
                      <h:panelGrid columns="2" cellpadding="5">
                          <label>Fecha y hora de env&iacute;o: </label>
-                         <p:datePicker showTime="true"/>
+                         <p:datePicker showTime="true" value="#{despachoBean.fechaHoraEnvio}"/>
                          <label>Medio de Despacho: </label>
-                         <p:selectOneMenu>
-                             <f:selectItem itemLabel="Medio1" itemValue="Medio1"/>
+                         <p:selectOneMenu value="#{despachoBean.medioDespacho}">
+                             <f:selectItems />
                          </p:selectOneMenu>
                      </h:panelGrid>
                      <h:panelGrid columns="1" cellpadding="5" class="centrar">
-                          <p:commandButton value="Confirmar" icon="pi pi-check" oncomplete="PF('dlgRegistrarDesp').hide()"/>
+                         <p:commandButton value="Confirmar" icon="pi pi-check" oncomplete="PF('dlgRegistrarDesp').hide()" 
+                                          action="#{despachoBean.registrarDespacho()}"/>
                      </h:panelGrid>
                  </p:dialog>
             </p:panel>

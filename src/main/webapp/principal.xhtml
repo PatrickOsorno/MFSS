@@ -7,6 +7,9 @@
     <h:head>
         <title>Men&uacute; Principal</title>
         <link rel="stylesheet" href="css/estilo.css"/>
+        <f:event type="preRenderView" listener="#{principalBean.verificarSesion()}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" href="img/logo.png"/>
     </h:head>
     <h:body>
         <div class="card">
@@ -59,9 +62,9 @@
                 </p:menubar>
 
                 <p:confirmDialog widgetVar="dlgSalir" showEffect="fade" width="300"
-                                 message="Salir de la aplicaci&oacute;n?" header="Confirmaci&oacute;n" severity="info">
+                                 message="¿Cerrar sesi&oacute;n?" header="Confirmaci&oacute;n" severity="info">
 
-                    <p:commandButton value="S&iacute;" icon="pi pi-check" action="index?faces-redirect=true"
+                    <p:commandButton value="S&iacute;" icon="pi pi-check" action="#{principalBean.cerrarSesion()}"
                                      process="@this" oncomplete="PF('dlgSalir').hide()"/>
 
                     <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
@@ -69,7 +72,7 @@
                 </p:confirmDialog>
             </h:form>
             <div class="centrarFormulario">  
-                <!--<img src="img/logo.jpg" alt="alt" width="700" height="500"/>-->
+                <img src="img/logo.png" alt="alt" width="350" height="350"/>
             </div>
         </div>
     </h:body>

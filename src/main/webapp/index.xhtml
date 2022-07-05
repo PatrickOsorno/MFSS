@@ -7,6 +7,8 @@
     <h:head>
         <title>Ingreso</title>
         <link rel="stylesheet" href="css/estilo.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" href="img/logo.png"/>
     </h:head>
     <h:body>
         <h:form class="centrarFormulario">
@@ -17,23 +19,23 @@
                     </div>
                     <span class="ui-input-icon-left">
                         <i class="pi pi-user" />
-                        <p:inputText placeholder="Usuario"></p:inputText>
+                        <p:inputText placeholder="Usuario" value="#{inicioBean.usuario}" ></p:inputText>
                     </span>
                     <br></br>
                     <br></br>
                     <span class="ui-input-icon-left">
                         <i class="pi pi-lock" />
-                        <p:password placeholder="Contraseña"></p:password>
+                        <p:password placeholder="Contraseña" value="#{inicioBean.contrasena}"></p:password>
                     </span>
                     <br></br>
                     <br></br>
-                    <p:selectOneMenu class="cbxTipoUs">
+                    <p:selectOneMenu class="cbxTipoUs" value="#{inicioBean.tipoUsuario}">
                         <f:selectItem itemLabel="Seleccione el Rol" itemValue=""/>
                     </p:selectOneMenu>
                     <br></br>
                     <br></br>
-                    <p:commandButton value="Ingresar" class="boton" icon="pi pi-sign-in" action="principal?faces-redirect=true"></p:commandButton>
-                    <p:commandButton value="Cancelar" class="boton" icon="pi pi-times"></p:commandButton>
+                    <p:commandButton value="Ingresar" class="boton" icon="pi pi-sign-in" action="#{inicioBean.iniciarSesion()}"></p:commandButton>
+                    <p:commandButton value="Cancelar" class="boton" icon="pi pi-times" action="#{inicioBean.cancelar()}"></p:commandButton>
                     <br></br>
                     <br></br>
                     <label>¿No se ha registrado a&uacute;n? </label>

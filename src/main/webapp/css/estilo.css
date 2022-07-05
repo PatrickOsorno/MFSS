@@ -107,9 +107,7 @@ button.ui-button {
 .panDespach{
     text-align: center;
 }
-.panAyuda{
-    text-align: center;
-}
+
 /*Estilo Pagina Despachos*/
 
 /*Estilo Pagina Facturar*/
@@ -117,3 +115,14 @@ button.ui-button {
     text-align: center;
 }
 /*Estilo Pagina Facturar*/
+
+/*Estilo Pagina Ayuda*/
+.panAyuda{
+    text-align: center;
+}
+p{
+    width: 60%; 
+    margin: 0 auto; 
+    font-size: 18px;
+}
+/*Estilo Pagina Ayuda*/

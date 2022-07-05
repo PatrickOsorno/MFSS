@@ -6,24 +6,30 @@
     <h:head>
         <title>Ayuda</title>
         <link rel="stylesheet" href="css/estilo.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" href="img/logo.png"/>
     </h:head>
     <h:body>
-         <div class="card">
+        <div class="card">
             <h:form>
                 <p:menubar>
-                    <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" action="principal?faces-redirect=true"/>
+                    <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" onclick="window.history.back();"/>
                 </p:menubar>
             </h:form>
         </div>
         <h:form class="centrarFormulario">
             <p:panel header="Ayuda" class="panAyuda">
-                 <h:panelGrid>
-                        <p>Para obtener ayuda puede comunicarse directamente con los desarrolladores de la aplicaci&oacute;n.</p>
-                        <a href="mailto:posorno@est.utn.ac.cr">Patrick Mauricio Osorno Rojas.</a>
-                        <br></br>
-                        <br></br>
-                        <a href="mailto:marceg@est.utn.ac.cr">Melissa Pamela Arce Gamboa.</a>
-                    </h:panelGrid>
+                <h:panelGrid>
+                    <img src="img/logo.png" alt="alt" width="150" height="150"/>
+                    <br></br>
+                    <br></br>
+                    <p >Para obtener ayuda puede comunicarse directamente con los desarrolladores de la aplicaci&oacute;n.</p>
+                    <br></br>
+                    <a href="mailto:posorno@est.utn.ac.cr">Patrick Osorno Rojas</a>
+                    <br></br>
+                    <br></br>
+                    <a href="mailto:marceg@est.utn.ac.cr">Melissa Arce Gamboa</a>
+                </h:panelGrid>
             </p:panel>
         </h:form>
     </h:body>

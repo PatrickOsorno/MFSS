@@ -7,6 +7,8 @@
     <h:head>
         <title>Facturar</title>
         <link rel="stylesheet" href="css/estilo.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" href="img/logo.png"/>
     </h:head>
     <h:body>
         <div class="card">
@@ -14,7 +16,7 @@
                 <p:menubar>
                     <p:menuitem value="Atr&aacute;s" icon="pi pi-sign-out" action="principal?faces-redirect=true"/>
                     <p:divider layout="vertical"/>
-                    <p:menuitem value="Ayuda" icon="pi pi-question-circle"/>
+                    <p:menuitem value="Ayuda" icon="pi pi-question-circle" action="ayuda?faces-redirect=true"/>
                 </p:menubar>
             </h:form>
         </div>
@@ -27,12 +29,12 @@
                     <p:toolbarGroup align="right">
                         <span class="filter-container ui-input-icon-left">
                             <i class="pi pi-search"></i>
-                            <p:inputText placeholder="Buscar"/>
-                            <p:commandButton value="Buscar" icon="pi pi-search"/>
+                            <p:inputText placeholder="Buscar" value="#{facturacionBean.txtBuscar}"/>
+                            <p:commandButton value="Buscar" icon="pi pi-search" action="#{facturacionBean.buscar()}"/>
                         </span>
                     </p:toolbarGroup>
                 </p:toolbar>
-                <p:dataTable var="pedido" value="#" paginator="true"
+                <p:dataTable var="pedido" value="#{facturacionBean.pedidos}" paginator="true"
                              rows="10" rowSelectMode="add" paginatorPosition="bottom">
                     <p:column headerText="Cliente">
                         <h:outputText/>
@@ -60,19 +62,19 @@
 
                         <h:panelGrid columns="2" cellpadding="5">
                             <label>Tipo de Pago: </label>
-                            <p:selectOneMenu>
-                                <f:selectItem itemLabel="Pago1" itemValue="Pago1"/>
+                            <p:selectOneMenu value="#{facturacionBean.tipoPago}">
+                                <f:selectItems/>
                             </p:selectOneMenu>
                         </h:panelGrid>
 
                         <h:panelGrid columns="3"> 
                             <label>Descuento: </label>
-                            <p:spinner class="spin" min="0" max="999999999"/>
+                            <p:spinner class="spin" min="0" max="999999999" value="#{facturacionBean.porcDescuento}"/>
                             <label>%</label>
                         </h:panelGrid>
 
                         <h:panelGrid class="centrar">
-                            <p:commandButton value="Crear Factura" icon="pi pi-check" oncomplete="PF('dlgFacturar').hide()"/>
+                            <p:commandButton value="Crear Factura" icon="pi pi-check" action="#{facturacionBean.crearFactura()}" oncomplete="PF('dlgFacturar').hide()"/>
                         </h:panelGrid>
                     </p:dialog>
             </p:panel>
