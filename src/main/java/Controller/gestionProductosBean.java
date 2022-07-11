@@ -81,23 +81,29 @@ public class gestionProductosBean {
     public void setStock(int stock) {
         this.stock = stock;
     }
+
+//    Se carga las tablas
     @PostConstruct
     public void cargarTablas(){
         
     }
     
+//    Se busca los productos
     public void buscar(){
         
     }
 
+//    Se agregan los productos
     public void agregarProducto() {
 
     }
 
+//    Se eliminan los productos
     public void eliminarProducto() {
 
     }
     
+//    Se modifican los productos
     public void modificarProducto(){
         
     }

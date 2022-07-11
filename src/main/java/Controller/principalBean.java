@@ -4,7 +4,7 @@
  */
 package Controller;
 
-import Model.usuario;
+import Model.Usuario;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,8 +16,9 @@ import javax.faces.context.FacesContext;
  */
 public class principalBean {
     
+//    Verifica el rol del inicio de sesion
     public void verificarSesion(){
-//        usuario us = (usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+//        Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
 //        if(us == null){
 //            try {
 //                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
@@ -27,6 +28,7 @@ public class principalBean {
 //        }
     }
     
+//    Se devuelve al inicio de sesion
     public String cerrarSesion(){
 //        FacesContext contexto = FacesContext.getCurrentInstance();
 //        contexto.getExternalContext().invalidateSession();

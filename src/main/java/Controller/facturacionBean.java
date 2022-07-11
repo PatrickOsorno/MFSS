@@ -58,15 +58,18 @@ public class facturacionBean {
         this.tiposPago = tiposPago;
     }
     
+//    Carga la tabla
     @PostConstruct
     public void cargarTabla(){
         
     }
     
+//    Se crea la factura
     public void crearFactura(){
         
     }
     
+//    Se busca la factura
     public void buscar(){
         
     }

@@ -163,14 +163,17 @@ public class registroBean {
         this.tiposDireccion = tiposDireccion;
     }
     
+//    Se registra el cliente 
     public void registrarCliente(){
         
     }
     
+//    Se registra la direccion
     public void registrarDireccion(){
         
     }
     
+//    Se registra el horario
     public void registrarHorario(){
         
     }

@@ -4,10 +4,11 @@
  */
 package Controller;
 
-import Model.usuario;
+import Model.Usuario;
+import Model.UsuarioDB;
+import java.sql.SQLException;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 /**
@@ -16,7 +17,7 @@ import javax.faces.model.SelectItem;
  */
 public class inicioBean {
 
-    String usuario, contrasena, TipoUsuario;
+    String usuario, contrasena, TipoUsuario, rol;
     List<SelectItem> roles;
 
     public String getUsuario() {
@@ -51,27 +52,22 @@ public class inicioBean {
         this.roles = roles;
     }
 
+//    Se cargan los roles de usuario
     @PostConstruct
     public void cargarRoles() {
 
     }
 
+//    Si se cancela se limpiará los campos 
     public void cancelar() {
         this.setUsuario("");
         this.setContrasena("");
         this.setTipoUsuario("");
     }
 
+//    Se valida que el usuario sea valido e ingresa a la siguiente página
     public String iniciarSesion() {
-//        FacesContext contexto = FacesContext.getCurrentInstance();
-//        usuario us = new usuario(usuario, contrasena);
-//        
-//        if (us.getCorreo().equals("Patrick") && us.getContrasena().equals("12345")) {
-//            contexto.getExternalContext().getSessionMap().put("usuario", us);
-//            return "principal?faces-redirect=true";
-//        }
-//        return "index?faces-redirect=true";
         return "principal?faces-redirect=true";
     }
-    
+
 }

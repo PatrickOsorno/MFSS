@@ -69,14 +69,17 @@ public class gestionUsuariosBean {
         this.rolesUsuario = rolesUsuario;
     }
 
+//    Se aceptan los clientes que pidieron un acceso
     public void aceptarCliente(){
         
     }
     
+//    Se denegan los clientes que pidieron un acceso
     public void denegarCliente(){
         
     }
     
+//    Se agrega un usuario nuevo
     public void agregarUsuario(){
         
     }

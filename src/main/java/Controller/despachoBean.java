@@ -58,10 +58,12 @@ public class despachoBean {
         this.txtBuscar = txtBuscar;
     }
     
+//    Busca los pedidos
     public void buscar(){
         
     }
     
+//    Registra el despacho del pedido
     public void registrarDespacho(){
         
     }

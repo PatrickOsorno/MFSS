@@ -94,18 +94,22 @@ public class pedidosBean {
         this.horarioEntrega = horarioEntrega;
     }
     
+//    Se confirma el pedido 
     public void confirmarPedido(){
         
     }
 
+//    Se agrega la orden al carrito
     public void agregarAOrden(){
         
     }
     
+//    Se elimina la orden
     public void eliminarDeOrden(){
         
     }
     
+//    Se busca la orden 
     public void buscar(){
         
     }

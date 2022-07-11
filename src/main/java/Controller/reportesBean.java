@@ -77,15 +77,18 @@ public class reportesBean {
         this.ventas = ventas;
     }
 
+//    Se carga la tabla
     @PostConstruct
     public void cargarComponentes() {
 
     }
 
+//    Se muesta el reporte de pedidos
     public void mostrarReportePedidos() {
 
     }
 
+//    Se muestra el reporte de las ventas
     public void mostrarReporteVentas() {
 
     }
