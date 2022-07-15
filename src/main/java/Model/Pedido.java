@@ -5,6 +5,7 @@
 package Model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -18,14 +19,16 @@ public class Pedido {
     Date fechaEntrega;
     Direccion dirreccion;
     Horario horario;
+    List<PedidoDetalle> detalle;
 
-    public Pedido(int id, boolean estado, Cliente cliente, Date fechaEntrega, Direccion dirreccion, Horario horario) {
+    public Pedido(int id, boolean estado, Cliente cliente, Date fechaEntrega, Direccion dirreccion, Horario horario, List<PedidoDetalle> detalle) {
         this.id = id;
         this.estado = estado;
         this.cliente = cliente;
         this.fechaEntrega = fechaEntrega;
         this.dirreccion = dirreccion;
         this.horario = horario;
+        this.detalle = detalle;
     }
 
     public int getId() {

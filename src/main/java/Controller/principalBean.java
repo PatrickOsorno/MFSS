@@ -4,10 +4,9 @@
  */
 package Controller;
 
+import Model.Cliente;
 import Model.Usuario;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 
 /**
@@ -15,23 +14,32 @@ import javax.faces.context.FacesContext;
  * @author Patrick Osorno
  */
 public class principalBean {
+    Usuario usuario = (Usuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
+    Cliente cliente;
+    boolean esCliente  = usuario.getRol().getId() == 1;
+
+    public boolean isEsCliente() {
+        return esCliente;
+    }
+
+    public void setEsCliente(boolean esCliente) {
+        this.esCliente = esCliente;
+    }
     
 //    Verifica el rol del inicio de sesion
     public void verificarSesion(){
-//        Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
-//        if(us == null){
-//            try {
-//                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-//            } catch (IOException ex) {
-//                //Logger.getLogger(principalBean.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
+        Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
+        if(us == null){
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            } catch (IOException ex) {
+            }
+        }
     }
     
 //    Se devuelve al inicio de sesion
     public String cerrarSesion(){
-//        FacesContext contexto = FacesContext.getCurrentInstance();
-//        contexto.getExternalContext().invalidateSession();
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
        return "index?faces-redirect=true";
     }
 }

@@ -20,6 +20,12 @@ public class RolUsuario {
         this.descripcion = descripcion;
     }
 
+    public RolUsuario() {
+        this.id = 0;
+        this.estado = false;
+        this.descripcion = "";
+    }
+
     public int getId() {
         return id;
     }

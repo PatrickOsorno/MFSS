@@ -15,10 +15,7 @@ public class Utilitarios {
 //      inicioBean=>index(btnIngresar)
 
     public static boolean validacionInicio(String usuario, String contrasena, String rol) {
-        if (usuario.equals("") || contrasena.equals("") || rol.equals("")) {
-            return false;
-        }
-        return true;
+        return (usuario.equals("") || contrasena.equals("") || rol.equals("")); 
     }
 
 //Se valida que el autorregistro del cliente no halla espacios en nulo

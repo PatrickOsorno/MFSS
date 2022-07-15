@@ -4,8 +4,14 @@
  */
 package Controller;
 
+import DAO.SNMPExceptions;
+import Model.Provincia;
+import Model.ProvinciaDB;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.model.SelectItem;
 
 /**
@@ -13,9 +19,9 @@ import javax.faces.model.SelectItem;
  * @author Patrick Osorno
  */
 public class registroBean {
-    String identificacion, nombre, apellidos, correo, telefono, provincia, canton, 
-            distrito,barrio, otrasSenas, tipoDireccion;
+    String identificacion, nombre, apellidos, correo, telefono,  otrasSenas ;
     Date fechaHoraInic, fechaHoraFin;
+    int provincia, canton, distrito, barrio, tipoDireccion;
     
     List<SelectItem> provincias, cantones, distritos, barrios, tiposDireccion;
 
@@ -59,35 +65,35 @@ public class registroBean {
         this.telefono = telefono;
     }
 
-    public String getProvincia() {
+    public int getProvincia() {
         return provincia;
     }
 
-    public void setProvincia(String provincia) {
+    public void setProvincia(int provincia) {
         this.provincia = provincia;
     }
 
-    public String getCanton() {
+    public int getCanton() {
         return canton;
     }
 
-    public void setCanton(String canton) {
+    public void setCanton(int canton) {
         this.canton = canton;
     }
 
-    public String getDistrito() {
+    public int getDistrito() {
         return distrito;
     }
 
-    public void setDistrito(String distrito) {
+    public void setDistrito(int distrito) {
         this.distrito = distrito;
     }
 
-    public String getBarrio() {
+    public int getBarrio() {
         return barrio;
     }
 
-    public void setBarrio(String barrio) {
+    public void setBarrio(int barrio) {
         this.barrio = barrio;
     }
 
@@ -99,11 +105,11 @@ public class registroBean {
         this.otrasSenas = otrasSenas;
     }
 
-    public String getTipoDireccion() {
+    public int getTipoDireccion() {
         return tipoDireccion;
     }
 
-    public void setTipoDireccion(String tipoDireccion) {
+    public void setTipoDireccion(int tipoDireccion) {
         this.tipoDireccion = tipoDireccion;
     }
 
@@ -176,5 +182,25 @@ public class registroBean {
 //    Se registra el horario
     public void registrarHorario(){
         
+    }
+    
+    public void cargarProvincias() throws SNMPExceptions{
+        List<Provincia> provs = new ProvinciaDB().seleccionarProvincias();
+        provincias = new ArrayList<>();
+        provs.forEach(prov ->{
+            provincias.add(new SelectItem(prov.getId(), prov.getDescripcion()));
+        });
+    }
+    
+    public void cargarCantones(){
+        
+    }
+    
+    @PostConstruct
+    public void cargarComponentes(){
+        try {
+            cargarProvincias();
+        } catch (SNMPExceptions e) {
+        }
     }
 }

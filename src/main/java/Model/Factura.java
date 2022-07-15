@@ -5,6 +5,7 @@
 package Model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -18,8 +19,9 @@ public class Factura {
     TipoPago tipoPago;
     float costoEnvio, descuento, subTotal;
     Date fecha;
+    List<FacturaDetalle> detalle;
 
-    public Factura(int id, boolean estado, Pedido pedido, TipoPago tipoPago, float costoEnvio, float descuento, float subTotal, Date fecha) {
+    public Factura(int id, boolean estado, Pedido pedido, TipoPago tipoPago, float costoEnvio, float descuento, float subTotal, Date fecha, List<FacturaDetalle> detalle) {
         this.id = id;
         this.estado = estado;
         this.pedido = pedido;
@@ -28,6 +30,7 @@ public class Factura {
         this.descuento = descuento;
         this.subTotal = subTotal;
         this.fecha = fecha;
+        this.detalle = detalle;
     }
 
     public int getId() {

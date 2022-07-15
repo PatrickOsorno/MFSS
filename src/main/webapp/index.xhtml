@@ -19,18 +19,20 @@
                     </div>
                     <span class="ui-input-icon-left">
                         <i class="pi pi-user" />
-                        <p:inputText placeholder="Usuario" value="#{inicioBean.usuario}" ></p:inputText>
+                        <p:inputText placeholder="Usuario" value="#{inicioBean.usuario}" >
+                        <p:ajax event="blur" listener="#{inicioBean.cargarRoles()}" update="cbxRol"/>
+                        </p:inputText>
                     </span>
                     <br></br>
                     <br></br>
                     <span class="ui-input-icon-left">
                         <i class="pi pi-lock" />
-                        <p:password placeholder="Contraseña" value="#{inicioBean.contrasena}"></p:password>
+                        <p:password placeholder="Contraseña" value="#{inicioBean.contrasena}"> </p:password>
                     </span>
                     <br></br>
                     <br></br>
-                    <p:selectOneMenu class="cbxTipoUs" value="#{inicioBean.tipoUsuario}">
-                        <f:selectItem itemLabel="Seleccione el Rol" itemValue=""/>
+                    <p:selectOneMenu id="cbxRol" class="cbxTipoUs" value="#{inicioBean.idRol}">
+                        <f:selectItems value="#{inicioBean.roles}"/>
                     </p:selectOneMenu>
                     <br></br>
                     <br></br>
@@ -40,6 +42,9 @@
                     <br></br>
                     <label>¿No se ha registrado a&uacute;n? </label>
                     <p:commandLink value="Registrarse" action="registroClientes?faces-redirect=true"></p:commandLink>
+                    <p:messages showDetail="true">
+                        <p:autoUpdate/>
+                    </p:messages>
                 </div>
             </p:panel>
         </h:form>

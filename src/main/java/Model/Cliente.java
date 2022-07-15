@@ -11,16 +11,16 @@ package Model;
 public class Cliente {
 
     String id, nombre, apellidos, telefono;
-    Usuario correo;
+    Usuario usuario;
     boolean estado;
     Horario horario;
 
-    public Cliente(String id, String nombre, String apellidos, String telefono, Usuario correo, boolean estado, Horario horario) {
+    public Cliente(String id, String nombre, String apellidos, String telefono, Usuario usuario, boolean estado, Horario horario) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.telefono = telefono;
-        this.correo = correo;
+        this.usuario = usuario;
         this.estado = estado;
         this.horario = horario;
     }
@@ -49,12 +49,12 @@ public class Cliente {
         this.apellidos = apellidos;
     }
 
-    public Usuario getCorreo() {
-        return correo;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setCorreo(Usuario correo) {
-        this.correo = correo;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public String getTelefono() {
@@ -80,5 +80,4 @@ public class Cliente {
     public void setHorario(Horario horario) {
         this.horario = horario;
     }
-
 }
