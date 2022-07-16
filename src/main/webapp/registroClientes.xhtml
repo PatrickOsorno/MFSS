@@ -53,7 +53,7 @@
                                 <p:ajax update="msgCorreo" event="keyup"/>
                             </p:inputText>
                             <p:message for="correo" id="msgCorreo" display="icon"/>
-                            
+
                             <label>Tel&eacute;fono: *</label>
                             <p:inputText id="telefono" value="#{registroBean.telefono}">
                                 <f:validateLength minimum="3"/>
@@ -71,23 +71,26 @@
                         <h:panelGrid columns="2" cellpadding="5" class="centrar">
                             <label>Tipo de Direcci&oacute;n: *</label>
                             <p:selectOneMenu value="#{registroBean.tipoDireccion}">
-                                <f:selectItems value="#{registroBean.tiposDireccion}"></f:selectItems>
+                                <f:selectItems value="#{registroBean.tiposDireccion}"/>
                             </p:selectOneMenu>
                             <label>Provincia: *</label>
-                            <p:selectOneMenu value="#{registroBean.provincia}">
-                                <f:selectItems value="#{registroBean.provincias}"></f:selectItems>
+                            <p:selectOneMenu id="provincia" value="#{registroBean.provincia}">
+                                <f:selectItems value="#{registroBean.provincias}"/>
+                                <p:ajax event="change" listener="#{registroBean.cargarComponentes()}" update="canton distrito barrio"/>
                             </p:selectOneMenu>
                             <label>Cant&oacute;n: *</label>
-                            <p:selectOneMenu value="#{registroBean.canton}">
-                                <f:selectItems value="#{registroBean.cantones}"></f:selectItems>
+                            <p:selectOneMenu id="canton" value="#{registroBean.canton}">
+                                <f:selectItems value="#{registroBean.cantones}"/>
+                                <p:ajax event="change" listener="#{registroBean.cargarDistritos()}" update="canton distrito barrio"/>
                             </p:selectOneMenu>
                             <label>Distrito: *</label>
-                            <p:selectOneMenu value="#{registroBean.distrito}">
-                                <f:selectItems value="#{registroBean.distritos}"></f:selectItems>
+                            <p:selectOneMenu id="distrito" value="#{registroBean.distrito}">
+                                <f:selectItems value="#{registroBean.distritos}"/>
+                                <p:ajax event="change" listener="#{registroBean.cargarBarrios()}" update="canton distrito barrio"/>
                             </p:selectOneMenu>
                             <label>Barrio: *</label>
-                            <p:selectOneMenu value="#{registroBean.barrio}">
-                                <f:selectItems value="#{registroBean.barrios}"></f:selectItems>
+                            <p:selectOneMenu id="barrio" value="#{registroBean.barrio}">
+                                <f:selectItems value="#{registroBean.barrios}"/>
                             </p:selectOneMenu>
                             <label>Otras Señas: *</label>
                             <p:inputTextarea value="#{registroBean.otrasSenas}"></p:inputTextarea>

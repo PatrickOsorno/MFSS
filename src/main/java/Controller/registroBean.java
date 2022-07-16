@@ -5,9 +5,19 @@
 package Controller;
 
 import DAO.SNMPExceptions;
+import Model.Barrio;
+import Model.BarrioDB;
+import Model.Canton;
+import Model.CantonDB;
+import Model.Cliente;
+import Model.Direccion;
+import Model.Distrito;
+import Model.DistritoDB;
+import Model.Horario;
 import Model.Provincia;
 import Model.ProvinciaDB;
-import java.sql.SQLException;
+import Model.TipoDireccion;
+import Model.TipoDireccionDB;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +34,11 @@ public class registroBean {
     int provincia, canton, distrito, barrio, tipoDireccion;
     
     List<SelectItem> provincias, cantones, distritos, barrios, tiposDireccion;
+    
+    Cliente cliente = new Cliente();;
+    Direccion direccion;
+    Horario horario;
+    List<Direccion> direccs = new ArrayList<>();
 
     public String getIdentificacion() {
         return identificacion;
@@ -170,13 +185,17 @@ public class registroBean {
     }
     
 //    Se registra el cliente 
-    public void registrarCliente(){
-        
+    public void registrarCliente(){ 
+        cliente.setId(identificacion);
+        cliente.setNombre(nombre);
+        cliente.setApellidos(apellidos);
+        cliente.setTelefono(telefono);
+        cliente.setEstado(true);
     }
     
 //    Se registra la direccion
     public void registrarDireccion(){
-        
+
     }
     
 //    Se registra el horario
@@ -192,15 +211,48 @@ public class registroBean {
         });
     }
     
-    public void cargarCantones(){
-        
+    public void cargarCantones() throws SNMPExceptions{
+        List<Canton> cants = new CantonDB().seleccionarPorProvincia(provincia);
+        cantones = new ArrayList<>();
+        cants.forEach(cant ->{
+            cantones.add(new SelectItem(cant.getId(), cant.getDescripcion()));
+        });
+    }
+    
+    public void cargarDistritos() throws SNMPExceptions{
+        List<Distrito> dists = new DistritoDB().seleccionarPorProvinciaYCanton(provincia, canton);
+        distritos = new ArrayList<>();
+        dists.forEach(dist -> {
+            distritos.add(new SelectItem(dist.getId(), dist.getDescripcion()));
+        });
+    }
+    
+    public void cargarBarrios() throws SNMPExceptions{
+        List<Barrio> barrs = new BarrioDB().seleccionarPorProvinciaCantonDistrito(provincia, canton, distrito);
+        barrios = new ArrayList<>();
+        barrs.forEach(barr -> {
+            barrios.add(new SelectItem(barr.getId(), barr.getDescripcion()));
+        });
+    }
+    
+    public void cargarTiposDireccion() throws SNMPExceptions{
+        List<TipoDireccion> tipsDireccion = new TipoDireccionDB().seleccionarTodos();
+        tiposDireccion = new ArrayList<>();
+        tipsDireccion.forEach(tipDirecc ->{
+            tiposDireccion.add(new SelectItem(tipDirecc.getId(), tipDirecc.getDescripcion()));
+        });
     }
     
     @PostConstruct
     public void cargarComponentes(){
         try {
+            cargarTiposDireccion();
             cargarProvincias();
+            cargarCantones();
+            cargarDistritos();
+            cargarBarrios();
         } catch (SNMPExceptions e) {
+            
         }
     }
 }

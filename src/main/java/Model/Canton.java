@@ -53,5 +53,4 @@ public class Canton {
     public void setProvincia(Provincia provincia) {
         this.provincia = provincia;
     }
-
 }

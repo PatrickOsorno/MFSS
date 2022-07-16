@@ -4,6 +4,8 @@
  */
 package Model;
 
+import java.util.List;
+
 /**
  *
  * @author Melisa
@@ -11,20 +13,30 @@ package Model;
 public class Cliente {
 
     String id, nombre, apellidos, telefono;
-    Usuario usuario;
     boolean estado;
     Horario horario;
+    List<Direccion> direcciones;
 
-    public Cliente(String id, String nombre, String apellidos, String telefono, Usuario usuario, boolean estado, Horario horario) {
+    public Cliente(String id, String nombre, String apellidos, String telefono, boolean estado, Horario horario, List<Direccion> direcciones) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.telefono = telefono;
-        this.usuario = usuario;
         this.estado = estado;
         this.horario = horario;
+        this.direcciones = direcciones;
     }
 
+    public Cliente(){
+          this.id = "";
+        this.nombre = "";
+        this.apellidos = "";
+        this.telefono = "";
+        this.estado = false;
+        this.horario = null;
+        this.direcciones = null;
+    }
+    
     public String getId() {
         return id;
     }
@@ -49,14 +61,6 @@ public class Cliente {
         this.apellidos = apellidos;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     public String getTelefono() {
         return telefono;
     }
@@ -79,5 +83,13 @@ public class Cliente {
 
     public void setHorario(Horario horario) {
         this.horario = horario;
+    }
+
+    public List<Direccion> getDirecciones() {
+        return direcciones;
+    }
+
+    public void setDirecciones(List<Direccion> direcciones) {
+        this.direcciones = direcciones;
     }
 }
