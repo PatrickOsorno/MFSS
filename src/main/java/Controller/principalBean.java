@@ -7,6 +7,7 @@ package Controller;
 import Model.Cliente;
 import Model.Usuario;
 import java.io.IOException;
+import java.util.List;
 import javax.faces.context.FacesContext;
 
 /**
@@ -29,6 +30,7 @@ public class principalBean {
 //    Verifica el rol del inicio de sesion
     public void verificarSesion(){
         Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
+        List<Cliente> clientes = (List<Cliente>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Solicitudes");
         if(us == null){
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");

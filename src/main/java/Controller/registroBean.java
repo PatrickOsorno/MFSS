@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 /**
@@ -35,10 +37,12 @@ public class registroBean {
     
     List<SelectItem> provincias, cantones, distritos, barrios, tiposDireccion;
     
-    Cliente cliente = new Cliente();;
+    Cliente cliente;
     Direccion direccion;
     Horario horario;
     List<Direccion> direccs = new ArrayList<>();
+    
+    private List<Cliente> solicitudes = new ArrayList<>();
 
     public String getIdentificacion() {
         return identificacion;
@@ -186,21 +190,58 @@ public class registroBean {
     
 //    Se registra el cliente 
     public void registrarCliente(){ 
+        cliente = new Cliente();
         cliente.setId(identificacion);
         cliente.setNombre(nombre);
         cliente.setApellidos(apellidos);
         cliente.setTelefono(telefono);
         cliente.setEstado(true);
+        FacesContext.getCurrentInstance().addMessage(null, 
+                     new FacesMessage(FacesMessage.SEVERITY_INFO, 
+                             "Exito", "Cliente agregado"));
     }
     
 //    Se registra la direccion
-    public void registrarDireccion(){
-
+    public void registrarDireccion() throws SNMPExceptions{
+        direccion = new Direccion();
+        direccion.setTipo(new TipoDireccionDB().seleccionarPorId(tipoDireccion));
+        direccion.setProvincia(new ProvinciaDB().seleccionarPorId(provincia));
+        direccion.setCanton(new CantonDB().seleccionarPorId(provincia,canton));
+        direccion.setDistrito(new DistritoDB().seleccionarPorId(provincia,canton,distrito));
+        direccion.setBarrio(new BarrioDB().seleccionarPorId(provincia,canton,distrito,barrio));
+        direccion.setOtrasSenas(otrasSenas);
+        direccs.add(direccion);
+        if(cliente != null){
+            cliente.setDirecciones(direccs);
+        FacesContext.getCurrentInstance().addMessage(null, 
+                     new FacesMessage(FacesMessage.SEVERITY_INFO, 
+                             "Exito", "Direccion agregada"));
+        }else{
+             FacesContext.getCurrentInstance().addMessage(null, 
+                     new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                             "Error", "Para registrar una dirección primero se debe registrar un cliente"));
+        }
     }
     
 //    Se registra el horario
     public void registrarHorario(){
-        
+        horario = new Horario();
+        horario.setEstado(true);
+        horario.setInicio(fechaHoraInic);
+        horario.setFin(fechaHoraFin);
+       
+        if(cliente!= null){
+             cliente.setHorario(horario);
+             FacesContext.getCurrentInstance().addMessage(null, 
+                     new FacesMessage(FacesMessage.SEVERITY_INFO, 
+                             "Exito", "Horario agregado"));
+             solicitudes.add(cliente);
+             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Solicitudes", solicitudes);
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null, 
+                     new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                             "Error", "Para registrar un horario primero se debe registrar un cliente"));
+        }
     }
     
     public void cargarProvincias() throws SNMPExceptions{

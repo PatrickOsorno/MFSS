@@ -24,7 +24,9 @@
         <h:form class="centrarFormulario">
             <p:panel header="Registrarse" class="panRegistrarse">
                 <p:tabView>
+
                     <p:tab title="Registro de Cliente">
+                        <p:growl id="growlCliente" showDetail="true" />
                         <h:panelGrid columns="3" cellpadding="5" class="centrar"> 
                             <label>Identificaci&oacute;n: *</label>
                             <p:inputText id="identificacion" required="true" value="#{registroBean.identificacion}">
@@ -63,11 +65,12 @@
 
                         </h:panelGrid>
                         <div class="centBot">
-                            <p:commandButton value="Guardar" icon="pi pi-save" action="#{registroBean.registrarCliente()}"></p:commandButton>
+                            <p:commandButton value="Guardar" update="growlCliente" icon="pi pi-save" action="#{registroBean.registrarCliente()}"></p:commandButton>
                         </div>
                     </p:tab>
 
                     <p:tab title="Registro de Direcci&oacute;n">
+                        <p:growl id="growlDirecc" showDetail="true" />
                         <h:panelGrid columns="2" cellpadding="5" class="centrar">
                             <label>Tipo de Direcci&oacute;n: *</label>
                             <p:selectOneMenu value="#{registroBean.tipoDireccion}">
@@ -76,17 +79,17 @@
                             <label>Provincia: *</label>
                             <p:selectOneMenu id="provincia" value="#{registroBean.provincia}">
                                 <f:selectItems value="#{registroBean.provincias}"/>
-                                <p:ajax event="change" listener="#{registroBean.cargarComponentes()}" update="canton distrito barrio"/>
+                                <p:ajax event="change" listener="#{registroBean.cargarCantones()}" update="canton distrito barrio provincia"/>
                             </p:selectOneMenu>
                             <label>Cant&oacute;n: *</label>
                             <p:selectOneMenu id="canton" value="#{registroBean.canton}">
                                 <f:selectItems value="#{registroBean.cantones}"/>
-                                <p:ajax event="change" listener="#{registroBean.cargarDistritos()}" update="canton distrito barrio"/>
+                                <p:ajax event="change" listener="#{registroBean.cargarDistritos()}" update="distrito canton barrio provincia"/>
                             </p:selectOneMenu>
                             <label>Distrito: *</label>
                             <p:selectOneMenu id="distrito" value="#{registroBean.distrito}">
                                 <f:selectItems value="#{registroBean.distritos}"/>
-                                <p:ajax event="change" listener="#{registroBean.cargarBarrios()}" update="canton distrito barrio"/>
+                                <p:ajax event="change" listener="#{registroBean.cargarBarrios()}" update="barrio canton distrito provincia"/>
                             </p:selectOneMenu>
                             <label>Barrio: *</label>
                             <p:selectOneMenu id="barrio" value="#{registroBean.barrio}">
@@ -96,11 +99,12 @@
                             <p:inputTextarea value="#{registroBean.otrasSenas}"></p:inputTextarea>
                         </h:panelGrid>
                         <div class="centBot">
-                            <p:commandButton value="Guardar" icon="pi pi-save" action="#{registroBean.registrarDireccion()}"/>
+                            <p:commandButton value="Guardar" update="growlDirecc" icon="pi pi-save" action="#{registroBean.registrarDireccion()}"/>
                         </div>
                     </p:tab>
 
                     <p:tab title="Registro de Horario">
+                        <p:growl id="growlHorario" showDetail="true" />
                         <h:panelGrid columns="2" cellpadding="5" class="centrar">
                             <label>Fecha y Hora Inicio: *</label>
                             <p:datePicker showTime="true" value="#{registroBean.fechaHoraInic}"/>
@@ -108,7 +112,7 @@
                             <p:datePicker showTime="true" value="#{registroBean.fechaHoraFin}"/>
                         </h:panelGrid>
                         <div class="centBot">
-                            <p:commandButton value="Guardar" icon="pi pi-save" action="#{registroBean.registrarHorario()}"></p:commandButton>
+                            <p:commandButton value="Guardar" update="growlHorario" icon="pi pi-save" action="#{registroBean.registrarHorario()}"></p:commandButton>
                         </div>
                     </p:tab>
                 </p:tabView>

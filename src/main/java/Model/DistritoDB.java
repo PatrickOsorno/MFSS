@@ -33,7 +33,7 @@ public class DistritoDB {
             ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
             while(rs.next()){
                 distritos.add(new Distrito(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"), 
-                        new ProvinciaDB().seleccionarPorId(idProvincia), new CantonDB().seleccionarPorId(idCanton)));
+                        new ProvinciaDB().seleccionarPorId(idProvincia), new CantonDB().seleccionarPorId(idProvincia,idCanton)));
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -41,15 +41,17 @@ public class DistritoDB {
         return distritos;
     }
     
-    public Distrito seleccionarPorId(int idDistrito) throws SNMPExceptions{
+    public Distrito seleccionarPorId(int idProvincia, int idCanton, int idDistrito) throws SNMPExceptions{
         try {
-            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select IdProvincia, IdCanton, Id, Descrip, Estado from Distrito where Id = ?");
-            ps.setInt(1, idDistrito);
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select IdProvincia, IdCanton, Id, Descrip, Estado from Distrito where IdProvincia = ? and IdCanton = ? and Id = ?");
+            ps.setInt(1, idProvincia);
+            ps.setInt(2, idCanton);
+            ps.setInt(3, idDistrito);
             ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            while (rs.next()) {                
+            if (rs.next()) {                
                 return new Distrito(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"), 
                         new ProvinciaDB().seleccionarPorId(rs.getInt("IdProvincia")), 
-                        new CantonDB().seleccionarPorId(rs.getInt("IdCanton")));
+                        new CantonDB().seleccionarPorId(rs.getInt("IdProvincia"),rs.getInt("IdCanton")));
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

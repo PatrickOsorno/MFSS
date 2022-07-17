@@ -36,12 +36,33 @@ public class BarrioDB {
             while (rs.next()) {                
                 barrios.add(new Barrio(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"), 
                         new ProvinciaDB().seleccionarPorId(idProvincia), 
-                        new CantonDB().seleccionarPorId(idCanton), 
-                        new DistritoDB().seleccionarPorId(idDistrito)));
+                        new CantonDB().seleccionarPorId(idProvincia,idCanton), 
+                        new DistritoDB().seleccionarPorId(idProvincia,idCanton,idDistrito)));
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }
         return barrios;
+    }
+    
+    public Barrio seleccionarPorId(int idProvincia, int idCanton, int idDistrito, int idBarrio) throws SNMPExceptions{
+        try {
+            PreparedStatement ps = accesoDatos.getConexion()
+                    .prepareStatement("Select IdProvincia, IdCanton, IdDistrito, Id, Descrip, Estado from Barrio where IdProvincia = ? and IdCanton = ? and IdDistrito  = ? and Id = ?");
+            ps.setInt(1, idProvincia);
+            ps.setInt(2, idCanton);
+            ps.setInt(3, idDistrito);
+            ps.setInt(4, idBarrio);
+            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
+            if(rs.next()){
+                return new Barrio(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"), 
+                        new ProvinciaDB().seleccionarPorId(rs.getInt("IdProvincia")), 
+                        new CantonDB().seleccionarPorId(rs.getInt("IdProvincia"),rs.getInt("IdCanton")), 
+                        new DistritoDB().seleccionarPorId(rs.getInt("IdProvincia"),rs.getInt("IdCanton"),rs.getInt("IdDistrito")));
+            }
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
+        return null;
     }
 }

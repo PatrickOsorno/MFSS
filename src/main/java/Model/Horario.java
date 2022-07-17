@@ -23,6 +23,13 @@ public class Horario {
         this.fin = fin;
     }
 
+    public Horario() {
+        this.id = 0;
+        this.estado = false;
+        this.inicio = null;
+        this.fin = null;
+    }
+
     public int getId() {
         return id;
     }

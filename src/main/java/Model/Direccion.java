@@ -32,6 +32,18 @@ public class Direccion {
         this.tipo = tipo;
     }
 
+    public Direccion() {
+        this.id = 0;
+        this.estado = false;
+        this.cliente = null;
+        this.provincia = null;
+        this.canton = null;
+        this.distrito = null;
+        this.barrio = null;
+        this.otrasSenas = "";
+        this.tipo = null;
+    }
+
     public int getId() {
         return id;
     }

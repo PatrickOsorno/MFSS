@@ -6,6 +6,7 @@ package Model;
 
 import DAO.AccesoDatos;
 import DAO.SNMPExceptions;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,5 +34,19 @@ public class TipoDireccionDB {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }
         return tiposDireccion;
+    }
+    
+    public TipoDireccion seleccionarPorId(int idTipo) throws SNMPExceptions{
+        try {
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Id, Descrip, Estado from TipoDireccion where Id = ?");
+            ps.setInt(1, idTipo);
+            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
+            if (rs.next()) {                
+                return new TipoDireccion(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"));
+            }
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
+        return null;
     }
 }

@@ -40,14 +40,15 @@ public class CantonDB {
         return cantones;
     }
     
-    public Canton seleccionarPorId(int idCanton) throws SNMPExceptions{
+    public Canton seleccionarPorId(int idProvincia, int idCanton) throws SNMPExceptions{
         try {
-            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select IdProvincia, Id, Descrip, Estado from Canton where Id = ?");
-            ps.setInt(1, idCanton);
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select IdProvincia, Id, Descrip, Estado from Canton where IdProvincia = ? and Id = ?");
+            ps.setInt(1, idProvincia);
+            ps.setInt(2, idCanton);
             ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            while(rs.next()){
+            if(rs.next()){
                 return new Canton(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"),
-                        new ProvinciaDB().seleccionarPorId(rs.getInt("IdProvincia")));
+                        new ProvinciaDB().seleccionarPorId(idProvincia));
             }
         } catch (SNMPExceptions | SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

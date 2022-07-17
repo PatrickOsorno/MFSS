@@ -27,8 +27,8 @@ public class Cliente {
         this.direcciones = direcciones;
     }
 
-    public Cliente(){
-          this.id = "";
+    public Cliente() {
+        this.id = "";
         this.nombre = "";
         this.apellidos = "";
         this.telefono = "";
@@ -36,7 +36,7 @@ public class Cliente {
         this.horario = null;
         this.direcciones = null;
     }
-    
+
     public String getId() {
         return id;
     }
