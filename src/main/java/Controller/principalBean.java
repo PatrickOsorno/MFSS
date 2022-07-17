@@ -35,6 +35,7 @@ public class principalBean {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             } catch (IOException ex) {
+                
             }
         }
     }
