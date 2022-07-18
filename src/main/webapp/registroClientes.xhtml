@@ -79,17 +79,19 @@
                             <label>Provincia: *</label>
                             <p:selectOneMenu id="provincia" value="#{registroBean.provincia}">
                                 <f:selectItems value="#{registroBean.provincias}"/>
-                                <p:ajax event="change" listener="#{registroBean.cargarCantones()}" update="canton distrito barrio provincia"/>
+                                <p:ajax event="change" listener="#{registroBean.cargarCantones()}" update="canton" />
+                                <p:ajax event="change" listener="#{registroBean.cargarDistritos()}" update="distrito" />
+                                <p:ajax event="change" listener="#{registroBean.cargarBarrios()}" update="barrio"/>
                             </p:selectOneMenu>
                             <label>Cant&oacute;n: *</label>
                             <p:selectOneMenu id="canton" value="#{registroBean.canton}">
                                 <f:selectItems value="#{registroBean.cantones}"/>
-                                <p:ajax event="change" listener="#{registroBean.cargarDistritos()}" update="distrito canton barrio provincia"/>
+                                <p:ajax event="change" listener="#{registroBean.cargarDistritos()}" update="distrito" />
                             </p:selectOneMenu>
                             <label>Distrito: *</label>
                             <p:selectOneMenu id="distrito" value="#{registroBean.distrito}">
                                 <f:selectItems value="#{registroBean.distritos}"/>
-                                <p:ajax event="change" listener="#{registroBean.cargarBarrios()}" update="barrio canton distrito provincia"/>
+                               <p:ajax event="change" listener="#{registroBean.cargarBarrios()}" update="barrio"/>
                             </p:selectOneMenu>
                             <label>Barrio: *</label>
                             <p:selectOneMenu id="barrio" value="#{registroBean.barrio}">

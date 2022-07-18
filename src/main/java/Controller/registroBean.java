@@ -31,17 +31,18 @@ import javax.faces.model.SelectItem;
  * @author Patrick Osorno
  */
 public class registroBean {
-    String identificacion, nombre, apellidos, correo, telefono,  otrasSenas ;
+
+    String identificacion, nombre, apellidos, correo, telefono, otrasSenas;
     Date fechaHoraInic, fechaHoraFin;
     int provincia, canton, distrito, barrio, tipoDireccion;
-    
+
     List<SelectItem> provincias, cantones, distritos, barrios, tiposDireccion;
-    
+
     Cliente cliente;
     Direccion direccion;
     Horario horario;
     List<Direccion> direccs = new ArrayList<>();
-    
+
     private List<Cliente> solicitudes = new ArrayList<>();
 
     public String getIdentificacion() {
@@ -187,105 +188,109 @@ public class registroBean {
     public void setTiposDireccion(List<SelectItem> tiposDireccion) {
         this.tiposDireccion = tiposDireccion;
     }
-    
+
 //    Se registra el cliente 
-    public void registrarCliente(){ 
+    public void registrarCliente() {
         cliente = new Cliente();
         cliente.setId(identificacion);
         cliente.setNombre(nombre);
         cliente.setApellidos(apellidos);
         cliente.setTelefono(telefono);
         cliente.setEstado(true);
-        FacesContext.getCurrentInstance().addMessage(null, 
-                     new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                             "Exito", "Cliente agregado"));
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Exito", "Cliente agregado"));
     }
-    
+
 //    Se registra la direccion
-    public void registrarDireccion() throws SNMPExceptions{
+    public void registrarDireccion() throws SNMPExceptions {
         direccion = new Direccion();
         direccion.setTipo(new TipoDireccionDB().seleccionarPorId(tipoDireccion));
         direccion.setProvincia(new ProvinciaDB().seleccionarPorId(provincia));
-        direccion.setCanton(new CantonDB().seleccionarPorId(provincia,canton));
-        direccion.setDistrito(new DistritoDB().seleccionarPorId(provincia,canton,distrito));
-        direccion.setBarrio(new BarrioDB().seleccionarPorId(provincia,canton,distrito,barrio));
+        direccion.setCanton(new CantonDB().seleccionarPorId(provincia, canton));
+        direccion.setDistrito(new DistritoDB().seleccionarPorId(provincia, canton, distrito));
+        direccion.setBarrio(new BarrioDB().seleccionarPorId(provincia, canton, distrito, barrio));
         direccion.setOtrasSenas(otrasSenas);
         direccs.add(direccion);
-        if(cliente != null){
+        if (cliente != null) {
             cliente.setDirecciones(direccs);
-        FacesContext.getCurrentInstance().addMessage(null, 
-                     new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                             "Exito", "Direccion agregada"));
-        }else{
-             FacesContext.getCurrentInstance().addMessage(null, 
-                     new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                             "Error", "Para registrar una dirección primero se debe registrar un cliente"));
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Exito", "Direccion agregada"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error", "Para registrar una dirección primero se debe registrar un cliente"));
         }
     }
-    
+
 //    Se registra el horario
-    public void registrarHorario(){
+    public void registrarHorario() {
         horario = new Horario();
         horario.setEstado(true);
         horario.setInicio(fechaHoraInic);
         horario.setFin(fechaHoraFin);
-       
-        if(cliente!= null){
-             cliente.setHorario(horario);
-             FacesContext.getCurrentInstance().addMessage(null, 
-                     new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                             "Exito", "Horario agregado"));
-             solicitudes.add(cliente);
-             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Solicitudes", solicitudes);
-        }else{
-            FacesContext.getCurrentInstance().addMessage(null, 
-                     new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                             "Error", "Para registrar un horario primero se debe registrar un cliente"));
+
+        if (cliente != null) {
+            cliente.setHorario(horario);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Exito", "Horario agregado"));
+            solicitudes.add(cliente);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Solicitudes", solicitudes);
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error", "Para registrar un horario primero se debe registrar un cliente"));
         }
     }
-    
-    public void cargarProvincias() throws SNMPExceptions{
+
+    public void cargarProvincias() throws SNMPExceptions {
         List<Provincia> provs = new ProvinciaDB().seleccionarProvincias();
         provincias = new ArrayList<>();
-        provs.forEach(prov ->{
+        provincias.add(new SelectItem(0, "PROVINCIA NO ESPECIFICADA"));
+        provs.forEach(prov -> {
             provincias.add(new SelectItem(prov.getId(), prov.getDescripcion()));
         });
     }
-    
-    public void cargarCantones() throws SNMPExceptions{
+
+    public void cargarCantones() throws SNMPExceptions {
         List<Canton> cants = new CantonDB().seleccionarPorProvincia(provincia);
         cantones = new ArrayList<>();
-        cants.forEach(cant ->{
+        cantones.add(new SelectItem(0, "CANTON NO ESPECIFICADO"));
+        cants.forEach(cant -> {
             cantones.add(new SelectItem(cant.getId(), cant.getDescripcion()));
         });
     }
-    
-    public void cargarDistritos() throws SNMPExceptions{
+
+    public void cargarDistritos() throws SNMPExceptions {
         List<Distrito> dists = new DistritoDB().seleccionarPorProvinciaYCanton(provincia, canton);
         distritos = new ArrayList<>();
+        distritos.add(new SelectItem(0, "DISTRITO NO ESPECIFICADO"));
         dists.forEach(dist -> {
             distritos.add(new SelectItem(dist.getId(), dist.getDescripcion()));
         });
     }
-    
-    public void cargarBarrios() throws SNMPExceptions{
+
+    public void cargarBarrios() throws SNMPExceptions {
         List<Barrio> barrs = new BarrioDB().seleccionarPorProvinciaCantonDistrito(provincia, canton, distrito);
         barrios = new ArrayList<>();
+        barrios.add(new SelectItem(0, "Barrio no especificado"));
         barrs.forEach(barr -> {
             barrios.add(new SelectItem(barr.getId(), barr.getDescripcion()));
         });
     }
-    
-    public void cargarTiposDireccion() throws SNMPExceptions{
+
+    public void cargarTiposDireccion() throws SNMPExceptions {
         List<TipoDireccion> tipsDireccion = new TipoDireccionDB().seleccionarTodos();
         tiposDireccion = new ArrayList<>();
-        tipsDireccion.forEach(tipDirecc ->{
+        tipsDireccion.forEach(tipDirecc -> {
             tiposDireccion.add(new SelectItem(tipDirecc.getId(), tipDirecc.getDescripcion()));
         });
     }
-    
+
     @PostConstruct
-    public void cargarComponentes(){
+    public void cargarComponentes() {
         try {
             cargarTiposDireccion();
             cargarProvincias();
@@ -293,7 +298,7 @@ public class registroBean {
             cargarDistritos();
             cargarBarrios();
         } catch (SNMPExceptions e) {
-            
+
         }
     }
 }
