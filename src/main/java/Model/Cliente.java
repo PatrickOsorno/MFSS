@@ -12,15 +12,16 @@ import java.util.List;
  */
 public class Cliente {
 
-    String id, nombre, apellidos, telefono;
+    String id, nombre, apellidos, telefono, correo;
     boolean estado;
     Horario horario;
     List<Direccion> direcciones;
 
-    public Cliente(String id, String nombre, String apellidos, String telefono, boolean estado, Horario horario, List<Direccion> direcciones) {
+    public Cliente(String id, String nombre, String apellidos, String correo, String telefono, boolean estado, Horario horario, List<Direccion> direcciones) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
+        this.correo = correo;
         this.telefono = telefono;
         this.estado = estado;
         this.horario = horario;
@@ -31,6 +32,7 @@ public class Cliente {
         this.id = "";
         this.nombre = "";
         this.apellidos = "";
+        this.correo = "";
         this.telefono = "";
         this.estado = false;
         this.horario = null;
@@ -39,6 +41,14 @@ public class Cliente {
 
     public String getId() {
         return id;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public void setId(String id) {

@@ -32,7 +32,7 @@ import javax.faces.model.SelectItem;
  */
 public class registroBean {
 
-    String identificacion, nombre, apellidos, correo, telefono, otrasSenas;
+    String identificacion, nombre, apellidos, correo, contrasena, telefono, otrasSenas;
     Date fechaHoraInic, fechaHoraFin;
     int provincia, canton, distrito, barrio, tipoDireccion;
 
@@ -44,6 +44,14 @@ public class registroBean {
     List<Direccion> direccs = new ArrayList<>();
 
     private List<Cliente> solicitudes = new ArrayList<>();
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
 
     public String getIdentificacion() {
         return identificacion;
@@ -195,6 +203,7 @@ public class registroBean {
         cliente.setId(identificacion);
         cliente.setNombre(nombre);
         cliente.setApellidos(apellidos);
+        cliente.setCorreo(correo);
         cliente.setTelefono(telefono);
         cliente.setEstado(true);
         FacesContext.getCurrentInstance().addMessage(null,
