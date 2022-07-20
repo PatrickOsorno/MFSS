@@ -24,18 +24,57 @@
         <h:form class="centrarFormulario">
             <p:panel header="Gestion de Usuarios" class="panNuevoUs">
                 <p:tabView>
+                    <p:growl id="growlUsuarios" showDetail="true"/>
                     <p:tab title="Solicitudes">
-                        <h:panelGrid columns="1" cellpadding="5">
-                            <div style="display: flex">
-                                <label class="lblPend">Solicitudes</label>
-                                <label class="lblAc">Seleccionadas</label>
-                            </div>
-                            <p:pickList id="pickList" value="#{gestionUsuariosBean.clientes}" var="clientes" itemLabel="#{clientes}" itemValue="#{clientes}"/>
-                            <h:panelGrid columns="2" class="centrar">
-                                <p:commandButton value="Aceptar" icon="pi pi-check" action="#{gestionUsuariosBean.aceptarCliente()}"/>
-                                <p:commandButton value="Denegar" icon="pi pi-times" action="#{gestionUsuariosBean.denegarCliente()}"/>
+                        <p:dataTable value="#{gestionUsuariosBean.clientes}" var="cliente">
+                            <p:column headerText="Identificaci&oacute;n">
+                                <h:outputText value="#{cliente.id}" />
+                            </p:column>
+
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{cliente.nombre}" />
+                            </p:column>
+
+                            <p:column headerText="Apellidos">
+                                <h:outputText value="#{cliente.apellidos}" />
+                            </p:column>
+
+                            <p:column headerText="Correo">
+                                <h:outputText value="#{cliente.correo}" />
+                            </p:column>
+
+                            <p:column headerText="Tel&eacute;fono">
+                                <h:outputText value="#{cliente.telefono}" />
+                            </p:column>
+
+                            <p:column headerText="Horario">
+                                <h:outputText value="#{cliente.horario}" />
+                            </p:column>
+
+                            <p:column headerText="Direcciones">
+                                <p:commandButton value="Mostrar" icon="pi pi-book" oncomplete="PF('dlgDirecciones').show()"/>
+                            </p:column>
+
+                            <p:column>
+                                <p:commandButton icon="pi pi-check" styleClass="edit-button rounded-button" process="@this"/>
+                                <p:commandButton class="ui-button-danger rounded-button" icon="pi pi-times" process="@this"
+                                                 oncomplete="PF('dlgDenegar').show()"/>
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dialog header="Direcciones" showEffect="fade" modal="true"
+                                  widgetVar="dlgDirecciones" responsive="true">
+                            <h:inputTextarea cols="50" rows="15" disabled="true"/>
+                        </p:dialog>
+
+                        <p:dialog header="Denegar Usuario" showEffect="fade" modal="true"
+                            widgetVar="dlgDenegar" responsive="true">
+                            <h:panelGrid columns="1" cellpadding="5">
+                                <label>Motivo</label>
+                                <h:inputTextarea cols="50" rows="10"/>
                             </h:panelGrid>
-                        </h:panelGrid>
+                            <p:commandButton value="Denegar" class="centBot" oncomplete="PF('dlgDenegar').hide()"/>
+                        </p:dialog>
                     </p:tab>
                     <p:tab title="Nuevo Usuario">
                         <h:panelGrid columns="3" cellpadding="5">

@@ -24,7 +24,6 @@
         <h:form class="centrarFormulario">
             <p:panel header="Registrarse" class="panRegistrarse">
                 <p:tabView>
-
                     <p:tab title="Registro de Cliente">
                         <p:growl id="growlCliente" showDetail="true" />
                         <h:panelGrid columns="3" cellpadding="5" class="centrar"> 
@@ -55,20 +54,6 @@
                                 <p:ajax update="msgCorreo" event="keyup"/>
                             </p:inputText>
                             <p:message for="correo" id="msgCorreo" display="icon"/>
-
-                            <label>Contraseña:  *</label>
-                            <p:password id="contrasena" value="#{registroBean.contrasena}">
-                                <f:validateLength minimum="8"/>
-                                <p:ajax update="msgContrasena" event="keyup"/>
-                            </p:password>
-                            <p:message for="contrasena" id="msgContrasena" display="icon"/>
-
-                            <label>Repetir Contraseña:  *</label>
-                            <p:password id="contrasena2" value="#{registroBean.contrasena}">
-                                <f:validateLength minimum="8"/>
-                                <p:ajax update="msgContrasena2" event="keyup"/>
-                            </p:password>
-                            <p:message for="contrasena2" id="msgContrasena2" display="icon"/>
 
                             <label>Tel&eacute;fono: *</label>
                             <p:inputText id="telefono" value="#{registroBean.telefono}">

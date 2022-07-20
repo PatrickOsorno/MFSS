@@ -61,7 +61,7 @@
                                 </h:outputText>
                             </p:column>
 
-                            <p:column headerText="Stock">
+                            <p:column headerText="Cantidad Disponible">
                                 <h:outputText/>
                             </p:column>
 
@@ -111,7 +111,7 @@
                                 </p:inputText>
                                 <p:message for="precio" id="msgPre" display="icon"/>
 
-                                <label>Stock: </label>
+                                <label>Cantidad Disponible: </label>
                                 <p:spinner id="stock" class="spin" min="0" max="999999999" value="#{gestionProductosBean.stock}">
                                     <f:validateLength minimum="1"/>
                                     <p:ajax update="msgSt" event="change"/>
@@ -158,7 +158,7 @@
                                 </p:inputText>
                                 <p:message for="prec" id="msgPrec" display="icon"/>
 
-                                <label>Stock: </label>
+                                <label>Cantidad Disponible: </label>
                                 <p:spinner id="sto" class="spin" min="0" max="999999999" value="#{gestionProductosBean.stock}">
                                     <f:validateLength minimum="1"/>
                                     <p:ajax update="msgSto" event="change"/>

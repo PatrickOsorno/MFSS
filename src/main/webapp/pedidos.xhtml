@@ -50,9 +50,13 @@
                             <p:column headerText="Cantidad M&iacute;nima">
                                 <h:outputText/>
                             </p:column>
-                            <p:column>
-                                <p:commandButton icon="pi pi-plus" value="Agregar a la Orden" action="#{pedidosBean.agregarAOrden()}">
-                                </p:commandButton>
+
+                            <p:column headerText="Cantidad">
+                                <p:spinner id="stock" class="spin" min="0" max="999999999" />
+                            </p:column>
+
+                            <p:column >
+                                <p:commandButton icon="pi pi-plus" value="Agregar a la Orden" action="#{pedidosBean.agregarAOrden()}"/>
                             </p:column>
                         </p:dataTable>
                     </p:tab>
@@ -65,18 +69,18 @@
                             </p:panel>
 
                             <p:panel header="Datos de Entrega" >
-                                <h:panelGrid columns="2" cellpadding="10" class="panDatosEnt">
-                                <label>Fecha de entrega: </label>
-                                <p:datePicker value="#{pedidosBean.fechaEntrega}"/>
-                                <label>Direcci&oacute;n de Entrega: </label>
-                                <p:selectOneMenu value="#{pedidosBean.direccionEntrega}">
-                                    <f:selectItem itemLabel="Direccion1" itemValue="Direccion1"></f:selectItem>
-                                </p:selectOneMenu>
-                                <label>Horario de Entrega: </label>
-                                <p:selectOneMenu value="#{pedidosBean.horarioEntrega}">
-                                    <f:selectItem itemLabel="Horario1" itemValue="Horario1"></f:selectItem>
-                                </p:selectOneMenu>
-                            </h:panelGrid>
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <label>Fecha de entrega: </label>
+                                    <p:datePicker value="#{pedidosBean.fechaEntrega}"/>
+                                </h:panelGrid>
+                                <p:dataTable var="direccion" value="#{pedidosBean.direcciones}">
+                                    <p:column headerText="Direcci&oacute;n">
+                                        <h:outputText/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton icon="pi pi-check" value="Seleccionar"/>
+                                    </p:column>
+                                </p:dataTable>
                             </p:panel>
                         </h:panelGrid>
                         <p:commandButton value="Confirmar Pedido" icon="pi pi-check" action="#{pedidosBean.confirmarPedido()}"/>

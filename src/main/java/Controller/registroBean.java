@@ -240,7 +240,7 @@ public class registroBean {
         horario.setInicio(fechaHoraInic);
         horario.setFin(fechaHoraFin);
 
-        if (cliente != null) {
+        if (cliente != null || cliente.getDirecciones().isEmpty()) {
             cliente.setHorario(horario);
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,

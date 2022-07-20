@@ -17,17 +17,26 @@ import javax.faces.model.SelectItem;
 public class pedidosBean {
 
     List<Object> prodsSel, productos;
-    List<SelectItem> horarios, direcciones;
+    List<Object> direcciones;
     String txtBuscar;
     Date fechaEntrega;
     Object direccionEntrega;
     Object horarioEntrega;
+    int cantidad;
 
     @PostConstruct
     public void cargarComponentes() {
         prodsSel = new ArrayList<>();
         prodsSel.add("Hola");
         prodsSel.add("Mundo");
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     public List<Object> getProdsSel() {
@@ -47,6 +56,8 @@ public class pedidosBean {
     }
 
     public List<Object> getProductos() {
+         productos = new ArrayList<>();
+        productos.add("Pollito");
         return productos;
     }
 
@@ -54,19 +65,13 @@ public class pedidosBean {
         this.productos = productos;
     }
 
-    public List<SelectItem> getHorarios() {
-        return horarios;
-    }
-
-    public void setHorarios(List<SelectItem> horarios) {
-        this.horarios = horarios;
-    }
-
-    public List<SelectItem> getDirecciones() {
+    public List<Object> getDirecciones() {
+        direcciones = new ArrayList<>();
+        direcciones.add("Gatito");
         return direcciones;
     }
 
-    public void setDirecciones(List<SelectItem> direcciones) {
+    public void setDirecciones(List<Object> direcciones) {
         this.direcciones = direcciones;
     }
 

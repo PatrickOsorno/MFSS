@@ -36,7 +36,6 @@ public class AccesoDatos {
         try {
             conexion = conectar();
         } catch (SNMPExceptions ex) {
-            Logger.getLogger(AccesoDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

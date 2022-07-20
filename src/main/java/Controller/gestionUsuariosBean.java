@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import Model.Cliente;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -18,22 +19,15 @@ public class gestionUsuariosBean {
 
     String correo, contrasena, rolUsuario;
     List<SelectItem> rolesUsuario;
-    DualListModel<String> clientes;
+    List<Cliente> clientes;
 
-    @PostConstruct
-    public void iniciar() {
-        List<String> userSource = new ArrayList<>();
-        List<String> userTarget = new ArrayList<>();
-        userSource.add("Patrick");
-        userSource.add("Melissa");
-        clientes = new DualListModel<>(userSource, userTarget);
-    }
-
-    public DualListModel<String> getClientes() {
+    public List<Cliente> getClientes() {
+        clientes = new ArrayList<>();
+        clientes.add(new Cliente("504370456", "Patrick", "Osorno Rojas", "posorno@est.utn.ac.cr", "8365-2980", true, null, null));
         return clientes;
     }
 
-    public void setClientes(DualListModel<String> clientes) {
+    public void setClientes(List<Cliente> clientes) {
         this.clientes = clientes;
     }
 
