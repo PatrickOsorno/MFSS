@@ -10,10 +10,13 @@ import Model.BarrioDB;
 import Model.Canton;
 import Model.CantonDB;
 import Model.Cliente;
+import Model.ClienteDB;
 import Model.Direccion;
+import Model.DireccionDB;
 import Model.Distrito;
 import Model.DistritoDB;
 import Model.Horario;
+import Model.HorarioDB;
 import Model.Provincia;
 import Model.ProvinciaDB;
 import Model.TipoDireccion;
@@ -42,8 +45,6 @@ public class registroBean {
     Direccion direccion;
     Horario horario;
     List<Direccion> direccs = new ArrayList<>();
-
-    private List<Cliente> solicitudes = new ArrayList<>();
 
     public String getContrasena() {
         return contrasena;
@@ -225,7 +226,7 @@ public class registroBean {
             cliente.setDirecciones(direccs);
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
-                            "Exito", "Direccion agregada"));
+                            "Exito", "Dirección agregada"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -240,17 +241,16 @@ public class registroBean {
         horario.setInicio(fechaHoraInic);
         horario.setFin(fechaHoraFin);
 
-        if (cliente != null || cliente.getDirecciones().isEmpty()) {
+        if (cliente != null && cliente.getDirecciones() != null) {
             cliente.setHorario(horario);
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Exito", "Horario agregado"));
-            solicitudes.add(cliente);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Solicitudes", solicitudes);
+            this.guardarClienteBd();
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Error", "Para registrar un horario primero se debe registrar un cliente"));
+                            "Error", "Para registrar un horario primero se debe registrar un cliente y una dirección"));
         }
     }
 
@@ -296,6 +296,20 @@ public class registroBean {
         tipsDireccion.forEach(tipDirecc -> {
             tiposDireccion.add(new SelectItem(tipDirecc.getId(), tipDirecc.getDescripcion()));
         });
+    }
+
+    private void guardarClienteBd() {
+        try {
+            new HorarioDB().insertar(horario);
+            new ClienteDB().insertar(cliente);
+            for(Direccion direcc : cliente.getDirecciones()){
+                new DireccionDB().insertar(direcc);
+            }
+        } catch (SNMPExceptions e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error", e.getMessage()));
+        }
     }
 
     @PostConstruct
