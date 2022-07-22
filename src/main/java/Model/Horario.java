@@ -14,11 +14,13 @@ public class Horario {
 
     int id;
     boolean estado;
+    Cliente cliente;
     Date inicio, fin;
 
-    public Horario(int id, boolean estado, Date inicio, Date fin) {
+    public Horario(int id, boolean estado, Cliente cliente, Date inicio, Date fin) {
         this.id = id;
         this.estado = estado;
+        this.cliente = cliente;
         this.inicio = inicio;
         this.fin = fin;
     }
@@ -26,8 +28,17 @@ public class Horario {
     public Horario() {
         this.id = 0;
         this.estado = false;
+         this.cliente = null;
         this.inicio = null;
         this.fin = null;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public int getId() {

@@ -220,7 +220,9 @@ public class registroBean {
         direccion.setCanton(new CantonDB().seleccionarPorId(provincia, canton));
         direccion.setDistrito(new DistritoDB().seleccionarPorId(provincia, canton, distrito));
         direccion.setBarrio(new BarrioDB().seleccionarPorId(provincia, canton, distrito, barrio));
+        direccion.setCliente(cliente);
         direccion.setOtrasSenas(otrasSenas);
+        cliente.setEstado(true);
         direccs.add(direccion);
         if (cliente != null) {
             cliente.setDirecciones(direccs);
@@ -240,9 +242,9 @@ public class registroBean {
         horario.setEstado(true);
         horario.setInicio(fechaHoraInic);
         horario.setFin(fechaHoraFin);
-
+        horario.setCliente(cliente);
         if (cliente != null && cliente.getDirecciones() != null) {
-            cliente.setHorario(horario);
+
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Exito", "Horario agregado"));
@@ -300,9 +302,9 @@ public class registroBean {
 
     private void guardarClienteBd() {
         try {
-            new HorarioDB().insertar(horario);
             new ClienteDB().insertar(cliente);
-            for(Direccion direcc : cliente.getDirecciones()){
+            new HorarioDB().insertar(horario);
+            for (Direccion direcc : cliente.getDirecciones()) {
                 new DireccionDB().insertar(direcc);
             }
         } catch (SNMPExceptions e) {

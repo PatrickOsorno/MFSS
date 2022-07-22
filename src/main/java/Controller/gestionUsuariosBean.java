@@ -7,9 +7,8 @@ package Controller;
 import Model.Cliente;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.model.SelectItem;
-import org.primefaces.model.DualListModel;
+
 
 /**
  *
@@ -23,7 +22,7 @@ public class gestionUsuariosBean {
 
     public List<Cliente> getClientes() {
         clientes = new ArrayList<>();
-        clientes.add(new Cliente("504370456", "Patrick", "Osorno Rojas", "posorno@est.utn.ac.cr", "8365-2980", true, null, null));
+        clientes.add(new Cliente("504370456", "Patrick", "Osorno Rojas", "posorno@est.utn.ac.cr", "8365-2980", true, null));
         return clientes;
     }
 

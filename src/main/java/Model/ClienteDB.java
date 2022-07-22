@@ -28,15 +28,14 @@ public class ClienteDB {
 
     public void insertar(Cliente cliente) throws SNMPExceptions {
         try {
-            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Insert into Cliente(Id, Nombre, Apellidos, Email, Telefono, IdHorario, Estado) "
-                    + "values(?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Insert into Cliente(Id, Nombre, Apellidos, Email, Telefono, Estado) "
+                    + "values(?, ?, ?, ?, ?, ?)");
             ps.setString(1, cliente.getId());
             ps.setString(2, cliente.getNombre());
             ps.setString(3, cliente.getApellidos());
             ps.setString(4, cliente.getCorreo());
             ps.setString(5, cliente.getTelefono());
-            ps.setInt(6, cliente.getHorario().getId());
-            ps.setBoolean(7, cliente.getEstado());
+            ps.setBoolean(6, cliente.getEstado());
             accesoDatos.ejectaSQL(ps);
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

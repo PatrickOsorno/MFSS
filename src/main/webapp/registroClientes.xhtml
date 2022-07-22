@@ -108,10 +108,10 @@
                     <p:tab title="Registro de Horario">
                         <p:growl id="growlHorario" showDetail="true" />
                         <h:panelGrid columns="2" cellpadding="5" class="centrar">
-                            <label>Fecha y Hora Inicio: *</label>
-                            <p:datePicker showTime="true" value="#{registroBean.fechaHoraInic}"/>
-                            <label>Fecha y Hora Fin: *</label>
-                            <p:datePicker showTime="true" value="#{registroBean.fechaHoraFin}"/>
+                            <label>Hora Inicio: *</label>
+                            <p:datePicker timeOnly="true" pattern="HH:mm" value="#{registroBean.fechaHoraInic}"/>
+                            <label>Hora Fin: *</label>
+                            <p:datePicker timeOnly="true" pattern="HH:mm" value="#{registroBean.fechaHoraFin}"/>
                         </h:panelGrid>
                         <div class="centBot">
                             <p:commandButton value="Guardar" update="growlHorario" icon="pi pi-save" action="#{registroBean.registrarHorario()}"></p:commandButton>
