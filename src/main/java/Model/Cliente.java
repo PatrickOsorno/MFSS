@@ -14,9 +14,10 @@ public class Cliente {
 
     String id, nombre, apellidos, telefono, correo;
     boolean estado;
+    Horario horario;
     List<Direccion> direcciones;
 
-    public Cliente(String id, String nombre, String apellidos, String correo, String telefono, boolean estado, List<Direccion> direcciones) {
+    public Cliente(String id, String nombre, String apellidos, String correo, String telefono, boolean estado, List<Direccion> direcciones, Horario horario) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -24,6 +25,7 @@ public class Cliente {
         this.telefono = telefono;
         this.estado = estado;
         this.direcciones = direcciones;
+        this.horario = horario;
     }
 
     public Cliente() {
@@ -34,7 +36,17 @@ public class Cliente {
         this.telefono = "";
         this.estado = false;
         this.direcciones = null;
+        horario = null;
     }
+
+    public Horario getHorario() {
+        return horario;
+    }
+
+    public void setHorario(Horario horario) {
+        this.horario = horario;
+    }
+    
 
     public String getId() {
         return id;
@@ -90,5 +102,9 @@ public class Cliente {
 
     public void setDirecciones(List<Direccion> direcciones) {
         this.direcciones = direcciones;
+    }
+    
+    public String obtenerDirecciones(){
+        return "Hola";
     }
 }

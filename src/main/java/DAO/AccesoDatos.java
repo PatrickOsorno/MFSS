@@ -60,7 +60,7 @@ public class AccesoDatos {
         return conexion;
     }
 
-//    public void ejectaSQL(String Sql) throws SNMPExceptions {
+//    public void ejecutaSQL(String Sql) throws SNMPExceptions {
 //        try {
 //            st = conectar().createStatement();
 //            st.execute(Sql);
@@ -80,7 +80,7 @@ public class AccesoDatos {
 //        }
 //    }
 
-    public void ejectaSQL(PreparedStatement ps) throws SNMPExceptions {
+    public void ejecutaSQL(PreparedStatement ps) throws SNMPExceptions {
         try {
             ps.execute();
         } catch (SQLException e) {

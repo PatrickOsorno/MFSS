@@ -60,15 +60,15 @@
                                 <p:commandButton class="ui-button-danger rounded-button" icon="pi pi-times" process="@this"
                                                  oncomplete="PF('dlgDenegar').show()"/>
                             </p:column>
-                        </p:dataTable>
 
+                        </p:dataTable>
                         <p:dialog header="Direcciones" showEffect="fade" modal="true"
                                   widgetVar="dlgDirecciones" responsive="true">
-                            <h:inputTextarea cols="50" rows="15" disabled="true"/>
+                            <h:inputTextarea cols="50" rows="15" disabled="true" value="#{cliente.obtenerDirecciones()}"/>
                         </p:dialog>
 
                         <p:dialog header="Denegar Usuario" showEffect="fade" modal="true"
-                            widgetVar="dlgDenegar" responsive="true">
+                                  widgetVar="dlgDenegar" responsive="true">
                             <h:panelGrid columns="1" cellpadding="5">
                                 <label>Motivo</label>
                                 <h:inputTextarea cols="50" rows="10"/>

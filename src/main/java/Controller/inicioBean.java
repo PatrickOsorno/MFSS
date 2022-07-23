@@ -9,6 +9,7 @@ import Model.RolUsuario;
 import Model.RolUsuarioDB;
 import Model.Usuario;
 import Model.UsuarioDB;
+import Util.Utilitarios;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -86,6 +87,7 @@ public class inicioBean {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Usuario", usuarioIngresa);
             cancelar();
             roles = null;
+//            Utilitarios.enviarCorreo("patosorno01@gmail.com", "Sesion iniciada!");
             return "principal?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de Inicio de Sesión", "Credenciales incorrectas"));

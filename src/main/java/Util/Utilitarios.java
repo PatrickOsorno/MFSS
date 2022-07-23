@@ -5,17 +5,33 @@
 package Util;
 
 import java.util.Date;
+import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.Authenticator;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import static org.primefaces.component.keyboard.KeyboardBase.PropertyKeys.password;
 
 /**
  *
  * @author Melisa
  */
 public class Utilitarios {
-//Se valida que el ingreso no halla espacios en nulo
+//Se valida que el ingreso no haya espacios en blanco
 //      inicioBean=>index(btnIngresar)
 
     public static boolean validacionInicio(String usuario, String contrasena, String rol) {
-        return (usuario.equals("") || contrasena.equals("") || rol.equals("")); 
+        return (usuario.equals("") || contrasena.equals("") || rol.equals(""));
     }
 
 //Se valida que el autorregistro del cliente no halla espacios en nulo
@@ -84,7 +100,6 @@ public class Utilitarios {
 //
 //        return true;
 //    }
-
 //Se valida que los reportes, en el reporte de Pedidos no halla espacios en nulo
 //      ReportesBean=>Reportes(btnMostrarReporte => ReportePedidos)
     public static boolean validarMostrarReporte_Pedidos(Date rangoFecha, String estado) {
@@ -93,7 +108,6 @@ public class Utilitarios {
         }
         return true;
     }
-
 
 //Se valida que los reportes, en el reporte de Ventas no halla espacios en nulo
 //      ReportesBean=>Reportes(btnMostrarReporte => ReporteVentas)
@@ -106,6 +120,30 @@ public class Utilitarios {
 
 //Mediante este metodo se le enviará al solicitante si fue aprovada su inscripcion
     public static void enviarCorreo(String correo, String mensaje) {
+        Properties propiedad = new Properties();
+        propiedad.put("mail.smtp.host", "smtp.gmail.com");
+        propiedad.put("mail.smtp.ssl.trust", "*");
+        propiedad.put("mail.smtp.port", "587");
+        propiedad.put("mail.smtp.auth", "true");
 
+        Session sesion = Session.getInstance(propiedad, new Authenticator() {
+	            @Override
+	            protected PasswordAuthentication getPasswordAuthentication() {
+	                return new PasswordAuthentication("pruebas.patrick.utn@gmail.com", "prueb@sMFSS");
+	            }
+	        });
+        Message mail = new MimeMessage(sesion);
+        try {
+
+            mail.setFrom(new InternetAddress("pruebas.patrick.utn@gmail.com"));
+            mail.addRecipient(Message.RecipientType.TO, new InternetAddress(correo));
+            mail.setSubject("Bienvenido al Sistema");
+            mail.setText(mensaje);
+            Transport.send(mail);
+        } catch (AddressException ex) {
+
+        } catch (MessagingException ex) {
+
+        }
     }
 }

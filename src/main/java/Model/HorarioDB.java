@@ -7,6 +7,7 @@ package Model;
 import DAO.AccesoDatos;
 import DAO.SNMPExceptions;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
@@ -29,10 +30,24 @@ public class HorarioDB {
             ps.setTimestamp(2, new Timestamp(horario.getFin().getTime()));
             ps.setBoolean(3, horario.getEstado());
             ps.setString(4, horario.getCliente().getId());
-            accesoDatos.ejectaSQL(ps);
+            accesoDatos.ejecutaSQL(ps);
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }
+    }
+    
+    public Horario seleccionarPorCliente(String idCliente) throws SNMPExceptions{
+        try {
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Inicio, Fin, Estado, Id, IdCliente from Horario where IdCliente = ?");
+            ps.setString(1, idCliente);
+            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
+            if(rs.next()){
+                return new Horario(rs.getInt("Id"), rs.getBoolean("Estado"), null, rs.getDate("Inicio"), rs.getDate("Fin"));
+            }
+        } catch (SQLException e) {
+            throw  new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
+        return null;
     }
     
 }

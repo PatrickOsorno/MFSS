@@ -7,7 +7,10 @@ package Model;
 import DAO.AccesoDatos;
 import DAO.SNMPExceptions;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -19,6 +22,27 @@ public class DireccionDB {
 
     public DireccionDB() {
         accesoDatos = AccesoDatos.obtenerInstancia();
+    }
+
+    public List<Direccion> seleccionarPorCliente(String IdCliente) throws SNMPExceptions {
+        List<Direccion> direcciones = new ArrayList<>();
+        try {
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select IdCliente, IdProvincia, IdCanton, IdDistrito, IdBarrio, OtrasSenas, IdTipoDireccion, Estado, Id from direccion where idCliente = ?");
+            ps.setString(1, IdCliente);
+            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
+            while (rs.next()) {
+                direcciones.add(new Direccion(rs.getInt("Id"), rs.getBoolean("Estado"),
+                        null, new ProvinciaDB().seleccionarPorId(rs.getInt("IdProvincia")),
+                        new CantonDB().seleccionarPorId(rs.getInt("IdProvincia"), rs.getInt("IdCanton")),
+                        new DistritoDB().seleccionarPorId(rs.getInt("IdProvincia"), rs.getInt("IdCanton"), rs.getInt("IdDistrito")),
+                        new BarrioDB().seleccionarPorId(rs.getInt("IdProvincia"), rs.getInt("IdCanton"), rs.getInt("IdDistrito"), rs.getInt("IdBarrio")),
+                        rs.getString("OtrasSenas"),
+                        new TipoDireccionDB().seleccionarPorId(rs.getInt("IdTipoDireccion"))));
+            }
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
+        return direcciones;
     }
 
     public void insertar(Direccion direccion) throws SNMPExceptions {
@@ -34,7 +58,7 @@ public class DireccionDB {
             ps.setString(6, direccion.getOtrasSenas());
             ps.setInt(7, direccion.getTipo().getId());
             ps.setBoolean(8, direccion.getEstado());
-            accesoDatos.ejectaSQL(ps);
+            accesoDatos.ejecutaSQL(ps);
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }

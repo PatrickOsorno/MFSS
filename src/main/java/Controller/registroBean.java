@@ -244,11 +244,10 @@ public class registroBean {
         horario.setFin(fechaHoraFin);
         horario.setCliente(cliente);
         if (cliente != null && cliente.getDirecciones() != null) {
-
+            this.guardarClienteBd();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Exito", "Horario agregado"));
-            this.guardarClienteBd();
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,

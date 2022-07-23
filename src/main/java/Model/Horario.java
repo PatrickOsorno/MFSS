@@ -4,6 +4,7 @@
  */
 package Model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -28,7 +29,7 @@ public class Horario {
     public Horario() {
         this.id = 0;
         this.estado = false;
-         this.cliente = null;
+        this.cliente = null;
         this.inicio = null;
         this.fin = null;
     }
@@ -71,5 +72,11 @@ public class Horario {
 
     public void setFin(Date fin) {
         this.fin = fin;
+    }
+    
+    @Override
+    public String toString(){
+        SimpleDateFormat formato = new SimpleDateFormat("hh:mm a");
+        return new StringBuilder().append("De ").append(formato.format(inicio)).append(" a ").append(formato.format(fin)).toString();
     }
 }

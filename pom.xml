@@ -33,7 +33,7 @@
             <artifactId>primefaces</artifactId>
             <version>11.0.0</version>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <version>6.2.2.jre8</version>
