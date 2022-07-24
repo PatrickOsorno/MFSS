@@ -103,8 +103,4 @@ public class Cliente {
     public void setDirecciones(List<Direccion> direcciones) {
         this.direcciones = direcciones;
     }
-    
-    public String obtenerDirecciones(){
-        return "Hola";
-    }
 }

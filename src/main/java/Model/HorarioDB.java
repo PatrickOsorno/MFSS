@@ -42,7 +42,7 @@ public class HorarioDB {
             ps.setString(1, idCliente);
             ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
             if(rs.next()){
-                return new Horario(rs.getInt("Id"), rs.getBoolean("Estado"), null, rs.getDate("Inicio"), rs.getDate("Fin"));
+                return new Horario(rs.getInt("Id"), rs.getBoolean("Estado"), null, rs.getTimestamp("Inicio"), rs.getTimestamp("Fin"));
             }
         } catch (SQLException e) {
             throw  new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

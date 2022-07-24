@@ -7,13 +7,19 @@ package Controller;
 import DAO.SNMPExceptions;
 import Model.Cliente;
 import Model.ClienteDB;
+import Model.Direccion;
 import Model.DireccionDB;
 import Model.HorarioDB;
+import Model.RolUsuario;
+import Model.RolUsuarioDB;
+import Model.Usuario;
+import Model.UsuarioDB;
+import Util.Utilitarios;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 /**
@@ -25,6 +31,8 @@ public class gestionUsuariosBean {
     String correo, contrasena, rolUsuario;
     List<SelectItem> rolesUsuario;
     List<Cliente> clientes;
+
+    String direccion;
 
     public List<Cliente> getClientes() {
 //        clientes = new ArrayList<>();
@@ -46,6 +54,14 @@ public class gestionUsuariosBean {
 
     public String getContrasena() {
         return contrasena;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public void setContrasena(String contrasena) {
@@ -83,14 +99,35 @@ public class gestionUsuariosBean {
                 clientes.add(cliente);
             });
         } catch (SNMPExceptions ex) {
-            
+
         }
 
     }
 
+    public void cargarDireccion(String IdCliente) throws SNMPExceptions {
+        List<Direccion> direccionesCliente = new DireccionDB().seleccionarPorCliente(IdCliente);
+        StringBuilder strb = new StringBuilder();
+        for (Direccion d : direccionesCliente) {
+            strb.append(d.toString()).append(".\n");
+        }
+        this.setDireccion(strb.toString());
+    }
 //    Se aceptan los clientes que pidieron un acceso
-    public void aceptarCliente() {
 
+    public void aceptarCliente(Cliente cliente) throws SNMPExceptions {
+        Usuario usuario = new Usuario();
+        usuario.setCorreo(cliente.getCorreo());
+        usuario.setContrasena(Utilitarios.genearContrasenaAleatoria());
+        usuario.setRol(new RolUsuarioDB().seleccionarRolPorId(2));
+        usuario.setEstado(true);
+        usuario.setCliente(cliente);
+        try {
+            this.agregarUsuario(usuario);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Cliente aceptado con éxito!"));
+            this.cargarCliente();
+        } catch (SNMPExceptions e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMensajeParaDesarrollador()));
+        }
     }
 
 //    Se denegan los clientes que pidieron un acceso
@@ -99,7 +136,9 @@ public class gestionUsuariosBean {
     }
 
 //    Se agrega un usuario nuevo
-    public void agregarUsuario() {
-
+    private void agregarUsuario(Usuario usuario) throws SNMPExceptions {
+        UsuarioDB usDb = new UsuarioDB();
+        usDb.insertar(usuario);
+        usDb.insertarRolUsuario(usuario);
     }
 }

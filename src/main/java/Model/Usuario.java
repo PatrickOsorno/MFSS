@@ -17,14 +17,16 @@ public class Usuario {
     Date ultimaEdicion;
     boolean estado;
     RolUsuario rol;
+    Cliente cliente;
 
-    public Usuario(String correo, String contrasena, Date fechaRegistro, Date ultimaEdicion, boolean estado, RolUsuario rol) {
+    public Usuario(String correo, String contrasena, Date fechaRegistro, Date ultimaEdicion, boolean estado, RolUsuario rol, Cliente cliente) {
         this.correo = correo;
         this.contrasena = contrasena;
         this.fechaRegistro = fechaRegistro;
         this.ultimaEdicion = ultimaEdicion;
         this.estado = estado;
         this.rol = rol;
+        this.cliente = cliente;
     }
     
     public Usuario(){
@@ -34,6 +36,7 @@ public class Usuario {
         this.ultimaEdicion = null;
         this.estado = false;
         this.rol = null;
+        this.cliente = null;
     }
 
     public String getCorreo() {
@@ -83,4 +86,13 @@ public class Usuario {
     public void setRol(RolUsuario rol) {
         this.rol = rol;
     }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+    
 }

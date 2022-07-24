@@ -21,12 +21,12 @@
             </h:form>
         </div>
 
-        <h:form class="centrarFormulario">
+        <h:form id="form" class="centrarFormulario">
+            <p:growl id="growlUsuarios" showDetail="true"/>
             <p:panel header="Gestion de Usuarios" class="panNuevoUs">
                 <p:tabView>
-                    <p:growl id="growlUsuarios" showDetail="true"/>
                     <p:tab title="Solicitudes">
-                        <p:dataTable value="#{gestionUsuariosBean.clientes}" var="cliente">
+                        <p:dataTable id="tablaSolicitudes" value="#{gestionUsuariosBean.clientes}" var="cliente">
                             <p:column headerText="Identificaci&oacute;n">
                                 <h:outputText value="#{cliente.id}" />
                             </p:column>
@@ -52,11 +52,14 @@
                             </p:column>
 
                             <p:column headerText="Direcciones">
-                                <p:commandButton value="Mostrar" icon="pi pi-book" oncomplete="PF('dlgDirecciones').show()"/>
+                                <p:commandButton value="Mostrar" icon="pi pi-book"  oncomplete="PF('dlgDirecciones').show()">
+                                    <p:ajax event="click" listener="#{gestionUsuariosBean.cargarDireccion(cliente.id)}" update="@form"/>
+                                </p:commandButton>
+
                             </p:column>
 
                             <p:column>
-                                <p:commandButton icon="pi pi-check" styleClass="edit-button rounded-button" process="@this"/>
+                                <p:commandButton icon="pi pi-check" styleClass="edit-button rounded-button" process="@this" action="#{gestionUsuariosBean.aceptarCliente(cliente)}" update="form:growlUsuarios tablaSolicitudes"/>
                                 <p:commandButton class="ui-button-danger rounded-button" icon="pi pi-times" process="@this"
                                                  oncomplete="PF('dlgDenegar').show()"/>
                             </p:column>
@@ -64,14 +67,14 @@
                         </p:dataTable>
                         <p:dialog header="Direcciones" showEffect="fade" modal="true"
                                   widgetVar="dlgDirecciones" responsive="true">
-                            <h:inputTextarea cols="50" rows="15" disabled="true" value="#{cliente.obtenerDirecciones()}"/>
+                            <p:inputTextarea cols="50" rows="15" disabled="true" value="#{gestionUsuariosBean.direccion}"/>
                         </p:dialog>
 
                         <p:dialog header="Denegar Usuario" showEffect="fade" modal="true"
                                   widgetVar="dlgDenegar" responsive="true">
                             <h:panelGrid columns="1" cellpadding="5">
                                 <label>Motivo</label>
-                                <h:inputTextarea cols="50" rows="10"/>
+                                <p:inputTextarea cols="50" rows="10"/>
                             </h:panelGrid>
                             <p:commandButton value="Denegar" class="centBot" oncomplete="PF('dlgDenegar').hide()"/>
                         </p:dialog>
@@ -99,11 +102,10 @@
                         </h:panelGrid>
                         <br></br>
                         <h:panelGrid columns="1" class="centrar">
-                            <p:commandButton value="Crear Usuario" icon="pi pi-save" action="#{gestionUsuariosBean.agregarUsuario()}"/>
+                            <p:commandButton value="Crear Usuario" icon="pi pi-save"/>
                         </h:panelGrid>
                     </p:tab>
                 </p:tabView>
-
             </p:panel>
         </h:form>
     </h:body>

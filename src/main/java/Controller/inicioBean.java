@@ -81,7 +81,7 @@ public class inicioBean {
 
 //    Se valida que el usuario sea valido e ingresa a la siguiente página
     public String iniciarSesion() throws SNMPExceptions {
-        Usuario usuarioIngresa = new UsuarioDB().obtenerUsuarioPorCredenciales(usuario, contrasena);
+        Usuario usuarioIngresa = new UsuarioDB().seleccionarUsuarioPorCredenciales(usuario, contrasena);
         if (usuarioIngresa != null) {
             usuarioIngresa.setRol(new RolUsuarioDB().seleccionarRolPorId(idRol));
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Usuario", usuarioIngresa);

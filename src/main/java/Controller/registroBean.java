@@ -240,8 +240,8 @@ public class registroBean {
     public void registrarHorario() {
         horario = new Horario();
         horario.setEstado(true);
-        horario.setInicio(fechaHoraInic);
-        horario.setFin(fechaHoraFin);
+        horario.setInicio(this.getFechaHoraInic());
+        horario.setFin(this.getFechaHoraFin());
         horario.setCliente(cliente);
         if (cliente != null && cliente.getDirecciones() != null) {
             this.guardarClienteBd();

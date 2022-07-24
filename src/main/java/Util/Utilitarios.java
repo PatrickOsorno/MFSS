@@ -4,6 +4,7 @@
  */
 package Util;
 
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -127,11 +128,11 @@ public class Utilitarios {
         propiedad.put("mail.smtp.auth", "true");
 
         Session sesion = Session.getInstance(propiedad, new Authenticator() {
-	            @Override
-	            protected PasswordAuthentication getPasswordAuthentication() {
-	                return new PasswordAuthentication("pruebas.patrick.utn@gmail.com", "prueb@sMFSS");
-	            }
-	        });
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("pruebas.patrick.utn@gmail.com", "prueb@sMFSS");
+            }
+        });
         Message mail = new MimeMessage(sesion);
         try {
 
@@ -145,5 +146,17 @@ public class Utilitarios {
         } catch (MessagingException ex) {
 
         }
+    }
+
+    public static String genearContrasenaAleatoria() {
+
+        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*";
+        int cantCaracteres = (int) (Math.random() * (16 - 8 + 1) + 8);
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < cantCaracteres; i++) {
+            sb.append(chars.charAt(random.nextInt(chars.length())));
+        }
+        return sb.toString();
     }
 }

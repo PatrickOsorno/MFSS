@@ -63,4 +63,9 @@ public class Distrito {
     public void setCanton(Canton canton) {
         this.canton = canton;
     }
+
+    @Override
+    public String toString() {
+        return this.getDescripcion();
+    }
 }

@@ -115,5 +115,13 @@ public class Direccion {
     public void setTipo(TipoDireccion tipo) {
         this.tipo = tipo;
     }
-
+    
+    @Override
+    public String toString(){
+        return new StringBuilder(this.getProvincia().toString()).append(", ")
+                .append(this.getCanton().toString()).append(", ")
+                .append(this.getDistrito().toString()).append(", ")
+                .append(this.getBarrio().toString()).append(", ")
+                .append(this.getOtrasSenas()).toString();
+    }
 }
