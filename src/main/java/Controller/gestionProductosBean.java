@@ -139,14 +139,20 @@ public class gestionProductosBean {
     }
 
     public void limpiar() {
-        this.setEdita(false);
-        this.setProducto(null);
-        this.setCodigo(0);
-        this.setDescripcion("");
-        this.setFoto("");
-        this.setPrecio(0);
-        this.setStock(0);
-        this.setCantMin(0);
+        if (!Utilitarios.validarProductoNuevo(this.getCodigo(),
+                this.getDescripcion(), this.getFoto(),
+                this.getPrecio(), this.getStock(), this.getCantMin())) {
+
+            this.setEdita(false);
+            this.setProducto(null);
+            this.setCodigo(0);
+            this.setDescripcion("");
+            this.setFoto("");
+            this.setPrecio(0);
+            this.setStock(0);
+            this.setCantMin(0);
+        }
+
     }
 
 //    Se busca los productos

@@ -25,7 +25,6 @@
             <p:growl id="growlProd" showDetail="true"/>
             <p:panel header="Gesti&oacute;n de Productos" class="panGestProd">
                 <p:tabView>
-
                     <p:tab title="Mantenimiento de Productos">
                         <p:toolbar>
                             <p:toolbarGroup>
@@ -98,7 +97,6 @@
                                 <label>Foto: </label>
                                 <p:inputText id="foto" value="#{gestionProductosBean.foto}"/>
 
-
                                 <label>Precio: </label>
                                 <p:inputText id="precio" value="#{gestionProductosBean.precio}"/>
 
@@ -119,7 +117,8 @@
                                          message="Desea Eliminar el Producto Seleccionado?" header="Confirmaci&oacute;n" severity="info">
 
                             <p:commandButton value="S&iacute;" icon="pi pi-check"
-                                             process="@this" actionListener="#{gestionProductosBean.eliminarProducto()}" update="form:growlProd tablaProds catalogoProds" 
+                                             process="@this" actionListener="#{gestionProductosBean.eliminarProducto()}" 
+                                             update="form:growlProd tablaProds catalogoProds" 
                                              oncomplete="PF('dlgEliminarProd').hide()"/>
 
                             <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
