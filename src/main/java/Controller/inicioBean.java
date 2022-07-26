@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.mail.MessagingException;
 
 /**
  *
@@ -77,17 +78,22 @@ public class inicioBean {
         this.setUsuario("");
         this.setContrasena("");
         this.setIdRol(0);
+        this.cargarRoles();
     }
 
 //    Se valida que el usuario sea valido e ingresa a la siguiente página
     public String iniciarSesion() throws SNMPExceptions {
+        if (Utilitarios.validacionInicio(usuario, contrasena, idRol)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe llenar todos los campos"));
+            return "";
+        }
+
         Usuario usuarioIngresa = new UsuarioDB().seleccionarUsuarioPorCredenciales(usuario, contrasena);
         if (usuarioIngresa != null) {
             usuarioIngresa.setRol(new RolUsuarioDB().seleccionarRolPorId(idRol));
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Usuario", usuarioIngresa);
             cancelar();
             roles = null;
-//            Utilitarios.enviarCorreo("patosorno01@gmail.com", "Sesion iniciada!");
             return "principal?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de Inicio de Sesión", "Credenciales incorrectas"));

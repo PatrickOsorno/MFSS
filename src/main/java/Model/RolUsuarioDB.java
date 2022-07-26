@@ -26,13 +26,11 @@ public class RolUsuarioDB {
 
     public List<RolUsuario> SeleccionarTodo() throws SNMPExceptions {
         List<RolUsuario> roles = new ArrayList<>();
-        RolUsuario rol;
         try {
             ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos.getConexion()
                     .prepareStatement("Select Id, Estado, Descripcion from RolUsuario"));
             while (rs.next()) {
-                rol = new RolUsuario(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descripcion"));
-                roles.add(rol);
+                roles.add(new RolUsuario(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descripcion")));
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

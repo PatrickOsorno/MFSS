@@ -10,7 +10,6 @@ import Model.ClienteDB;
 import Model.Direccion;
 import Model.DireccionDB;
 import Model.HorarioDB;
-import Model.RolUsuario;
 import Model.RolUsuarioDB;
 import Model.Usuario;
 import Model.UsuarioDB;
@@ -121,8 +120,13 @@ public class gestionUsuariosBean {
         usuario.setRol(new RolUsuarioDB().seleccionarRolPorId(2));
         usuario.setEstado(true);
         usuario.setCliente(cliente);
+        StringBuilder mensaje = new StringBuilder();
+        mensaje.append("Estimado Cliente, le informamos que usted ha sido aceptado en nuestro sistema, su contraseña de ingreso al sistema es la siguiente: \n")
+                .append(usuario.getContrasena())
+                .append("\nRecuerde que dicha contraseña puede ser cambiada una vez haya iniciado sesión, en caso de ser requerido.");
         try {
             this.agregarUsuario(usuario);
+            Utilitarios.enviarCorreo(usuario.getCorreo(), mensaje.toString());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Cliente aceptado con éxito!"));
             this.cargarCliente();
         } catch (SNMPExceptions e) {
