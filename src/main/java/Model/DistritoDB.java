@@ -23,6 +23,7 @@ public class DistritoDB {
         accesoDatos = AccesoDatos.obtenerInstancia();
     }
     
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del distrito por medio de la provincia y canton
     public List<Distrito> seleccionarPorProvinciaYCanton(int idProvincia, int idCanton) throws SNMPExceptions{
         List<Distrito> distritos =  new ArrayList<>();
         try {
@@ -41,6 +42,7 @@ public class DistritoDB {
         return distritos;
     }
     
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del distrito mediante los ID que posee
     public Distrito seleccionarPorId(int idProvincia, int idCanton, int idDistrito) throws SNMPExceptions{
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select IdProvincia, IdCanton, Id, Descrip, Estado from Distrito where IdProvincia = ? and IdCanton = ? and Id = ?");

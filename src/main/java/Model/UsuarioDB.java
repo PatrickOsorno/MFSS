@@ -22,6 +22,7 @@ public class UsuarioDB {
         accesoDatos = AccesoDatos.obtenerInstancia();
     }
 
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del usuario por medio del correo y contraseña
     public Usuario seleccionarUsuarioPorCredenciales(String correo, String contrasena) throws SNMPExceptions {
         Usuario usuario = null;
         try {
@@ -40,6 +41,7 @@ public class UsuarioDB {
         return usuario;
     }
 
+//    Por medio de este método se hace un insert en la base de datos de la tabla Usuario con todos los atributos
     public void insertar(Usuario usuario) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion()
@@ -54,6 +56,7 @@ public class UsuarioDB {
         }
     }
 
+//    Por medio de este método se hace un insert en la base de datos de la tabla Usuario con todos los atributos para agregar el rol
     public void insertarRolUsuario(Usuario usuario) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Insert into UsuarioRoles(Email, IdRol, IdCliente) values(?, ?, ?)");

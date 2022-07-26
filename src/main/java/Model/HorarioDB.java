@@ -23,6 +23,7 @@ public class HorarioDB {
         accesoDatos = AccesoDatos.obtenerInstancia();
     }
 
+//    Por medio de este método se hace una insert en la base de datos en la tabla de horario con todos los atributos
     public void insertar(Horario horario) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Insert into Horario(Inicio, Fin, Estado, IdCliente) values(?, ?, ?, ?)");
@@ -36,6 +37,7 @@ public class HorarioDB {
         }
     }
     
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del horario mediante el cliente
     public Horario seleccionarPorCliente(String idCliente) throws SNMPExceptions{
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Inicio, Fin, Estado, Id, IdCliente from Horario where IdCliente = ?");

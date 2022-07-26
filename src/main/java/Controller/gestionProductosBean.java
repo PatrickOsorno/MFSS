@@ -128,6 +128,7 @@ public class gestionProductosBean {
         }
     }
 
+//    Se cargan los atributos de esta clase con los atributos del producto 
     public void cargar() {
         this.setEdita(true);
         this.setCodigo(this.getProducto().getId());
@@ -138,6 +139,7 @@ public class gestionProductosBean {
         this.setCantMin(this.getProducto().getCantMinima());
     }
 
+//    Mediante de este método se limpian los campos de texto 
     public void limpiar() {
         if (!Utilitarios.validarProductoNuevo(this.getCodigo(),
                 this.getDescripcion(), this.getFoto(),
@@ -202,6 +204,7 @@ public class gestionProductosBean {
         }
     }
 
+//    Se guardan los productos cuando se quiere agregar un nuevo producto 
     public void guardar() throws SNMPExceptions {
         if (Utilitarios.validarProductoNuevo(this.getCodigo(), this.getDescripcion(), this.getFoto(), this.getPrecio(), this.getStock(), this.getCantMin())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Los datos ingresados no son correctos"));

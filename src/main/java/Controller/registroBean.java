@@ -255,6 +255,7 @@ public class registroBean {
         }
     }
 
+//    Se cargan las provincias
     public void cargarProvincias() throws SNMPExceptions {
         List<Provincia> provs = new ProvinciaDB().seleccionarProvincias();
         provincias = new ArrayList<>();
@@ -264,6 +265,7 @@ public class registroBean {
         });
     }
 
+//    Se cargan los cantones
     public void cargarCantones() throws SNMPExceptions {
         List<Canton> cants = new CantonDB().seleccionarPorProvincia(provincia);
         cantones = new ArrayList<>();
@@ -273,6 +275,7 @@ public class registroBean {
         });
     }
 
+//    Se cargan los distritos
     public void cargarDistritos() throws SNMPExceptions {
         List<Distrito> dists = new DistritoDB().seleccionarPorProvinciaYCanton(provincia, canton);
         distritos = new ArrayList<>();
@@ -282,6 +285,7 @@ public class registroBean {
         });
     }
 
+//    Se cargan los barrios
     public void cargarBarrios() throws SNMPExceptions {
         List<Barrio> barrs = new BarrioDB().seleccionarPorProvinciaCantonDistrito(provincia, canton, distrito);
         barrios = new ArrayList<>();
@@ -291,6 +295,7 @@ public class registroBean {
         });
     }
 
+//    Se cargan los tipos de direcciones
     public void cargarTiposDireccion() throws SNMPExceptions {
         List<TipoDireccion> tipsDireccion = new TipoDireccionDB().seleccionarTodos();
         tiposDireccion = new ArrayList<>();
@@ -299,6 +304,7 @@ public class registroBean {
         });
     }
 
+//    Se guarda un cliente con el horario y direcciones
     private void guardarClienteBd() {
         try {
             new ClienteDB().insertar(cliente);
@@ -313,6 +319,7 @@ public class registroBean {
         }
     }
 
+//    Se cargan todos los componentes
     @PostConstruct
     public void cargarComponentes() {
         try {

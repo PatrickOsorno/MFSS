@@ -24,6 +24,7 @@ public class RolUsuarioDB {
         accesoDatos = AccesoDatos.obtenerInstancia();
     }
 
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del Rol de usuario
     public List<RolUsuario> SeleccionarTodo() throws SNMPExceptions {
         List<RolUsuario> roles = new ArrayList<>();
         try {
@@ -38,6 +39,7 @@ public class RolUsuarioDB {
         return roles;
     }
 
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del Rol de usuario por medio del correo
     public List<RolUsuario> seleccionarPorCorreo(String correo) throws SNMPExceptions {
         List<RolUsuario> roles = new ArrayList<>();
         try {
@@ -54,6 +56,7 @@ public class RolUsuarioDB {
         return roles;
     }
 
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del Rol de usuario por medio del ID
     public RolUsuario seleccionarRolPorId(int IdRol) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion()

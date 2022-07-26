@@ -83,6 +83,7 @@ public class gestionUsuariosBean {
         this.rolesUsuario = rolesUsuario;
     }
 
+//    Se cargan todos los clientes
     @PostConstruct
     public void cargarCliente() {
 
@@ -103,6 +104,7 @@ public class gestionUsuariosBean {
 
     }
 
+//    Se cargan las direcciones que posee un cliente
     public void cargarDireccion(String IdCliente) throws SNMPExceptions {
         List<Direccion> direccionesCliente = new DireccionDB().seleccionarPorCliente(IdCliente);
         StringBuilder strb = new StringBuilder();
@@ -111,8 +113,8 @@ public class gestionUsuariosBean {
         }
         this.setDireccion(strb.toString());
     }
-//    Se aceptan los clientes que pidieron un acceso
 
+//    Se aceptan los clientes que pidieron un acceso
     public void aceptarCliente(Cliente cliente) throws SNMPExceptions {
         Usuario usuario = new Usuario();
         usuario.setCorreo(cliente.getCorreo());

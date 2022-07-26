@@ -24,6 +24,7 @@ public class ClienteDB {
         accesoDatos = AccesoDatos.obtenerInstancia();
     }
 
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los que nos se encuentran en la tabla de Clientes
     public List<Cliente> seleccionarNoAceptados() throws SNMPExceptions {
         List<Cliente> clientes =  new ArrayList<>();
         try {
@@ -42,6 +43,7 @@ public class ClienteDB {
         return clientes;
     }
     
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos de la tabla cliente por medio del ID
     public Cliente seleccionarPorId(String idCliente) throws SNMPExceptions{
         try {
             PreparedStatement ps = accesoDatos.getConexion()
@@ -61,6 +63,7 @@ public class ClienteDB {
         return null;
     }
 
+//    Por medio de este método se hace un insert en la base de datos  de la tabla Cliente con todos los atributos
     public void insertar(Cliente cliente) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Insert into Cliente(Id, Nombre, Apellidos, Email, Telefono, Estado) "

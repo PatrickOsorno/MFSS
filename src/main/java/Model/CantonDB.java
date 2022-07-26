@@ -24,6 +24,7 @@ public class CantonDB {
         accesoDatos = AccesoDatos.obtenerInstancia();
     }
 
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del canton por medio de la Provincia
     public List<Canton> seleccionarPorProvincia(int idProvincia) throws SNMPExceptions {
         List<Canton> cantones = new ArrayList<>();
         try {
@@ -40,6 +41,7 @@ public class CantonDB {
         return cantones;
     }
     
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos de la Provincia, por medio de los ID
     public Canton seleccionarPorId(int idProvincia, int idCanton) throws SNMPExceptions{
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select IdProvincia, Id, Descrip, Estado from Canton where IdProvincia = ? and Id = ?");

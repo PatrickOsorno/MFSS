@@ -23,6 +23,7 @@ public class ProvinciaDB {
         accesoDatos = AccesoDatos.obtenerInstancia();
     }
     
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos de la Provincia
     public List<Provincia> seleccionarProvincias() throws SNMPExceptions{
         List<Provincia> provincias = new ArrayList<>();
         try {
@@ -37,6 +38,7 @@ public class ProvinciaDB {
         return provincias;
     }
     
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos de la Provincia por medio del ID
     public Provincia seleccionarPorId(int Id) throws SNMPExceptions{
         try {
             PreparedStatement ps = accesoDatos.getConexion()

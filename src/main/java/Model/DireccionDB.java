@@ -24,6 +24,7 @@ public class DireccionDB {
         accesoDatos = AccesoDatos.obtenerInstancia();
     }
 
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos de la direccion por medio del cliente
     public List<Direccion> seleccionarPorCliente(String IdCliente) throws SNMPExceptions {
         List<Direccion> direcciones = new ArrayList<>();
         try {
@@ -45,6 +46,7 @@ public class DireccionDB {
         return direcciones;
     }
 
+//    Por medio de este método se hace un insert en la base de datos en la tabla de direcciones con todos los atributos que posee
     public void insertar(Direccion direccion) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion()

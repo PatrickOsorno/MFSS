@@ -23,6 +23,7 @@ public class TipoDireccionDB {
         accesoDatos = AccesoDatos.obtenerInstancia();
     }
     
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del tipo de direccion
     public List<TipoDireccion> seleccionarTodos() throws SNMPExceptions{
         List<TipoDireccion> tiposDireccion =  new ArrayList<>();
         try {
@@ -36,6 +37,7 @@ public class TipoDireccionDB {
         return tiposDireccion;
     }
     
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del tipo de direccion por medio del ID
     public TipoDireccion seleccionarPorId(int idTipo) throws SNMPExceptions{
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Id, Descrip, Estado from TipoDireccion where Id = ?");

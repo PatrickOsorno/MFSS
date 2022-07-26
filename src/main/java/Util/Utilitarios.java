@@ -112,6 +112,7 @@ public class Utilitarios {
         }
     }
 
+//    Se genera una contraseña aleatoria para el ingreso del usuario al sistema
     public static String genearContrasenaAleatoria() {
 
         final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*";

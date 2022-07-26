@@ -24,6 +24,7 @@ public class BarrioDB {
         accesoDatos = AccesoDatos.obtenerInstancia();
     }
     
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del Barrio mediante 
     public List<Barrio> seleccionarPorProvinciaCantonDistrito(int idProvincia, int idCanton, int idDistrito) throws SNMPExceptions{
         List<Barrio> barrios = new ArrayList<>();
         try {
@@ -45,6 +46,7 @@ public class BarrioDB {
         return barrios;
     }
     
+//    Por medio de este método se hace una cosulta en la base de datos sobre todos los los atributos del Barrio mediante los id del mismo
     public Barrio seleccionarPorId(int idProvincia, int idCanton, int idDistrito, int idBarrio) throws SNMPExceptions{
         try {
             PreparedStatement ps = accesoDatos.getConexion()

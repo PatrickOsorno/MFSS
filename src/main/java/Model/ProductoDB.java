@@ -24,6 +24,7 @@ public class ProductoDB {
         accesoDatos = AccesoDatos.obtenerInstancia();
     }
 
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del producto
     public List<Producto> SeleccionarTodo() throws SNMPExceptions {
         List<Producto> productos = new ArrayList<>();
         try {
@@ -40,6 +41,7 @@ public class ProductoDB {
         return productos;
     }
 
+//    Por medio de este método se hace un insert en la base de datos de la tabla Producto con todos los atributos
     public void insertar(Producto producto) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion()
@@ -58,6 +60,7 @@ public class ProductoDB {
         }
     }
 
+//    Por medio de este método se modifica en la base de datos los atribitos de la tabla Producto
     public void modificar(Producto producto) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion()
@@ -76,6 +79,7 @@ public class ProductoDB {
         }
     }
 
+//    Por medio de este método se elimina en la base de datos los atributos de la tabla la Producto
     public void eliminar(int idProducto) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion()
@@ -87,6 +91,7 @@ public class ProductoDB {
         }
     }
     
+//    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del producto por medio del ID
     public Producto seleccionarPorId(int idProducto) throws SNMPExceptions{
         try {
             PreparedStatement ps = accesoDatos.getConexion()
