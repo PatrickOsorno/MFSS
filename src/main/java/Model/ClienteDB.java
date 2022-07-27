@@ -80,7 +80,13 @@ public class ClienteDB {
         }
     }
 
-    public void eliminar(int idCliente) {
-
+    public void eliminar(String idCliente) throws SNMPExceptions {
+        try {
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Delete from Cliente where Id = ?");
+            ps.setString(1, idCliente);
+            accesoDatos.ejecutaSQL(ps);
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
     }
 }

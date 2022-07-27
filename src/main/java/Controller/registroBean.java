@@ -21,6 +21,7 @@ import Model.Provincia;
 import Model.ProvinciaDB;
 import Model.TipoDireccion;
 import Model.TipoDireccionDB;
+import Util.Utilitarios;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -200,6 +201,13 @@ public class registroBean {
 
 //    Se registra el cliente 
     public void registrarCliente() {
+        if (Utilitarios.validacionRegistroCliente(this.getIdentificacion(),
+                this.getNombre(), this.getApellidos(), this.getCorreo(), this.getTelefono())) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Los datos ingresados no son correctos"));
+            return;
+        }
+
         cliente = new Cliente();
         cliente.setId(identificacion);
         cliente.setNombre(nombre);
@@ -214,6 +222,14 @@ public class registroBean {
 
 //    Se registra la direccion
     public void registrarDireccion() throws SNMPExceptions {
+        if (Utilitarios.validacionRegistroDireccion(this.getTipoDireccion(), this.getProvincia(),
+                this.getCanton(), this.getDistrito(), this.getBarrio(), this.getOtrasSenas())) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error", "Los datos ingresados no son correctos"));
+            return;
+        }
+
         direccion = new Direccion();
         direccion.setTipo(new TipoDireccionDB().seleccionarPorId(tipoDireccion));
         direccion.setProvincia(new ProvinciaDB().seleccionarPorId(provincia));
@@ -230,6 +246,7 @@ public class registroBean {
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Exito", "Dirección agregada"));
         } else {
+
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Error", "Para registrar una dirección primero se debe registrar un cliente"));
@@ -238,6 +255,13 @@ public class registroBean {
 
 //    Se registra el horario
     public void registrarHorario() {
+        if (Utilitarios.validacionRegistroHorario(this.getFechaHoraInic(), this.getFechaHoraFin())) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error", "Los datos ingresados no son correctos"));
+            return;
+        }
+        
         horario = new Horario();
         horario.setEstado(true);
         horario.setInicio(this.getFechaHoraInic());

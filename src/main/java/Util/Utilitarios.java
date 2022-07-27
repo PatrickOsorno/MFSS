@@ -4,6 +4,8 @@
  */
 package Util;
 
+import Model.Direccion;
+import Model.Horario;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Properties;
@@ -29,27 +31,19 @@ public class Utilitarios {
 //Se valida que el autorregistro del cliente no halla espacios en nulo
 //      RegistroBean=>RegistroClientes(btnGuardar => RegistroUsuarios)
     public static boolean validacionRegistroCliente(String identificacion, String nombre, String apellidos, String correo, String telefono) {
-        return !(identificacion.equals("") || nombre.equals("") || apellidos.equals("") || correo.equals("") || telefono.equals(""));
+        return (identificacion.equals("") || nombre.equals("") || apellidos.equals("") || correo.equals("") || telefono.equals(""));
     }
 
 //Se valida que el registro de direcciones no halla espacios en nulo
 //      RegistroBean=>RegistroClientes(btnGuardar => RegistroDirecciones)
-    public static boolean validacionRegistroDireccion(String tipoDireccion, String provincia, String canton, String distrito, String barrio, String otrasSenas) {
-        return !(tipoDireccion.equals("") || provincia.equals("") || canton.equals("") || distrito.equals("") || barrio.equals("") || otrasSenas.equals(""));
+    public static boolean validacionRegistroDireccion(int tipoDireccion, int provincia, int canton, int distrito, int barrio, String otrasSenas) {
+        return (tipoDireccion == 0 || provincia == 0 || canton == 0 || distrito == 0 || barrio == 0 || otrasSenas.equals(""));
     }
 
 //Se valida que el registro de Horarios no halla espacios en nulo
 //      RegistroBean=>RegistroClientes(btnGuardar => RegistroHorarios)
-//Arreglar
     public static boolean validacionRegistroHorario(Date fechaHoraInic, Date fechaHoraFin) {
-        return !(fechaHoraFin.equals("") || fechaHoraInic.equals(""));
-    }
-
-//Se valida que el gestion de usuarios, en las solicitudes no halla espacios en nulo
-//      GestionUsuariosBean=>GestionUsuarios(btnAceptar => Solicitudes)
-//Arreglar
-    public static boolean validarGestionSolicitudes(String seleccionado) {
-        return !seleccionado.equals("");
+        return (fechaHoraFin == null || fechaHoraInic == null);
     }
 
 //Se valida que el gestion de usuarios, en los usuarios no halla espacios en nulo
@@ -66,28 +60,24 @@ public class Utilitarios {
 
 //Se valida que el gestion de Pedidos, en la confirmacion de orden no halla espacios en nulo
 //      PedidosBean=>Pedidos(btnConfirmarOrden => ConfirmarOrden)
-//Arreglar
-//    public static boolean validarDatosEntrega(Date fechaEntrega, Object direccionEntrega, Object horarioEntrega) {
-//        if (fechaEntrega) {
-//
-//        }
-//
-//        return true;
-//    }
+    public static boolean validarDatosEntrega(Date fechaEntrega, Direccion direccionEntrega, Horario horarioEntrega) {
+        return (fechaEntrega == null || direccionEntrega == null || horarioEntrega == null);
+    }
 //Se valida que los reportes, en el reporte de Pedidos no halla espacios en nulo
 //      ReportesBean=>Reportes(btnMostrarReporte => ReportePedidos)
-    public static boolean validarMostrarReporte_Pedidos(Date rangoFecha, String estado) {
-        return !(rangoFecha.equals("") || estado.equals(""));
+
+    public static boolean validarMostrarReportePedidos(Date fecha, String estado) {
+        return (fecha == null || estado.equals(""));
     }
 
 //Se valida que los reportes, en el reporte de Ventas no halla espacios en nulo
 //      ReportesBean=>Reportes(btnMostrarReporte => ReporteVentas)
-    public static boolean validarMostrarReporte_Ventas(Date rangoFecha, String tipoPago) {
-        return !(rangoFecha.equals("") || tipoPago.equals(""));
+    public static boolean validarMostrarReporteVentas(Date fecha, String tipoPago) {
+        return (fecha == null || tipoPago.equals(""));
     }
 
 //Mediante este metodo se le enviará al solicitante si fue aprovada su inscripcion
-    public static void enviarCorreo(String correo, String mensaje) {
+    public static void enviarCorreo(String correo, String mensaje, String asunto) {
         Properties propiedades = new Properties();
         propiedades.put("mail.smtp.host", "smtp.office365.com");
         propiedades.setProperty("mail.smtp.starttls.enable", "true");
@@ -101,7 +91,7 @@ public class Utilitarios {
             MimeMessage mail = new MimeMessage(sesion);
             mail.setFrom(new InternetAddress("mpfss@outlook.es"));
             mail.addRecipient(Message.RecipientType.TO, new InternetAddress(correo));
-            mail.setSubject("Bienvenido al Sistema");
+            mail.setSubject(asunto);
             mail.setText(mensaje);
             try ( Transport transporte = sesion.getTransport("smtp")) {
                 transporte.connect("mpfss@outlook.es", "Hol@1234");

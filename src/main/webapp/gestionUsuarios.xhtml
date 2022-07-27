@@ -59,9 +59,12 @@
                             </p:column>
 
                             <p:column>
-                                <p:commandButton icon="pi pi-check" styleClass="edit-button rounded-button" process="@this" action="#{gestionUsuariosBean.aceptarCliente(cliente)}" update="form:growlUsuarios tablaSolicitudes"/>
+                                <p:commandButton icon="pi pi-check" styleClass="edit-button rounded-button" process="@this" 
+                                                 action="#{gestionUsuariosBean.aceptarCliente(cliente)}" update="form:growlUsuarios tablaSolicitudes"/>
                                 <p:commandButton class="ui-button-danger rounded-button" icon="pi pi-times" process="@this"
-                                                 oncomplete="PF('dlgDenegar').show()"/>
+                                                 oncomplete="PF('dlgDenegar').show()">
+                                    <f:setPropertyActionListener value="#{cliente}" target="#{gestionUsuariosBean.clienteDenegado}"/>  
+                                </p:commandButton>
                             </p:column>
 
                         </p:dataTable>
@@ -74,12 +77,15 @@
                                   widgetVar="dlgDenegar" responsive="true">
                             <h:panelGrid columns="1" cellpadding="5">
                                 <label>Motivo</label>
-                                <p:inputTextarea cols="50" rows="10"/>
+                                <p:inputTextarea value="#{gestionUsuariosBean.motivo}" cols="50" rows="10"/>
                             </h:panelGrid>
-                            <p:commandButton value="Denegar" class="centBot" oncomplete="PF('dlgDenegar').hide()"/>
+                            <p:commandButton value="Denegar" class="centBot" 
+                                             update="form:growlUsuarios tablaSolicitudes" 
+                                             actionListener="#{gestionUsuariosBean.denegarCliente()}" 
+                                             oncomplete="PF('dlgDenegar').hide()"/>
                         </p:dialog>
                     </p:tab>
-                    <p:tab title="Nuevo Usuario">
+                    <!--<p:tab title="Nuevo Usuario">
                         <h:panelGrid columns="3" cellpadding="5">
                             <label>Correo Electr&oacute;nico: *</label>
                             <p:inputText id="correo" value="#{gestionUsuariosBean.correo}">
@@ -104,7 +110,7 @@
                         <h:panelGrid columns="1" class="centrar">
                             <p:commandButton value="Crear Usuario" icon="pi pi-save"/>
                         </h:panelGrid>
-                    </p:tab>
+                    </p:tab>-->
                 </p:tabView>
             </p:panel>
         </h:form>

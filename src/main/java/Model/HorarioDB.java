@@ -36,20 +36,29 @@ public class HorarioDB {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }
     }
-    
+
 //    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos del horario mediante el cliente
-    public Horario seleccionarPorCliente(String idCliente) throws SNMPExceptions{
+    public Horario seleccionarPorCliente(String idCliente) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Inicio, Fin, Estado, Id, IdCliente from Horario where IdCliente = ?");
             ps.setString(1, idCliente);
             ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            if(rs.next()){
+            if (rs.next()) {
                 return new Horario(rs.getInt("Id"), rs.getBoolean("Estado"), null, rs.getTimestamp("Inicio"), rs.getTimestamp("Fin"));
             }
         } catch (SQLException e) {
-            throw  new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }
         return null;
     }
-    
+
+    public void eliminar(String idCliente) throws SNMPExceptions {
+        try {
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Delete from Horario where IdCliente = ?");
+            ps.setString(1, idCliente);
+            accesoDatos.ejecutaSQL(ps);
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
+    }
 }

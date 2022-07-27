@@ -170,10 +170,12 @@ public class gestionProductosBean {
         try {
             prodDB.insertar(this.getProducto());
             this.setProducto(null);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Producto guardado con éxito!"));
+            FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Producto guardado con éxito!"));
             this.cargarTablas();
         } catch (SNMPExceptions e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMensajeParaDesarrollador()));
+            FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMensajeParaDesarrollador()));
         }
     }
 
@@ -182,10 +184,12 @@ public class gestionProductosBean {
         try {
             prodDB.eliminar(this.getProducto().getId());
             this.setProducto(null);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Producto Eliminado con éxito!"));
+            FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Producto Eliminado con éxito!"));
             this.cargarTablas();
         } catch (SNMPExceptions e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMensajeParaDesarrollador()));
+            FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMensajeParaDesarrollador()));
         }
     }
 
@@ -197,19 +201,24 @@ public class gestionProductosBean {
         try {
             prodDB.modificar(this.getProducto());
             this.setProducto(null);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Producto modificado con éxito!"));
+            FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Producto modificado con éxito!"));
             this.cargarTablas();
         } catch (SNMPExceptions e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMensajeParaDesarrollador()));
+            FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMensajeParaDesarrollador()));
         }
     }
 
 //    Se guardan los productos cuando se quiere agregar un nuevo producto 
     public void guardar() throws SNMPExceptions {
-        if (Utilitarios.validarProductoNuevo(this.getCodigo(), this.getDescripcion(), this.getFoto(), this.getPrecio(), this.getStock(), this.getCantMin())) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Los datos ingresados no son correctos"));
+        if (Utilitarios.validarProductoNuevo(this.getCodigo(), this.getDescripcion(), 
+                this.getFoto(), this.getPrecio(), this.getStock(), this.getCantMin())) {
+            FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Los datos ingresados no son correctos"));
             return;
         }
+        
         if (prodDB.seleccionarPorId(this.getCodigo()) == null) {
             this.agregarProducto();
         } else {

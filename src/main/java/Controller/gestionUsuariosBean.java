@@ -27,15 +27,28 @@ import javax.faces.model.SelectItem;
  */
 public class gestionUsuariosBean {
 
-    String correo, contrasena, rolUsuario;
+    String correo, contrasena, rolUsuario, direccion, motivo;
+    Cliente clienteDenegado;
     List<SelectItem> rolesUsuario;
     List<Cliente> clientes;
 
-    String direccion;
+    public Cliente getClienteDenegado() {
+        return clienteDenegado;
+    }
+
+    public void setClienteDenegado(Cliente clienteDenegado) {
+        this.clienteDenegado = clienteDenegado;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
 
     public List<Cliente> getClientes() {
-//        clientes = new ArrayList<>();
-//        clientes.add(new Cliente("504370456", "Patrick", "Osorno Rojas", "posorno@est.utn.ac.cr", "8365-2980", true, null, null));
         return clientes;
     }
 
@@ -104,7 +117,7 @@ public class gestionUsuariosBean {
 
     }
 
-//    Se cargan las direcciones que posee un cliente
+//    Se cargan las direcciones que posee un clienteDenegado
     public void cargarDireccion(String IdCliente) throws SNMPExceptions {
         List<Direccion> direccionesCliente = new DireccionDB().seleccionarPorCliente(IdCliente);
         StringBuilder strb = new StringBuilder();
@@ -123,22 +136,35 @@ public class gestionUsuariosBean {
         usuario.setEstado(true);
         usuario.setCliente(cliente);
         StringBuilder mensaje = new StringBuilder();
-        mensaje.append("Estimado Cliente, le informamos que usted ha sido aceptado en nuestro sistema, su contraseña de ingreso al sistema es la siguiente: \n")
+        mensaje.append("Estimado Cliente, le informamos que usted ha sido aceptado en nuestro sistema, su contraseña de ingreso al sistema es la siguiente: \n\n")
                 .append(usuario.getContrasena())
-                .append("\nRecuerde que dicha contraseña puede ser cambiada una vez haya iniciado sesión, en caso de ser requerido.");
+                .append("\n\nRecuerde que dicha contraseña puede ser cambiada una vez haya iniciado sesión, en caso de ser requerido.");
         try {
             this.agregarUsuario(usuario);
-            Utilitarios.enviarCorreo(usuario.getCorreo(), mensaje.toString());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Cliente aceptado con éxito!"));
+            Utilitarios.enviarCorreo(usuario.getCorreo(), mensaje.toString(), "Bienvenido al Sistema");
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Cliente aceptado con éxito!"));
             this.cargarCliente();
         } catch (SNMPExceptions e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMensajeParaDesarrollador()));
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMensajeParaDesarrollador()));
         }
     }
 
 //    Se denegan los clientes que pidieron un acceso
-    public void denegarCliente() {
-
+    public void denegarCliente() throws SNMPExceptions {
+        
+        new HorarioDB().eliminar(this.getClienteDenegado().getId());
+        new DireccionDB().eliminar(this.getClienteDenegado().getId());
+        new ClienteDB().eliminar(this.getClienteDenegado().getId());
+        
+        StringBuilder sb =  new StringBuilder();
+        sb.append("Estimado cliente, le informamos que ha sido denegado y el motivo es el siguiente:\n")
+                .append(this.getMotivo());
+        Utilitarios.enviarCorreo(clienteDenegado.getCorreo(), sb.toString(), "Denegación de Cliente");
+         FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Cliente denegado con éxito!"));
+          this.cargarCliente();
     }
 
 //    Se agrega un usuario nuevo

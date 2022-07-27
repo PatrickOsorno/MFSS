@@ -65,4 +65,14 @@ public class DireccionDB {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }
     }
+
+    public void eliminar(String idCliente) throws SNMPExceptions{
+        try {
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Delete from Direccion where IdCliente = ?");
+            ps.setString(1, idCliente);
+            accesoDatos.ejecutaSQL(ps);
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
+    }
 }
