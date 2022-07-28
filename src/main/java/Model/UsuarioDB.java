@@ -69,4 +69,14 @@ public class UsuarioDB {
         }
     }
 
+    public void cambiarContrasena(String usuario, String contrasena) throws SNMPExceptions {
+        try {
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Update Usuario set Contrasena = ? where Email = ?");
+            ps.setString(1, contrasena);
+            ps.setString(2, usuario);
+            accesoDatos.ejecutaSQL(ps);
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
+    }
 }

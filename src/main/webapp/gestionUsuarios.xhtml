@@ -23,7 +23,7 @@
 
         <h:form id="form" class="centrarFormulario">
             <p:growl id="growlUsuarios" showDetail="true"/>
-            <p:panel header="Gestion de Usuarios" class="panNuevoUs">
+            <p:panel header="Gesti&oacute;n de Usuarios" class="panNuevoUs">
                 <p:tabView>
                     <p:tab title="Solicitudes">
                         <p:dataTable id="tablaSolicitudes" value="#{gestionUsuariosBean.clientes}" var="cliente">
@@ -79,38 +79,31 @@
                                 <label>Motivo</label>
                                 <p:inputTextarea value="#{gestionUsuariosBean.motivo}" cols="50" rows="10"/>
                             </h:panelGrid>
-                            <p:commandButton value="Denegar" class="centBot" 
+                            <p:commandButton value="Denegar" icon="pi pi-times" class="centBot" 
                                              update="form:growlUsuarios tablaSolicitudes" 
                                              actionListener="#{gestionUsuariosBean.denegarCliente()}" 
                                              oncomplete="PF('dlgDenegar').hide()"/>
                         </p:dialog>
                     </p:tab>
-                    <!--<p:tab title="Nuevo Usuario">
-                        <h:panelGrid columns="3" cellpadding="5">
-                            <label>Correo Electr&oacute;nico: *</label>
-                            <p:inputText id="correo" value="#{gestionUsuariosBean.correo}">
-                                <f:validateLength minimum="3"/>
-                                <p:ajax update="msgCorreo" event="keyup"/>
-                            </p:inputText>
-                            <p:message for="correo" id="msgCorreo" display="icon"/>
+                    <p:tab title="Cambiar Contraseña">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <label>Usuario: *</label>
+                            <p:outputLabel value="#{gestionUsuariosBean.nombreUsuario}" />
+                            
+                            <label>Nueva contraseña: *</label>
+                            <p:password value="#{gestionUsuariosBean.nuevaContrasena}" toggleMask="true"/>
 
-                            <label>Contraseña: *</label>
-                            <p:inputText id="contrasena" value="#{gestionUsuariosBean.contrasena}">
-                                <f:validateLength minimum="3"/>
-                                <p:ajax update="msgContrasena" event="keyup"/>
-                            </p:inputText>
-                            <p:message for="contrasena" id="msgContrasena" display="icon"/>
+                            <label> Confirmar nueva contraseña: *</label>
+                            <p:password value="#{gestionUsuariosBean.nuevaContrasenaConfirmada}" toggleMask="true"/>
 
-                            <label>Rol de Usuario: </label>
-                            <p:selectOneMenu value="#{gestionUsuariosBean.rolUsuario}">
-                                <f:selectItems value="#{gestionUsuariosBean.rolesUsuario}"/>
-                            </p:selectOneMenu>
+                            <label> Contraseña actual: *</label>
+                            <p:password value="#{gestionUsuariosBean.contrasena}" toggleMask="true"/>
                         </h:panelGrid>
                         <br></br>
                         <h:panelGrid columns="1" class="centrar">
-                            <p:commandButton value="Crear Usuario" icon="pi pi-save"/>
+                            <p:commandButton value="Cambiar Contraseña" update="form:growlUsuarios" action="#{gestionUsuariosBean.cambiarContrasena()}" icon="pi pi-save"/>
                         </h:panelGrid>
-                    </p:tab>-->
+                    </p:tab>
                 </p:tabView>
             </p:panel>
         </h:form>
