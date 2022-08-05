@@ -62,6 +62,25 @@ public class ClienteDB {
         }
         return null;
     }
+    
+    public Cliente seleccionarPorEmail(String email) throws SNMPExceptions{
+        try {
+            PreparedStatement ps = accesoDatos.getConexion()
+                    .prepareStatement("Select Id, Nombre, Apellidos, Email, Telefono, Estado  from Cliente where Email = ?");
+            ps.setString(1, email);
+            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
+            if(rs.next()){
+                return new Cliente(rs.getString("Id"), rs.getString("Nombre"), 
+                        rs.getString("Apellidos"), rs.getString("Email"), 
+                        rs.getString("Estado"), rs.getBoolean("Estado"), 
+                        new DireccionDB().seleccionarPorCliente(rs.getString("Id")), 
+                        new HorarioDB().seleccionarPorCliente(rs.getString("Id")));
+            }
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
+        return null;
+    }
 
 //    Por medio de este método se hace un insert en la base de datos  de la tabla Cliente con todos los atributos
     public void insertar(Cliente cliente) throws SNMPExceptions {

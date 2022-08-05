@@ -14,12 +14,22 @@ public class PedidoDetalle {
     Producto producto;
     int cantidad;
     boolean estado;
+    double descuentoProd;
 
-    public PedidoDetalle(Pedido pedido, Producto producto, int cantidad, boolean estado) {
+    public PedidoDetalle(Pedido pedido, Producto producto, int cantidad, boolean estado, double descuentoProd) {
         this.pedido = pedido;
         this.producto = producto;
         this.cantidad = cantidad;
         this.estado = estado;
+        this.descuentoProd = descuentoProd;
+    }
+
+    public double getDescuentoProd() {
+        return descuentoProd;
+    }
+
+    public void setDescuentoProd(double descuentoProd) {
+        this.descuentoProd = descuentoProd;
     }
 
     public Pedido getPedido() {

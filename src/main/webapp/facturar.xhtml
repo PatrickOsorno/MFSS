@@ -35,7 +35,7 @@
                     </p:toolbarGroup>
                 </p:toolbar>
                 <p:dataTable var="pedido" value="#{facturacionBean.pedidos}" paginator="true"
-                             rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                             rows="10" paginatorPosition="bottom">
                     <p:column headerText="Cliente">
                         <h:outputText/>
                     </p:column>
@@ -58,25 +58,37 @@
 
                 </p:dataTable>
                 <p:dialog header="Crear Factura" showEffect="fade" modal="true"
-                              widgetVar="dlgFacturar" responsive="true">
+                          widgetVar="dlgFacturar" responsive="true" width="60%">
 
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <label>Tipo de Pago: </label>
-                            <p:selectOneMenu value="#{facturacionBean.tipoPago}">
-                                <f:selectItems/>
-                            </p:selectOneMenu>
-                        </h:panelGrid>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <label>Tipo de Pago: </label>
+                        <p:selectOneMenu value="#{facturacionBean.tipoPago}">
+                            <f:selectItems/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
 
-                        <h:panelGrid columns="3"> 
-                            <label>Descuento: </label>
-                            <p:spinner class="spin" min="0" max="999999999" value="#{facturacionBean.porcDescuento}"/>
-                            <label>%</label>
-                        </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <p:dataTable value="#{facturacionBean.detallesPedido}" paginator="true"
+                                     rows="4" paginatorPosition="bottom">
+                            <p:column headerText="Producto">
+                                <h:outputText/>
+                            </p:column>
 
-                        <h:panelGrid class="centrar">
-                            <p:commandButton value="Crear Factura" icon="pi pi-check" action="#{facturacionBean.crearFactura()}" oncomplete="PF('dlgFacturar').hide()"/>
-                        </h:panelGrid>
-                    </p:dialog>
+                            <p:column headerText="Cantidad">
+                                <h:outputText/>
+                            </p:column>
+
+                            <p:column headerText="Descuento">
+                                <p:spinner class="spin" min="0" max="999999999" value="#{facturacionBean.porcDescuento}"/>
+                                <label>%</label>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+
+                    <h:panelGrid class="centrar">
+                        <p:commandButton value="Crear Factura" icon="pi pi-check" action="#{facturacionBean.crearFactura()}" oncomplete="PF('dlgFacturar').hide()"/>
+                    </h:panelGrid>
+                </p:dialog>
             </p:panel>
         </h:form>
     </h:body>

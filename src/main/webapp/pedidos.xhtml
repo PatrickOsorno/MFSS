@@ -21,7 +21,8 @@
             </h:form>
         </div>
 
-        <h:form class="centrarFormulario">
+        <h:form id="form" class="centrarFormulario">
+           <p:growl id="growlPedido" showDetail="true"/>
             <p:panel header="Registrar Pedido" class="panPedido">
                 <p:tabView>
                     <p:tab title="Catalogo de Productos">
@@ -38,25 +39,26 @@
                                      rows="10" rowSelectMode="add" paginatorPosition="bottom">
 
                             <p:column headerText="Foto">
-                                <p:graphicImage name="images/product/"/>
+                                <p:graphicImage value="img/productos/#{producto.foto}" cache="false" width="100" height="100"/>
                             </p:column>
 
                             <p:column headerText="Precio">
-                                <h:outputText>
+                                <h:outputText value="#{producto.precio}">
                                     <f:convertNumber currencySymbol="₡" type="currency"/>
                                 </h:outputText>
                             </p:column>
 
                             <p:column headerText="Cantidad M&iacute;nima">
-                                <h:outputText/>
+                                <h:outputText value="#{producto.cantMinima}"/>
                             </p:column>
 
                             <p:column headerText="Cantidad">
-                                <p:spinner id="stock" class="spin" min="0" max="999999999" />
+                                <p:spinner value="#{pedidosBean.cantidad}" class="spin" min="0" max="999999999" />
                             </p:column>
 
                             <p:column >
-                                <p:commandButton icon="pi pi-plus" value="Agregar a la Orden" action="#{pedidosBean.agregarAOrden()}"/>
+                                <p:commandButton icon="pi pi-plus" value="Agregar a la Orden" 
+                                                 action="#{pedidosBean.agregarAOrden(producto)}" update="@form"/>
                             </p:column>
                         </p:dataTable>
                     </p:tab>
@@ -64,21 +66,36 @@
                     <p:tab title="Confirmar Orden">
                         <h:panelGrid columns="2" cellpadding="10">
                             <p:panel header="Productos Seleccionados">
-                                <p:orderList value="#{pedidosBean.prodsSel}" var="prodsSel" controlsLocation="none" itemLabel="#{prodsSel}" itemValue="#{prodsSel}" />
-                                <p:commandButton value="Eliminar de la Orden" icon="pi pi-times" styleClass="ui-button-danger" action="#{pedidosBean.eliminarDeOrden()}"/>
+                                <p:dataTable var="prodSel" value="#{pedidosBean.prodsSel}" paginator="true"
+                                             rows="2" rowSelectMode="add" paginatorPosition="bottom">
+                                    <p:column headerText="Producto">
+                                        <h:outputText value="#{prodSel}" />
+                                    </p:column>
+
+                                    <p:column headerText="Cantidad">
+                                        <h:outputText value="#{prodSel.cantidad}" />
+                                    </p:column>
+
+                                    <p:column>
+                                        <p:commandButton value="Eliminar" icon="pi pi-times" styleClass="ui-button-danger" 
+                                                         action="#{pedidosBean.eliminarDeOrden(prodSel)}" update="@form"/>
+                                    </p:column>
+                                </p:dataTable>
+
                             </p:panel>
 
-                            <p:panel header="Datos de Entrega" >
+                            <p:panel header="Datos de Entrega">
                                 <h:panelGrid columns="2" cellpadding="10">
                                     <label>Fecha de entrega: </label>
                                     <p:datePicker value="#{pedidosBean.fechaEntrega}"/>
                                 </h:panelGrid>
-                                <p:dataTable var="direccion" value="#{pedidosBean.direcciones}">
+                                <p:dataTable var="direccion" value="#{pedidosBean.direcciones}" paginator="true"
+                                             rows="1" rowSelectMode="add" paginatorPosition="bottom">
                                     <p:column headerText="Direcci&oacute;n">
-                                        <h:outputText/>
+                                        <h:outputText value="#{direccion}"/>
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton icon="pi pi-check" value="Seleccionar"/>
+                                        <p:commandButton icon="pi pi-check" value="Seleccionar" />
                                     </p:column>
                                 </p:dataTable>
                             </p:panel>

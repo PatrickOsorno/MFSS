@@ -166,7 +166,7 @@ public class gestionProductosBean {
     public void agregarProducto() {
         producto = new Producto(this.getCodigo(), true,
                 this.getStock(), this.getCantMin(), this.getDescripcion(),
-                this.getFoto(), this.getPrecio());
+                this.getFoto(), this.getPrecio(), 0);
         try {
             prodDB.insertar(this.getProducto());
             this.setProducto(null);
@@ -197,7 +197,7 @@ public class gestionProductosBean {
     public void modificarProducto() {
         producto = new Producto(this.getCodigo(), true,
                 this.getStock(), this.getCantMin(), this.getDescripcion(),
-                this.getFoto(), this.getPrecio());
+                this.getFoto(), this.getPrecio(), 0);
         try {
             prodDB.modificar(this.getProducto());
             this.setProducto(null);

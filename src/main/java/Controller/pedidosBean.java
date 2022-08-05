@@ -4,11 +4,21 @@
  */
 package Controller;
 
+import DAO.SNMPExceptions;
+import Model.Cliente;
+import Model.Direccion;
+import Model.Horario;
+import Model.Pedido;
+import Model.PedidoDB;
+import Model.PedidoDetalle;
+import Model.Producto;
+import Model.ProductoDB;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.model.SelectItem;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -16,19 +26,23 @@ import javax.faces.model.SelectItem;
  */
 public class pedidosBean {
 
-    List<Object> prodsSel, productos;
-    List<Object> direcciones;
+    List<Producto> prodsSel, productos;
+    List<Direccion> direcciones;
     String txtBuscar;
     Date fechaEntrega;
-    Object direccionEntrega;
-    Object horarioEntrega;
+    Direccion direccionEntrega;
+    Horario horarioEntrega;
     int cantidad;
 
     @PostConstruct
     public void cargarComponentes() {
-        prodsSel = new ArrayList<>();
-        prodsSel.add("Hola");
-        prodsSel.add("Mundo");
+        this.setProdsSel(new ArrayList<>());
+        this.setDirecciones(((Cliente) (FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("Cliente"))).getDirecciones());
+        try {
+            this.setProductos(new ProductoDB().SeleccionarTodo());
+        } catch (SNMPExceptions ex) {
+        }
     }
 
     public int getCantidad() {
@@ -39,7 +53,7 @@ public class pedidosBean {
         this.cantidad = cantidad;
     }
 
-    public List<Object> getProdsSel() {
+    public List<Producto> getProdsSel() {
         return prodsSel;
     }
 
@@ -51,27 +65,23 @@ public class pedidosBean {
         this.txtBuscar = txtBuscar;
     }
 
-    public void setProdsSel(List<Object> prods) {
+    public void setProdsSel(List<Producto> prods) {
         this.prodsSel = prods;
     }
 
-    public List<Object> getProductos() {
-         productos = new ArrayList<>();
-        productos.add("Pollito");
+    public List<Producto> getProductos() {
         return productos;
     }
 
-    public void setProductos(List<Object> productos) {
+    public void setProductos(List<Producto> productos) {
         this.productos = productos;
     }
 
-    public List<Object> getDirecciones() {
-        direcciones = new ArrayList<>();
-        direcciones.add("Gatito");
+    public List<Direccion> getDirecciones() {
         return direcciones;
     }
 
-    public void setDirecciones(List<Object> direcciones) {
+    public void setDirecciones(List<Direccion> direcciones) {
         this.direcciones = direcciones;
     }
 
@@ -83,39 +93,67 @@ public class pedidosBean {
         this.fechaEntrega = fechaEntrega;
     }
 
-    public Object getDireccionEntrega() {
+    public Direccion getDireccionEntrega() {
         return direccionEntrega;
     }
 
-    public void setDireccionEntrega(Object direccionEntrega) {
+    public void setDireccionEntrega(Direccion direccionEntrega) {
         this.direccionEntrega = direccionEntrega;
     }
 
-    public Object getHorarioEntrega() {
+    public Horario getHorarioEntrega() {
         return horarioEntrega;
     }
 
-    public void setHorarioEntrega(Object horarioEntrega) {
+    public void setHorarioEntrega(Horario horarioEntrega) {
         this.horarioEntrega = horarioEntrega;
     }
-    
+
 //    Se confirma el pedido 
-    public void confirmarPedido(){
-        
+    public void confirmarPedido() throws SNMPExceptions {
+        List<PedidoDetalle> detallesPedido = new ArrayList<>();
+        Cliente cliente = (Cliente) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Cliente");
+        Pedido pedido = new Pedido(0, true,
+                cliente,
+                fechaEntrega, cliente.getHorario(), direccionEntrega, null, 0,
+                new PedidoDB().SeleccionarEstadoPedidoPorId(1));
+
+        prodsSel.forEach(prodSel -> {
+            detallesPedido.add(new PedidoDetalle(pedido, prodSel, prodSel.getCantidad(), true, 0));
+        });
+
+        pedido.setDetalle(detallesPedido);
+
+        new PedidoDB().insertar(pedido);
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Éxito", "Pedido realizado"));
     }
 
 //    Se agrega la orden al carrito
-    public void agregarAOrden(){
-        
+    public void agregarAOrden(Producto producto) {
+        producto.setCantidad(this.getCantidad());
+        if (!prodsSel.contains(producto)) {
+            prodsSel.add(producto);
+            this.setCantidad(0);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Éxito", "Producto agregado a la orden"));
+        } else {
+            this.setCantidad(0);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error", "El producto seleccionado ya fue agregado a la orden"));
+        }
     }
-    
+
 //    Se elimina la orden
-    public void eliminarDeOrden(){
-        
+    public void eliminarDeOrden(Producto producto) {
+        prodsSel.remove(producto);
     }
-    
+
 //    Se busca la orden 
-    public void buscar(){
-        
+    public void buscar() {
+
     }
 }
