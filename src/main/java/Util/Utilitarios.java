@@ -4,8 +4,8 @@
  */
 package Util;
 
-import Model.Direccion;
-import Model.Horario;
+import Model.Entidades.Direccion;
+import Model.Entidades.Horario;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Properties;

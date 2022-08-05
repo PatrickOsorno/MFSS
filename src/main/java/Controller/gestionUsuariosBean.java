@@ -5,14 +5,14 @@
 package Controller;
 
 import DAO.SNMPExceptions;
-import Model.Cliente;
-import Model.ClienteDB;
-import Model.Direccion;
-import Model.DireccionDB;
-import Model.HorarioDB;
-import Model.RolUsuarioDB;
-import Model.Usuario;
-import Model.UsuarioDB;
+import Model.Entidades.Cliente;
+import Model.AccesoDatos.ClienteDB;
+import Model.Entidades.Direccion;
+import Model.AccesoDatos.DireccionDB;
+import Model.AccesoDatos.HorarioDB;
+import Model.AccesoDatos.RolUsuarioDB;
+import Model.Entidades.Usuario;
+import Model.AccesoDatos.UsuarioDB;
 import Util.Utilitarios;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -115,7 +115,7 @@ public class gestionUsuariosBean {
             clienteDB.forEach(cliente -> {
                 try {
                     cliente.setDirecciones(new DireccionDB().seleccionarPorCliente(cliente.getId()));
-                    cliente.setHorario(new HorarioDB().seleccionarPorCliente(cliente.getId()));
+                    cliente.setHorarios(new HorarioDB().seleccionarPorCliente(cliente.getId()));
                 } catch (SNMPExceptions ex) {
                 }
                 clientes.add(cliente);

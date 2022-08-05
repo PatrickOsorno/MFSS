@@ -5,18 +5,16 @@
 package Controller;
 
 import DAO.SNMPExceptions;
-import Model.RolUsuario;
-import Model.RolUsuarioDB;
-import Model.Usuario;
-import Model.UsuarioDB;
+import Model.Entidades.RolUsuario;
+import Model.AccesoDatos.RolUsuarioDB;
+import Model.Entidades.Usuario;
+import Model.AccesoDatos.UsuarioDB;
 import Util.Utilitarios;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.mail.MessagingException;
 
 /**
  *

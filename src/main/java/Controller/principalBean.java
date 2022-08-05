@@ -4,10 +4,7 @@
  */
 package Controller;
 
-import DAO.SNMPExceptions;
-import Model.Cliente;
-import Model.ClienteDB;
-import Model.Usuario;
+import Model.Entidades.Usuario;
 import java.io.IOException;
 import javax.faces.context.FacesContext;
 
@@ -17,8 +14,7 @@ import javax.faces.context.FacesContext;
  */
 public class principalBean {
 
-    Usuario usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
-    Cliente cliente;
+    Usuario usuario; 
     boolean esCliente = usuario.getRol().getId() == 1;
 
     public boolean isEsCliente() {
@@ -31,20 +27,14 @@ public class principalBean {
 
 //    Verifica el rol del inicio de sesion
     public void verificarSesion() {
+        usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
         if (usuario == null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             } catch (IOException ex) {
 
             }
-        } else {
-            try {
-                this.setCliente(new ClienteDB().seleccionarPorEmail(usuario.getCorreo()));
-                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("Cliente", this.getCliente());
-            } catch (SNMPExceptions ex) {
-                
-            }
-        }
+        } 
     }
 
 //    Se devuelve al inicio de sesion
@@ -60,13 +50,4 @@ public class principalBean {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
 }

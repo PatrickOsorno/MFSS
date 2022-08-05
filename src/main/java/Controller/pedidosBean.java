@@ -5,14 +5,14 @@
 package Controller;
 
 import DAO.SNMPExceptions;
-import Model.Cliente;
-import Model.Direccion;
-import Model.Horario;
-import Model.Pedido;
-import Model.PedidoDB;
-import Model.PedidoDetalle;
-import Model.Producto;
-import Model.ProductoDB;
+import Model.Entidades.Cliente;
+import Model.Entidades.Direccion;
+import Model.Entidades.Horario;
+import Model.Entidades.Pedido;
+import Model.AccesoDatos.PedidoDB;
+import Model.Entidades.PedidoDetalle;
+import Model.Entidades.Producto;
+import Model.AccesoDatos.ProductoDB;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -114,12 +114,13 @@ public class pedidosBean {
         List<PedidoDetalle> detallesPedido = new ArrayList<>();
         Cliente cliente = (Cliente) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Cliente");
         Pedido pedido = new Pedido(0, true,
-                cliente,
-                fechaEntrega, cliente.getHorario(), direccionEntrega, null, 0,
+                cliente.getId(),
+                fechaEntrega, cliente.getHorarios().get(1), direccionEntrega, null, 0,
                 new PedidoDB().SeleccionarEstadoPedidoPorId(1));
+        //Revisar
 
         prodsSel.forEach(prodSel -> {
-            detallesPedido.add(new PedidoDetalle(pedido, prodSel, prodSel.getCantidad(), true, 0));
+            detallesPedido.add(new PedidoDetalle(pedido.getId(), prodSel, prodSel.getCantidad(), true, 0));
         });
 
         pedido.setDetalle(detallesPedido);

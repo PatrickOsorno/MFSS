@@ -5,8 +5,8 @@
 package Controller;
 
 import DAO.SNMPExceptions;
-import Model.Producto;
-import Model.ProductoDB;
+import Model.Entidades.Producto;
+import Model.AccesoDatos.ProductoDB;
 import Util.Utilitarios;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -135,7 +135,7 @@ public class gestionProductosBean {
         this.setDescripcion(this.getProducto().getDescripcion());
         this.setFoto(this.getProducto().getFoto());
         this.setPrecio(this.getProducto().getPrecio());
-        this.setStock(this.getProducto().getStock());
+        this.setStock(this.getProducto().getCantDisponible());
         this.setCantMin(this.getProducto().getCantMinima());
     }
 

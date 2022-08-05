@@ -5,22 +5,22 @@
 package Controller;
 
 import DAO.SNMPExceptions;
-import Model.Barrio;
-import Model.BarrioDB;
-import Model.Canton;
-import Model.CantonDB;
-import Model.Cliente;
-import Model.ClienteDB;
-import Model.Direccion;
-import Model.DireccionDB;
-import Model.Distrito;
-import Model.DistritoDB;
-import Model.Horario;
-import Model.HorarioDB;
-import Model.Provincia;
-import Model.ProvinciaDB;
-import Model.TipoDireccion;
-import Model.TipoDireccionDB;
+import Model.Entidades.Barrio;
+import Model.AccesoDatos.BarrioDB;
+import Model.Entidades.Canton;
+import Model.AccesoDatos.CantonDB;
+import Model.Entidades.Cliente;
+import Model.AccesoDatos.ClienteDB;
+import Model.Entidades.Direccion;
+import Model.AccesoDatos.DireccionDB;
+import Model.Entidades.Distrito;
+import Model.AccesoDatos.DistritoDB;
+import Model.Entidades.Horario;
+import Model.AccesoDatos.HorarioDB;
+import Model.Entidades.Provincia;
+import Model.AccesoDatos.ProvinciaDB;
+import Model.Entidades.TipoDireccion;
+import Model.AccesoDatos.TipoDireccionDB;
 import Util.Utilitarios;
 import java.util.ArrayList;
 import java.util.Date;
@@ -232,11 +232,8 @@ public class registroBean {
 
         direccion = new Direccion();
         direccion.setTipo(new TipoDireccionDB().seleccionarPorId(tipoDireccion));
-        direccion.setProvincia(new ProvinciaDB().seleccionarPorId(provincia));
-        direccion.setCanton(new CantonDB().seleccionarPorId(provincia, canton));
-        direccion.setDistrito(new DistritoDB().seleccionarPorId(provincia, canton, distrito));
         direccion.setBarrio(new BarrioDB().seleccionarPorId(provincia, canton, distrito, barrio));
-        direccion.setCliente(cliente);
+        direccion.setIdCliente(cliente.getId());
         direccion.setOtrasSenas(otrasSenas);
         cliente.setEstado(true);
         direccs.add(direccion);
@@ -266,7 +263,7 @@ public class registroBean {
         horario.setEstado(true);
         horario.setInicio(this.getFechaHoraInic());
         horario.setFin(this.getFechaHoraFin());
-        horario.setCliente(cliente);
+        horario.setIdCliente(cliente.getId());
         if (cliente != null && cliente.getDirecciones() != null) {
             this.guardarClienteBd();
             FacesContext.getCurrentInstance().addMessage(null,
