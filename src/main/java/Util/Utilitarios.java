@@ -4,6 +4,7 @@
  */
 package Util;
 
+import Model.Entidades.Cliente;
 import Model.Entidades.Direccion;
 import Model.Entidades.Horario;
 import java.security.SecureRandom;
@@ -44,6 +45,10 @@ public class Utilitarios {
 //      RegistroBean=>RegistroClientes(btnGuardar => RegistroHorarios)
     public static boolean validacionRegistroHorario(Date fechaHoraInic, Date fechaHoraFin) {
         return (fechaHoraFin == null || fechaHoraInic == null);
+    }
+    
+    public static boolean validacionRegistroClienteBd(Cliente cliente){
+        return (cliente == null || cliente.getHorarios().isEmpty() || cliente.getHorarios().isEmpty());
     }
 
 //Se valida que el gestion de usuarios, en los usuarios no halla espacios en nulo

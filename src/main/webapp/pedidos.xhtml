@@ -66,19 +66,19 @@
                     <p:tab title="Confirmar Orden">
                         <h:panelGrid columns="2" cellpadding="10">
                             <p:panel header="Productos Seleccionados">
-                                <p:dataTable var="prodSel" value="#{pedidosBean.prodsSel}" paginator="true"
+                                <p:dataTable var="detalle" value="#{pedidosBean.detallesPedido}" paginator="true"
                                              rows="2" rowSelectMode="add" paginatorPosition="bottom">
                                     <p:column headerText="Producto">
-                                        <h:outputText value="#{prodSel}" />
+                                        <h:outputText value="#{detalle.producto}" />
                                     </p:column>
 
                                     <p:column headerText="Cantidad">
-                                        <h:outputText value="#{prodSel.cantidad}" />
+                                        <h:outputText value="#{detalle.cantidad}" />
                                     </p:column>
 
                                     <p:column>
                                         <p:commandButton value="Eliminar" icon="pi pi-times" styleClass="ui-button-danger" 
-                                                         action="#{pedidosBean.eliminarDeOrden(prodSel)}" update="@form"/>
+                                                         action="#{pedidosBean.eliminarDeOrden(detalle)}" update="@form"/>
                                     </p:column>
                                 </p:dataTable>
 
@@ -88,6 +88,12 @@
                                 <h:panelGrid columns="2" cellpadding="10">
                                     <label>Fecha de entrega: </label>
                                     <p:datePicker value="#{pedidosBean.fechaEntrega}"/>
+                                    
+                                    <label>Horario de entrega: </label>
+                                    <p:selectOneMenu value="#{pedidosBean.idHorario}">
+                                        <f:selectItems value="#{pedidosBean.horariosEntrega}"/>
+                                    </p:selectOneMenu>
+                                    
                                 </h:panelGrid>
                                 <p:dataTable var="direccion" value="#{pedidosBean.direcciones}" paginator="true"
                                              rows="1" rowSelectMode="add" paginatorPosition="bottom">
@@ -95,12 +101,13 @@
                                         <h:outputText value="#{direccion}"/>
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton icon="pi pi-check" value="Seleccionar" />
+                                        <p:commandButton icon="pi pi-check" value="Seleccionar" action="#{pedidosBean.seleccionarDireccion(direccion)}" 
+                                                         update="form:growlPedido" />
                                     </p:column>
                                 </p:dataTable>
                             </p:panel>
                         </h:panelGrid>
-                        <p:commandButton value="Confirmar Pedido" icon="pi pi-check" action="#{pedidosBean.confirmarPedido()}"/>
+                        <p:commandButton value="Confirmar Pedido" icon="pi pi-check" action="#{pedidosBean.confirmarPedido()}" update="@form"/>
                     </p:tab>
                 </p:tabView>
             </p:panel>

@@ -13,6 +13,7 @@ import Model.AccesoDatos.HorarioDB;
 import Model.AccesoDatos.RolUsuarioDB;
 import Model.Entidades.Usuario;
 import Model.AccesoDatos.UsuarioDB;
+import Model.Entidades.Horario;
 import Util.Utilitarios;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,10 +29,18 @@ import javax.faces.model.SelectItem;
  */
 public class gestionUsuariosBean {
 
-    String direccion, motivo, contrasena, nuevaContrasena, nuevaContrasenaConfirmada, nombreUsuario;
+    String direccion, motivo, contrasena, nuevaContrasena, nuevaContrasenaConfirmada, nombreUsuario, horario;
     Cliente clienteDenegado;
     List<SelectItem> rolesUsuario;
     List<Cliente> clientes;
+
+    public String getHorario() {
+        return horario;
+    }
+
+    public void setHorario(String horario) {
+        this.horario = horario;
+    }
 
     public Cliente getClienteDenegado() {
         return clienteDenegado;
@@ -133,6 +142,15 @@ public class gestionUsuariosBean {
             strb.append(d.toString()).append(".\n");
         }
         this.setDireccion(strb.toString());
+    }
+    
+    public void cargarHorario(String IdCliente) throws SNMPExceptions{
+        List<Horario> horariosCliente = new HorarioDB().seleccionarPorCliente(IdCliente);
+        StringBuilder strb = new StringBuilder();
+        for(Horario h : horariosCliente){
+            strb.append(h.toString()).append(".\n");
+        }
+        this.setHorario(strb.toString());
     }
 
 //    Se aceptan los clientes que pidieron un acceso

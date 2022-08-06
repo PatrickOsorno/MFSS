@@ -61,7 +61,7 @@ public class PedidoDB {
             PreparedStatement ps = accesoDatos.getConexion()
                     .prepareStatement("Insert into PedidoDetalle(IdPedido, IdProducto, "
                             + "Cantidad, Estado, DescuentoProd) "
-                            + "values(select @@IDENTITY, ?, ?, ?, ?)");
+                            + "values(@@IDENTITY, ?, ?, ?, ?)");
             ps.setInt(1, detalle.getProducto().getId());
             ps.setInt(2, detalle.getCantidad());
             ps.setBoolean(3, detalle.getEstado());

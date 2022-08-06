@@ -46,6 +46,7 @@ public class registroBean {
     Direccion direccion;
     Horario horario;
     List<Direccion> direccs = new ArrayList<>();
+    List<Horario> horarios = new ArrayList<>();
 
     public String getContrasena() {
         return contrasena;
@@ -264,8 +265,9 @@ public class registroBean {
         horario.setInicio(this.getFechaHoraInic());
         horario.setFin(this.getFechaHoraFin());
         horario.setIdCliente(cliente.getId());
+        horarios.add(horario);
         if (cliente != null && cliente.getDirecciones() != null) {
-            this.guardarClienteBd();
+            this.cliente.setHorarios(horarios);
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Exito", "Horario agregado"));
@@ -326,13 +328,26 @@ public class registroBean {
     }
 
 //    Se guarda un cliente con el horario y direcciones
-    private void guardarClienteBd() {
+    public void guardarClienteBd() {
+        if(Utilitarios.validacionRegistroClienteBd(cliente)){
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error", "No ha llenado todos los datos del cliente"));
+            return;
+        }
+        
         try {
             new ClienteDB().insertar(cliente);
-            new HorarioDB().insertar(horario);
+            for(Horario hor : cliente.getHorarios()){
+                new HorarioDB().insertar(hor);
+            }
             for (Direccion direcc : cliente.getDirecciones()) {
                 new DireccionDB().insertar(direcc);
             }
+            
+             FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Exito", "Registro completo"));
         } catch (SNMPExceptions e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,

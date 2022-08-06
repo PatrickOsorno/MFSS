@@ -34,7 +34,7 @@ public class ProductoDB {
             while (rs.next()) {
                 productos.add(new Producto(rs.getInt("Id"), rs.getBoolean("Estado"),
                         rs.getInt("Stock"), rs.getInt("CantMin"), rs.getString("Descripcion"),
-                        rs.getString("Foto"), rs.getFloat("Precio"), 0));
+                        rs.getString("Foto"), rs.getFloat("Precio")));
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -102,7 +102,7 @@ public class ProductoDB {
             if (rs.next()) {
                 return new Producto(rs.getInt("Id"), rs.getBoolean("Estado"),
                         rs.getInt("Stock"), rs.getInt("CantMin"), rs.getString("Descripcion"),
-                        rs.getString("Foto"), rs.getFloat("Precio"), 0);
+                        rs.getString("Foto"), rs.getFloat("Precio"));
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

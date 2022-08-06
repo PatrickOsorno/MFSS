@@ -47,8 +47,10 @@
                                 <h:outputText value="#{cliente.telefono}" />
                             </p:column>
 
-                            <p:column headerText="Horario">
-                                <h:outputText value="#{cliente.horario}" />
+                            <p:column headerText="Horarios">
+                                <p:commandButton value="Mostrar" icon="pi pi-book"  oncomplete="PF('dlgHorarios').show()">
+                                    <p:ajax event="click" listener="#{gestionUsuariosBean.cargarHorario(cliente.id)}" update="@form"/>
+                                </p:commandButton>
                             </p:column>
 
                             <p:column headerText="Direcciones">
@@ -71,6 +73,11 @@
                         <p:dialog header="Direcciones" showEffect="fade" modal="true"
                                   widgetVar="dlgDirecciones" responsive="true">
                             <p:inputTextarea cols="50" rows="15" disabled="true" value="#{gestionUsuariosBean.direccion}"/>
+                        </p:dialog>
+                        
+                        <p:dialog header="Horarios" showEffect="fade" modal="true"
+                                  widgetVar="dlgHorarios" responsive="true">
+                            <p:inputTextarea cols="50" rows="15" disabled="true" value="#{gestionUsuariosBean.horario}"/>
                         </p:dialog>
 
                         <p:dialog header="Denegar Usuario" showEffect="fade" modal="true"

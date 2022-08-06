@@ -15,15 +15,15 @@ import javax.faces.context.FacesContext;
 public class principalBean {
 
     Usuario usuario; 
-    boolean esCliente = usuario.getRol().getId() == 1;
+//    boolean esCliente = usuario.getRol().getId() == 1;
 
-    public boolean isEsCliente() {
-        return esCliente;
-    }
-
-    public void setEsCliente(boolean esCliente) {
-        this.esCliente = esCliente;
-    }
+//    public boolean isEsCliente() {
+//        return esCliente;
+//    }
+//
+//    public void setEsCliente(boolean esCliente) {
+//        this.esCliente = esCliente;
+//    }
 
 //    Verifica el rol del inicio de sesion
     public void verificarSesion() {

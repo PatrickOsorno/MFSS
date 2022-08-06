@@ -5,6 +5,7 @@
 package Controller;
 
 import DAO.SNMPExceptions;
+import Model.AccesoDatos.HorarioDB;
 import Model.Entidades.Cliente;
 import Model.Entidades.Direccion;
 import Model.Entidades.Horario;
@@ -13,12 +14,14 @@ import Model.AccesoDatos.PedidoDB;
 import Model.Entidades.PedidoDetalle;
 import Model.Entidades.Producto;
 import Model.AccesoDatos.ProductoDB;
+import Model.Entidades.Usuario;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 /**
  *
@@ -26,23 +29,48 @@ import javax.faces.context.FacesContext;
  */
 public class pedidosBean {
 
-    List<Producto> prodsSel, productos;
+    List<Producto> productos;
+    List<PedidoDetalle> detallesPedido;
     List<Direccion> direcciones;
+    List<SelectItem> horariosEntrega;
     String txtBuscar;
     Date fechaEntrega;
     Direccion direccionEntrega;
     Horario horarioEntrega;
-    int cantidad;
+    int cantidad, idHorario;
 
     @PostConstruct
     public void cargarComponentes() {
-        this.setProdsSel(new ArrayList<>());
-        this.setDirecciones(((Cliente) (FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("Cliente"))).getDirecciones());
+        this.setHorariosEntrega(new ArrayList<>());
+        this.setDetallesPedido(new ArrayList<>());
+        this.setDirecciones(((Usuario) (FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("Usuario"))).getCliente().getDirecciones());
+        List<Horario> horarios = ((Usuario) (FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("Usuario"))).getCliente().getHorarios();
+        this.horariosEntrega.add(new SelectItem(0, "Seleccione el Horario de Entrega"));
+        horarios.forEach(horarioT -> {
+            this.horariosEntrega.add(new SelectItem(horarioT.getId(), horarioT.toString()));
+        });
         try {
             this.setProductos(new ProductoDB().SeleccionarTodo());
         } catch (SNMPExceptions ex) {
         }
+    }
+
+    public int getIdHorario() {
+        return idHorario;
+    }
+
+    public void setIdHorario(int idHorario) {
+        this.idHorario = idHorario;
+    }
+
+    public List<SelectItem> getHorariosEntrega() {
+        return horariosEntrega;
+    }
+
+    public void setHorariosEntrega(List<SelectItem> horariosEntrega) {
+        this.horariosEntrega = horariosEntrega;
     }
 
     public int getCantidad() {
@@ -53,8 +81,12 @@ public class pedidosBean {
         this.cantidad = cantidad;
     }
 
-    public List<Producto> getProdsSel() {
-        return prodsSel;
+    public List<PedidoDetalle> getDetallesPedido() {
+        return detallesPedido;
+    }
+
+    public void setDetallesPedido(List<PedidoDetalle> detallesPedido) {
+        this.detallesPedido = detallesPedido;
     }
 
     public String getTxtBuscar() {
@@ -63,10 +95,6 @@ public class pedidosBean {
 
     public void setTxtBuscar(String txtBuscar) {
         this.txtBuscar = txtBuscar;
-    }
-
-    public void setProdsSel(List<Producto> prods) {
-        this.prodsSel = prods;
     }
 
     public List<Producto> getProductos() {
@@ -111,20 +139,13 @@ public class pedidosBean {
 
 //    Se confirma el pedido 
     public void confirmarPedido() throws SNMPExceptions {
-        List<PedidoDetalle> detallesPedido = new ArrayList<>();
-        Cliente cliente = (Cliente) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Cliente");
+        Cliente cliente = ((Usuario) (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario"))).getCliente();
+        this.setHorarioEntrega(new HorarioDB().seleccionarPorId(this.getIdHorario()));
         Pedido pedido = new Pedido(0, true,
                 cliente.getId(),
-                fechaEntrega, cliente.getHorarios().get(1), direccionEntrega, null, 0,
+                fechaEntrega, this.getHorarioEntrega(), this.getDireccionEntrega(), detallesPedido, 0,
                 new PedidoDB().SeleccionarEstadoPedidoPorId(1));
         //Revisar
-
-        prodsSel.forEach(prodSel -> {
-            detallesPedido.add(new PedidoDetalle(pedido.getId(), prodSel, prodSel.getCantidad(), true, 0));
-        });
-
-        pedido.setDetalle(detallesPedido);
-
         new PedidoDB().insertar(pedido);
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -133,9 +154,10 @@ public class pedidosBean {
 
 //    Se agrega la orden al carrito
     public void agregarAOrden(Producto producto) {
-        producto.setCantidad(this.getCantidad());
-        if (!prodsSel.contains(producto)) {
-            prodsSel.add(producto);
+        PedidoDetalle detallePedido = new PedidoDetalle(0, producto, this.getCantidad(), true, 0);
+
+        if (!validarExistenciaProd(producto)) {
+            detallesPedido.add(detallePedido);
             this.setCantidad(0);
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -147,14 +169,30 @@ public class pedidosBean {
                             "Error", "El producto seleccionado ya fue agregado a la orden"));
         }
     }
+    
+    private boolean validarExistenciaProd(Producto producto){
+        for(PedidoDetalle detalle : this.getDetallesPedido()){
+            if(detalle.getProducto() == producto){
+                return true;
+            }
+        }
+        return false;
+    }
 
 //    Se elimina la orden
-    public void eliminarDeOrden(Producto producto) {
-        prodsSel.remove(producto);
+    public void eliminarDeOrden(PedidoDetalle detalle) {
+        detallesPedido.remove(detalle);
     }
 
 //    Se busca la orden 
     public void buscar() {
 
+    }
+    
+    public void seleccionarDireccion(Direccion direccion){
+        this.setDireccionEntrega(direccion);
+        FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Éxito", "Dirección seleccionada:\n" + direccion.toString()));
     }
 }
