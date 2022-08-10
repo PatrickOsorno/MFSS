@@ -143,10 +143,11 @@ public class pedidosBean {
         this.setHorarioEntrega(new HorarioDB().seleccionarPorId(this.getIdHorario()));
         Pedido pedido = new Pedido(0, true,
                 cliente.getId(),
-                fechaEntrega, this.getHorarioEntrega(), this.getDireccionEntrega(), detallesPedido, 0,
+                this.getFechaEntrega(), this.getHorarioEntrega(), this.getDireccionEntrega(), detallesPedido, 0,
                 new PedidoDB().SeleccionarEstadoPedidoPorId(1));
         //Revisar
         new PedidoDB().insertar(pedido);
+        this.limpiar();
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Éxito", "Pedido realizado"));
@@ -168,6 +169,13 @@ public class pedidosBean {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Error", "El producto seleccionado ya fue agregado a la orden"));
         }
+    }
+    
+    private void limpiar(){
+        this.setDetallesPedido(new ArrayList<>());
+        this.setFechaEntrega(null);
+        this.setIdHorario(0);
+        this.setDireccionEntrega(null);
     }
     
     private boolean validarExistenciaProd(Producto producto){
