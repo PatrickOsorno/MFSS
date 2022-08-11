@@ -13,8 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -23,6 +21,7 @@ import java.util.logging.Logger;
 public class PedidoDB {
 
     private AccesoDatos accesoDatos;
+    private int IdPedido = 0;
 
     public PedidoDB() {
         accesoDatos = AccesoDatos.obtenerInstancia();
@@ -43,33 +42,54 @@ public class PedidoDB {
             ps.setInt(7, pedido.getHorario().getId());
 
             accesoDatos.ejecutaSQL(ps);
+//
+//            pedido.getDetalle().forEach(det -> {
+//                try {
+//                    this.insertarDetalle(det);
+//                } catch (SNMPExceptions ex) {
+//
+//                }
+//            });
 
-            pedido.getDetalle().forEach(det -> {
-                try {
-                    this.insertarDetalle(det);
-                } catch (SNMPExceptions ex) {
-
-                }
-            });
+            for (PedidoDetalle det : pedido.getDetalle()) {
+                this.insertarDetalle(det);
+            }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }
     }
 
     public void insertarDetalle(PedidoDetalle detalle) throws SNMPExceptions {
+        if(IdPedido == 0){
+            IdPedido = this.obtenerIdPedido();
+        }
         try {
             PreparedStatement ps = accesoDatos.getConexion()
                     .prepareStatement("Insert into PedidoDetalle(IdPedido, IdProducto, "
                             + "Cantidad, Estado, DescuentoProd) "
-                            + "values(@@IDENTITY, ?, ?, ?, ?)");
-            ps.setInt(1, detalle.getProducto().getId());
-            ps.setInt(2, detalle.getCantidad());
-            ps.setBoolean(3, detalle.getEstado());
-            ps.setDouble(4, detalle.getDescuentoProd());
+                            + "values(?, ?, ?, ?, ?)");
+            ps.setInt(1, IdPedido);
+            ps.setInt(2, detalle.getProducto().getId());
+            ps.setInt(3, detalle.getCantidad());
+            ps.setBoolean(4, detalle.getEstado());
+            ps.setDouble(5, detalle.getDescuentoProd());
             accesoDatos.ejecutaSQL(ps);
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }
+    }
+    
+    private int obtenerIdPedido() throws SNMPExceptions{
+        try {
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("select @@IDENTITY as Id");
+            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
+            if(rs.next()){
+                return rs.getInt("Id");
+            }
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
+        return 0;
     }
 
     public EstadoPedido SeleccionarEstadoPedidoPorId(int id) throws SNMPExceptions {
@@ -77,7 +97,7 @@ public class PedidoDB {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Id, Descripcion, Estado from EstadoPedido where id = ?");
             ps.setInt(1, id);
             ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            if(rs.next()){
+            if (rs.next()) {
                 return new EstadoPedido(rs.getInt("Id"), rs.getString("Descripcion"), rs.getBoolean("Estado"));
             }
         } catch (SQLException e) {

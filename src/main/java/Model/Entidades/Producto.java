@@ -10,12 +10,12 @@ package Model.Entidades;
  */
 public class Producto {
 
-    private int id, cantDisponible, cantMinima;
+    private int id, cantDisponible, cantMinima, cantidad;
     private boolean estado;
     private String descripcion, foto;
-    private float precio;
+    private float precio, descuento;
 
-    public Producto(int id, boolean estado, int cantDisponible, int cantMinima, String descripcion, String foto, float precio) {
+    public Producto(int id, boolean estado, int cantDisponible, int cantMinima, String descripcion, String foto, float precio, int cantidad, float descuento) {
         this.id = id;
         this.estado = estado;
         this.cantDisponible = cantDisponible;
@@ -23,6 +23,8 @@ public class Producto {
         this.descripcion = descripcion;
         this.foto = foto;
         this.precio = precio;
+        this.cantidad = cantidad;
+        this.descuento = descuento;
     }
 
     public int getId() {
@@ -57,6 +59,14 @@ public class Producto {
         this.cantMinima = cantMinima;
     }
 
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
     public String getDescripcion() {
         return descripcion;
     }
@@ -79,6 +89,18 @@ public class Producto {
 
     public void setPrecio(float precio) {
         this.precio = precio;
+    }
+
+    public float getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(float descuento) {
+        this.descuento = descuento;
+    }
+    
+    public float calcularDescuento(){
+        return precio * (descuento / 100);
     }
     
     @Override

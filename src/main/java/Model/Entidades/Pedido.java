@@ -122,7 +122,7 @@ public class Pedido {
     public float calcularSubtotal(){
         float subT = 0f;
         for(PedidoDetalle det : this.getDetalle()){
-            subT += det.getProducto().getPrecio() * det.getCantidad();
+            subT += (det.getProducto().getPrecio() * det.getCantidad()) - (det.getDescuentoProd() * det.getCantidad());
         }
         return subT;
     }

@@ -38,7 +38,7 @@
                                 <span class="filter-container ui-input-icon-left">
                                     <i class="pi pi-search"></i>
                                     <p:inputText placeholder="Buscar" value="#{gestionProductosBean.txtBuscar}"/>
-                                    <p:commandButton value="Buscar" icon="pi pi-search" action="#{gestionProductosBean.buscar()}"/>
+                                    <p:commandButton value="Buscar" icon="pi pi-search" action="#{gestionProductosBean.buscar()}" update="tablaProds"/>
                                 </span>
                             </p:toolbarGroup>
                         </p:toolbar>
@@ -69,6 +69,11 @@
 
                             <p:column headerText="Cantidad M&iacute;nima">
                                 <h:outputText value="#{producto.cantMinima}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Descuento">
+                                <h:outputText value="#{producto.descuento}"/> 
+                                <label>%</label>
                             </p:column>
 
                             <p:column>
@@ -105,6 +110,9 @@
 
                                 <label>Cantidad m&iacute;nima: </label>
                                 <p:spinner id="cantMin" class="spin" min="0" max="999999999" value="#{gestionProductosBean.cantMin}"/>
+                                
+                                <label>Descuento: </label>
+                                <p:spinner id="descuento" class="spin" min="0" max="999999999" value="#{gestionProductosBean.descuento}"/>
 
                             </h:panelGrid>
                             <h:panelGrid columns="1" cellpadding="5" class="centrar">

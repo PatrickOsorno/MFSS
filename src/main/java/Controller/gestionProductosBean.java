@@ -22,7 +22,7 @@ public class gestionProductosBean {
 
     List<Producto> productos;
     String descripcion, foto, txtBuscar;
-    float precio;
+    float precio, descuento;
     int cantMin, stock, codigo;
     boolean edita;
     Producto producto;
@@ -118,6 +118,14 @@ public class gestionProductosBean {
         this.stock = stock;
     }
 
+    public float getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(float descuento) {
+        this.descuento = descuento;
+    }
+
 //    Se carga las tablas
     @PostConstruct
     public void cargarTablas() {
@@ -158,15 +166,20 @@ public class gestionProductosBean {
     }
 
 //    Se busca los productos
-    public void buscar() {
-
+    public void buscar() throws SNMPExceptions {
+        if(!this.getTxtBuscar().equals("")){
+            this.setProductos(prodDB.seleccionarPorNombre(this.getTxtBuscar()));
+        }else
+        {
+            this.setProductos(prodDB.SeleccionarTodo());
+        }
     }
 
 //    Se agregan los productos
     public void agregarProducto() {
         producto = new Producto(this.getCodigo(), true,
                 this.getStock(), this.getCantMin(), this.getDescripcion(),
-                this.getFoto(), this.getPrecio());
+                this.getFoto(), this.getPrecio(),0, this.getDescuento());
         try {
             prodDB.insertar(this.getProducto());
             this.setProducto(null);
@@ -197,7 +210,7 @@ public class gestionProductosBean {
     public void modificarProducto() {
         producto = new Producto(this.getCodigo(), true,
                 this.getStock(), this.getCantMin(), this.getDescripcion(),
-                this.getFoto(), this.getPrecio());
+                this.getFoto(), this.getPrecio(),0, this.getDescuento());
         try {
             prodDB.modificar(this.getProducto());
             this.setProducto(null);

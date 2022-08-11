@@ -10,11 +10,11 @@ package Model.Entidades;
  */
 public class PedidoDetalle {
 
-    int idPedido;
-    Producto producto;
-    int cantidad;
-    boolean estado;
-    double descuentoProd;
+    private int idPedido;
+    private Producto producto;
+    private int cantidad;
+    private boolean estado;
+    private double descuentoProd;
 
     public PedidoDetalle(int idPedido, Producto producto, int cantidad, boolean estado, double descuentoProd) {
         this.idPedido = idPedido;

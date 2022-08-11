@@ -7,8 +7,10 @@ package Util;
 import Model.Entidades.Cliente;
 import Model.Entidades.Direccion;
 import Model.Entidades.Horario;
+import Model.Entidades.PedidoDetalle;
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -46,16 +48,16 @@ public class Utilitarios {
     public static boolean validacionRegistroHorario(Date fechaHoraInic, Date fechaHoraFin) {
         return (fechaHoraFin == null || fechaHoraInic == null);
     }
-    
-    public static boolean validacionRegistroClienteBd(Cliente cliente){
+
+    public static boolean validacionRegistroClienteBd(Cliente cliente) {
         return (cliente == null || cliente.getHorarios().isEmpty() || cliente.getHorarios().isEmpty());
     }
 
 //Se valida que el gestion de usuarios, en los usuarios no halla espacios en nulo
 //      GestionUsuariosBean=>GestionUsuarios(btnCrearUsuario => NuevoUsuario)
-    public static boolean validarGestionNuevUsuario(String correo, String contrasena, String rolUsuario) {
-        return !(correo.equals("") || contrasena.equals("") || rolUsuario.equals(""));
-    }
+//    public static boolean validarGestionNuevUsuario(String correo, String contrasena, String rolUsuario) {
+//        return !(correo.equals("") || contrasena.equals("") || rolUsuario.equals(""));
+//    }
 
 //Se valida que el gestion de Productos, en el mantenimiento de Productos no halla espacios en nulo
 //      GestionProductosBean=>GestionProductos(btnNuevo y btnEditar => MantenimientoProductos)
@@ -65,8 +67,8 @@ public class Utilitarios {
 
 //Se valida que el gestion de Pedidos, en la confirmacion de orden no halla espacios en nulo
 //      PedidosBean=>Pedidos(btnConfirmarOrden => ConfirmarOrden)
-    public static boolean validarDatosEntrega(Date fechaEntrega, Direccion direccionEntrega, Horario horarioEntrega) {
-        return (fechaEntrega == null || direccionEntrega == null || horarioEntrega == null);
+    public static boolean validarDatosPedido(List<PedidoDetalle> detalles, Date fechaEntrega, Direccion direccionEntrega, Horario horarioEntrega) {
+        return (detalles.isEmpty() || fechaEntrega == null || direccionEntrega == null || horarioEntrega == null);
     }
 //Se valida que los reportes, en el reporte de Pedidos no halla espacios en nulo
 //      ReportesBean=>Reportes(btnMostrarReporte => ReportePedidos)

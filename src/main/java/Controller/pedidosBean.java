@@ -15,6 +15,7 @@ import Model.Entidades.PedidoDetalle;
 import Model.Entidades.Producto;
 import Model.AccesoDatos.ProductoDB;
 import Model.Entidades.Usuario;
+import Util.Utilitarios;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -145,7 +146,14 @@ public class pedidosBean {
                 cliente.getId(),
                 this.getFechaEntrega(), this.getHorarioEntrega(), this.getDireccionEntrega(), detallesPedido, 0,
                 new PedidoDB().SeleccionarEstadoPedidoPorId(1));
-        //Revisar
+
+        if (Utilitarios.validarDatosPedido(detallesPedido, fechaEntrega, direccionEntrega, horarioEntrega)) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error", "Datos incompletos"));
+            return;
+        }
+
         new PedidoDB().insertar(pedido);
         this.limpiar();
         FacesContext.getCurrentInstance().addMessage(null,
@@ -155,32 +163,30 @@ public class pedidosBean {
 
 //    Se agrega la orden al carrito
     public void agregarAOrden(Producto producto) {
-        PedidoDetalle detallePedido = new PedidoDetalle(0, producto, this.getCantidad(), true, 0);
-
         if (!validarExistenciaProd(producto)) {
-            detallesPedido.add(detallePedido);
-            this.setCantidad(0);
+            detallesPedido.add(new PedidoDetalle(0, producto, producto.getCantidad(), true, producto.calcularDescuento()));
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Éxito", "Producto agregado a la orden"));
         } else {
-            this.setCantidad(0);
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Error", "El producto seleccionado ya fue agregado a la orden"));
         }
+        producto.setCantidad(0);
     }
-    
-    private void limpiar(){
+
+    //Se reestablece el valor de los cambios
+    private void limpiar() {
         this.setDetallesPedido(new ArrayList<>());
         this.setFechaEntrega(null);
         this.setIdHorario(0);
         this.setDireccionEntrega(null);
     }
-    
-    private boolean validarExistenciaProd(Producto producto){
-        for(PedidoDetalle detalle : this.getDetallesPedido()){
-            if(detalle.getProducto() == producto){
+
+    private boolean validarExistenciaProd(Producto producto) {
+        for (PedidoDetalle detalle : this.getDetallesPedido()) {
+            if (detalle.getProducto() == producto) {
                 return true;
             }
         }
@@ -193,14 +199,18 @@ public class pedidosBean {
     }
 
 //    Se busca la orden 
-    public void buscar() {
-
+    public void buscar() throws SNMPExceptions {
+        if (!this.getTxtBuscar().equals("")) {
+            this.setProductos(new ProductoDB().seleccionarPorNombre(this.getTxtBuscar()));
+        } else {
+            this.setProductos(new ProductoDB().SeleccionarTodo());
+        }
     }
-    
-    public void seleccionarDireccion(Direccion direccion){
+
+    public void seleccionarDireccion(Direccion direccion) {
         this.setDireccionEntrega(direccion);
         FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO,
-                            "Éxito", "Dirección seleccionada:\n" + direccion.toString()));
+                new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "", "Dirección seleccionada:\n" + direccion.toString()));
     }
 }

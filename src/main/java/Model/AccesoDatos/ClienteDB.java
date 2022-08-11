@@ -7,11 +7,13 @@ package Model.AccesoDatos;
 import Model.Entidades.Cliente;
 import DAO.AccesoDatos;
 import DAO.SNMPExceptions;
+import Model.Entidades.Usuario;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -86,14 +88,15 @@ public class ClienteDB {
 //    Por medio de este método se hace un insert en la base de datos  de la tabla Cliente con todos los atributos
     public void insertar(Cliente cliente) throws SNMPExceptions {
         try {
-            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Insert into Cliente(Id, Nombre, Apellidos, Email, Telefono, Estado) "
-                    + "values(?, ?, ?, ?, ?, ?)");
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Insert into Cliente(Id, Nombre, Apellidos, Email, Telefono, Estado, UsuarioAcepta, FechaAcepta) "
+                    + "values(?, ?, ?, ?, ?, ?, ?, getdate())");
             ps.setString(1, cliente.getId());
             ps.setString(2, cliente.getNombre());
             ps.setString(3, cliente.getApellidos());
             ps.setString(4, cliente.getCorreo());
             ps.setString(5, cliente.getTelefono());
             ps.setBoolean(6, cliente.getEstado());
+            ps.setString(7, ((Usuario)(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario"))).getCorreo());
             accesoDatos.ejecutaSQL(ps);
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

@@ -216,6 +216,7 @@ public class registroBean {
         cliente.setCorreo(correo);
         cliente.setTelefono(telefono);
         cliente.setEstado(true);
+        this.limpiarCliente();
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Exito", "Cliente agregado"));
@@ -240,6 +241,7 @@ public class registroBean {
         direccs.add(direccion);
         if (cliente != null) {
             cliente.setDirecciones(direccs);
+            this.limpiarDireccion();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Exito", "Dirección agregada"));
@@ -268,6 +270,7 @@ public class registroBean {
         horarios.add(horario);
         if (cliente != null && cliente.getDirecciones() != null) {
             this.cliente.setHorarios(horarios);
+            this.limpiarHorario();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Exito", "Horario agregado"));
@@ -353,6 +356,27 @@ public class registroBean {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Error", e.getMessage()));
         }
+    }
+    
+    private void limpiarCliente() {
+        setIdentificacion("");
+        setNombre("");
+        setApellidos("");
+        setCorreo("");
+        setTelefono("");
+    }
+
+    private void limpiarDireccion() {
+        setProvincia(0);
+        setCanton(0);
+        setDistrito(0);
+        setBarrio(0);
+        setOtrasSenas("");
+    }
+
+    private void limpiarHorario() {
+        setFechaHoraFin(null);
+        setFechaHoraInic(null);
     }
 
 //    Se cargan todos los componentes

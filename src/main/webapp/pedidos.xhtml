@@ -31,11 +31,11 @@
                                 <span class="filter-container ui-input-icon-left">
                                     <i class="pi pi-search"></i>
                                     <p:inputText placeholder="Buscar" value="#{pedidosBean.txtBuscar}" />
-                                    <p:commandButton value="Buscar" icon="pi pi-search" action="#{pedidosBean.buscar()}"/>
+                                    <p:commandButton value="Buscar" icon="pi pi-search" action="#{pedidosBean.buscar()}" update="tablaProds"/>
                                 </span>
                             </p:toolbarGroup>
                         </p:toolbar>
-                        <p:dataTable var="producto" value="#{pedidosBean.productos}" paginator="true"
+                        <p:dataTable id="tablaProds" var="producto" value="#{pedidosBean.productos}" paginator="true"
                                      rows="10" rowSelectMode="add" paginatorPosition="bottom">
 
                             <p:column headerText="Foto">
@@ -53,7 +53,7 @@
                             </p:column>
 
                             <p:column headerText="Cantidad">
-                                <p:spinner value="#{pedidosBean.cantidad}" class="spin" min="0" max="999999999" />
+                                <p:spinner value="#{producto.cantidad}" class="spin" min="0" max="999999999" />
                             </p:column>
 
                             <p:column >
