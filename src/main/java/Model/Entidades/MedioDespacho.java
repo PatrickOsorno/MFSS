@@ -22,6 +22,15 @@ public class MedioDespacho {
         this.costo = costo;
     }
 
+    public MedioDespacho() {
+        this.id = 0;
+        this.estado = false;
+        this.descripcion = "";
+        this.costo = 0f;
+    }
+    
+    
+
     public int getId() {
         return id;
     }

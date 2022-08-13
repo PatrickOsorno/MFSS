@@ -43,7 +43,7 @@
                             <p:inputText id="telefono" value="#{registroBean.telefono}"/>
                         </h:panelGrid>
                         <div class="centBot">
-                            <p:commandButton value="Guardar" update="form:growlRegistro" icon="pi pi-save" action="#{registroBean.registrarCliente()}"></p:commandButton>
+                            <p:commandButton value="Guardar" update="@form" icon="pi pi-save" action="#{registroBean.registrarCliente()}"/>
                         </div>
                     </p:tab>
 
@@ -79,7 +79,7 @@
                             <p:inputTextarea value="#{registroBean.otrasSenas}"></p:inputTextarea>
                         </h:panelGrid>
                         <div class="centBot">
-                            <p:commandButton value="Guardar" update="form:growlRegistro" icon="pi pi-save" action="#{registroBean.registrarDireccion()}"/>
+                            <p:commandButton value="Guardar" update="@form" icon="pi pi-save" action="#{registroBean.registrarDireccion()}"/>
                         </div>
                     </p:tab>
                     <p:tab title="Registro de Horario">
@@ -90,11 +90,15 @@
                             <p:datePicker timeOnly="true" pattern="HH:mm" value="#{registroBean.fechaHoraFin}"/>
                         </h:panelGrid>
                         <div class="centBot">
-                            <p:commandButton value="Guardar" update="form:growlRegistro" icon="pi pi-save" action="#{registroBean.registrarHorario()}"></p:commandButton>
+                            <p:commandButton value="Guardar" update="@form" icon="pi pi-save" action="#{registroBean.registrarHorario()}"/>
+                        </div>
+                        
+                        <div class="centBot">
+                            <p:commandButton value="Registrarme" update="form:growlRegistro" icon="pi pi-save" action="#{registroBean.guardarClienteBd()}"/>
                         </div>
                     </p:tab>
                 </p:tabView>
-                <p:commandButton value="Registrarme" update="form:growlRegistro" icon="pi pi-save" action="#{registroBean.guardarClienteBd()}"/>
+                
             </p:panel>
         </h:form>
     </h:body>

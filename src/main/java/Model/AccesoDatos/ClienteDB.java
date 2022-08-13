@@ -88,8 +88,8 @@ public class ClienteDB {
 //    Por medio de este método se hace un insert en la base de datos  de la tabla Cliente con todos los atributos
     public void insertar(Cliente cliente) throws SNMPExceptions {
         try {
-            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Insert into Cliente(Id, Nombre, Apellidos, Email, Telefono, Estado, UsuarioAcepta, FechaAcepta) "
-                    + "values(?, ?, ?, ?, ?, ?, ?, getdate())");
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Insert into Cliente(Id, Nombre, Apellidos, Email, Telefono, Estado, UsuarioAcepta, FechaAcepta, NombreCompleto) "
+                    + "values(?, ?, ?, ?, ?, ?, ?, getdate(), ?)");
             ps.setString(1, cliente.getId());
             ps.setString(2, cliente.getNombre());
             ps.setString(3, cliente.getApellidos());
@@ -97,6 +97,7 @@ public class ClienteDB {
             ps.setString(5, cliente.getTelefono());
             ps.setBoolean(6, cliente.getEstado());
             ps.setString(7, ((Usuario)(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario"))).getCorreo());
+            ps.setString(8, cliente.toString());
             accesoDatos.ejecutaSQL(ps);
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

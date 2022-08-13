@@ -4,6 +4,8 @@
  */
 package Controller;
 
+import Model.Entidades.Pedido;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -18,7 +20,7 @@ public class reportesBean {
     Date rangoFechas;
     String estado, tipoPago;
     List<SelectItem> estados, tiposPago;
-    List<Object> pedidos;
+    List<Pedido> pedidos = new ArrayList<>();
     List<Object> ventas;
 
     public Date getRangoFechas() {
@@ -61,11 +63,11 @@ public class reportesBean {
         this.tiposPago = tiposPago;
     }
 
-    public List<Object> getPedidos() {
+    public List<Pedido> getPedidos() {
         return pedidos;
     }
 
-    public void setPedidos(List<Object> pedidos) {
+    public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
 
@@ -75,6 +77,10 @@ public class reportesBean {
 
     public void setVentas(List<Object> ventas) {
         this.ventas = ventas;
+    }
+    
+    public boolean activarBotonExportar(){
+        return this.getPedidos().isEmpty();
     }
 
 //    Se carga la tabla

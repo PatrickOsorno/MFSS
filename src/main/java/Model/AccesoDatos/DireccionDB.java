@@ -43,6 +43,23 @@ public class DireccionDB {
         }
         return direcciones;
     }
+    
+    public Direccion seleccionarPorId(int idDireccion) throws SNMPExceptions{
+        try {
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select IdCliente, IdProvincia, IdCanton, IdDistrito, IdBarrio, OtrasSenas, IdTipoDireccion, Estado, Id from direccion where Id = ?");
+            ps.setInt(1, idDireccion);
+            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
+            while (rs.next()) {
+                return new Direccion(rs.getInt("Id"), rs.getBoolean("Estado"),
+                        null, new BarrioDB().seleccionarPorId(rs.getInt("IdProvincia"), rs.getInt("IdCanton"), rs.getInt("IdDistrito"), rs.getInt("IdBarrio")),
+                        rs.getString("OtrasSenas"),
+                        new TipoDireccionDB().seleccionarPorId(rs.getInt("IdTipoDireccion")));
+            }
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
+        return null;
+    }
 
 //    Por medio de este método se hace un insert en la base de datos en la tabla de direcciones con todos los atributos que posee
     public void insertar(Direccion direccion) throws SNMPExceptions {

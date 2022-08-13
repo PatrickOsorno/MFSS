@@ -15,36 +15,48 @@ public class Pedido {
 
     int id;
     boolean estado;
-    String idCliente;
+    Cliente cliente;
     Date fechaEntrega;
     Direccion direccion;
     Horario horario;
-    double subTotal;
+    float subTotal;
     List<PedidoDetalle> detalle;
     EstadoPedido estadoPedido;
+    MedioDespacho medioDespacho;
 
-    public Pedido(int id, boolean estado, String idCliente, Date fechaEntrega, Horario horario, Direccion direccion, List<PedidoDetalle> detalle, float subTotal, EstadoPedido estadoPedido) {
+    public Pedido(int id, boolean estado, Cliente cliente, Date fechaEntrega, Horario horario, Direccion direccion,
+            List<PedidoDetalle> detalle, float subTotal, EstadoPedido estadoPedido, MedioDespacho medioDespacho) {
         this.id = id;
         this.estado = estado;
-        this.idCliente = idCliente;
+        this.cliente = cliente;
         this.fechaEntrega = fechaEntrega;
         this.detalle = detalle;
         this.subTotal = subTotal;
         this.horario = horario;
         this.direccion = direccion;
         this.estadoPedido = estadoPedido;
+        this.medioDespacho = medioDespacho;
     }
 
     public Pedido() {
         this.id = 0;
         this.estado = false;
-        this.idCliente = "";
+        this.cliente = null;
         this.fechaEntrega = null;
         this.detalle = null;
-        this.subTotal = 0;
+        this.subTotal = 0f;
         this.horario = null;
         this.direccion = null;
         this.estadoPedido = null;
+        this.medioDespacho = null;
+    }
+
+    public MedioDespacho getMedioDespacho() {
+        return medioDespacho;
+    }
+
+    public void setMedioDespacho(MedioDespacho medioDespacho) {
+        this.medioDespacho = medioDespacho;
     }
 
     public EstadoPedido getEstadoPedido() {
@@ -71,7 +83,7 @@ public class Pedido {
         this.horario = horario;
     }
 
-    public double getSubTotal() {
+    public float getSubTotal() {
         return subTotal;
     }
 
@@ -103,12 +115,12 @@ public class Pedido {
         this.estado = estado;
     }
 
-    public String getIdCliente() {
-        return idCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(String idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public Date getFechaEntrega() {
@@ -118,10 +130,10 @@ public class Pedido {
     public void setFechaEntrega(Date fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
     }
-    
-    public float calcularSubtotal(){
+
+    public float calcularSubtotal() {
         float subT = 0f;
-        for(PedidoDetalle det : this.getDetalle()){
+        for (PedidoDetalle det : this.getDetalle()) {
             subT += (det.getProducto().getPrecio() * det.getCantidad()) - (det.getDescuentoProd() * det.getCantidad());
         }
         return subT;

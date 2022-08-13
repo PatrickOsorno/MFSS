@@ -37,7 +37,19 @@
                                 <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o" action="#{reportesBean.mostrarReportePedidos()}"/>
                             </h:panelGrid>
 
-                            <p:dataTable var="pedido" value="#{reportesBean.pedidos}" paginator="true"
+                            <p:toolbar>
+                                <p:toolbarGroup>
+                                    <h3>Pedidos</h3>
+                                </p:toolbarGroup>
+                                <p:toolbarGroup align="right">
+                                    <p:commandButton value="Exportar" disabled="#{reportesBean.activarBotonExportar()}" icon="pi pi-upload" update="tablaPedidos" styleClass="ui-button-help" ajax="false">
+                                        <p:dataExporter type="pdf" target="tablaPedidos" fileName="ReportePedidos" encoding="ISO-8859-1"/>
+                                    </p:commandButton>
+                                </p:toolbarGroup>
+                            </p:toolbar>
+
+
+                            <p:dataTable id="tablaPedidos" var="pedido" value="#{reportesBean.pedidos}" paginator="true"
                                          rows="10" rowSelectMode="add" paginatorPosition="bottom">
                                 <p:column headerText="Cliente">
                                     <h:outputText/>
@@ -74,8 +86,19 @@
 
                                 <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o" action="#{reportesBean.mostrarReporteVentas()}"/>
                             </h:panelGrid>
+                            <p:toolbar>
+                                <p:toolbarGroup>
+                                    <h3>Ventas</h3>
+                                </p:toolbarGroup>
+                                <p:toolbarGroup align="right">
+                                    <p:commandButton value="Exportar" icon="pi pi-upload" update="tablaPedidos" styleClass="ui-button-help" ajax="false">
+                                        <p:dataExporter type="pdf" target="tablaFactura" fileName="ReporteVentas" encoding="ISO-8859-1"/>
+                                    </p:commandButton>
+                                </p:toolbarGroup>
+                            </p:toolbar>
 
-                            <p:dataTable var="pedido" value="#" paginator="true"
+
+                            <p:dataTable id="tablaFactura" var="pedido" value="#" paginator="true"
                                          rows="10" rowSelectMode="add" paginatorPosition="bottom">
                                 <p:column headerText="Pedido">
                                     <h:outputText/>

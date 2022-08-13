@@ -7,6 +7,8 @@ package Util;
 import Model.Entidades.Cliente;
 import Model.Entidades.Direccion;
 import Model.Entidades.Horario;
+import Model.Entidades.MedioDespacho;
+import Model.Entidades.Pedido;
 import Model.Entidades.PedidoDetalle;
 import java.security.SecureRandom;
 import java.util.Date;
@@ -67,8 +69,9 @@ public class Utilitarios {
 
 //Se valida que el gestion de Pedidos, en la confirmacion de orden no halla espacios en nulo
 //      PedidosBean=>Pedidos(btnConfirmarOrden => ConfirmarOrden)
-    public static boolean validarDatosPedido(List<PedidoDetalle> detalles, Date fechaEntrega, Direccion direccionEntrega, Horario horarioEntrega) {
-        return (detalles.isEmpty() || fechaEntrega == null || direccionEntrega == null || horarioEntrega == null);
+    public static boolean validarDatosPedido(List<PedidoDetalle> detalles, Date fechaEntrega, 
+            Direccion direccionEntrega, Horario horarioEntrega, MedioDespacho medioDespacho) {
+        return (detalles.isEmpty() || fechaEntrega == null || direccionEntrega == null || horarioEntrega == null || medioDespacho == null);
     }
 //Se valida que los reportes, en el reporte de Pedidos no halla espacios en nulo
 //      ReportesBean=>Reportes(btnMostrarReporte => ReportePedidos)
@@ -81,6 +84,10 @@ public class Utilitarios {
 //      ReportesBean=>Reportes(btnMostrarReporte => ReporteVentas)
     public static boolean validarMostrarReporteVentas(Date fecha, String tipoPago) {
         return (fecha == null || tipoPago.equals(""));
+    }
+    
+    public static boolean validarFacturacion(List<Pedido> pedidos, int tipoPago){
+        return (pedidos.isEmpty() || tipoPago == 0);
     }
 
 //Mediante este metodo se le enviará al solicitante si fue aprovada su inscripcion

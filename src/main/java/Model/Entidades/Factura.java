@@ -13,12 +13,13 @@ import java.util.List;
  */
 public class Factura {
 
-    int id;
-    boolean estado;
-    TipoPago tipoPago;
-    float costoEnvio, descuento, subTotal;
-    Date fecha;
-    List<FacturaDetalle> detalle;
+    private int id;
+    private boolean estado;
+    private TipoPago tipoPago;
+    private float costoEnvio, descuento, subTotal;
+    private Date fecha;
+    private List<FacturaDetalle> detalle;
+    private final float IMPUESTO = 0.13f;
 
     public Factura(int id, boolean estado, TipoPago tipoPago, float costoEnvio, float descuento, float subTotal, Date fecha, List<FacturaDetalle> detalle) {
         this.id = id;
@@ -87,4 +88,46 @@ public class Factura {
         this.fecha = fecha;
     }
 
+    public List<FacturaDetalle> getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(List<FacturaDetalle> detalle) {
+        this.detalle = detalle;
+    }
+
+    public float calcularCostoEnvio() {
+        float costoEnv = 0f;
+        for (FacturaDetalle det : this.getDetalle()) {
+            costoEnv += det.getPedido().getMedioDespacho().getCosto();
+        }
+        return costoEnv;
+    }
+
+    public float calcularDescuento() {
+        float desc = 0f;
+        for (FacturaDetalle det : this.getDetalle()) {
+            for (PedidoDetalle detP : det.getPedido().getDetalle()) {
+                desc += detP.getDescuentoProd();
+            }
+        }
+        return desc;
+    }
+
+    public float calcularSubtotal() {
+        float subT = 0f;
+        for (FacturaDetalle det : this.getDetalle()) {
+            subT += det.getPedido().getSubTotal();
+        }
+        return subT;
+    }
+
+    public float calcularImpuesto() {
+        return calcularSubtotal() * this.IMPUESTO;
+    }
+
+    public float calcularTotal() {
+        return this.calcularSubtotal() + this.calcularCostoEnvio() 
+                + this.calcularImpuesto() - this.calcularDescuento();
+    }
 }

@@ -261,7 +261,7 @@ public class registroBean {
                             "Error", "Los datos ingresados no son correctos"));
             return;
         }
-        
+
         horario = new Horario();
         horario.setEstado(true);
         horario.setInicio(this.getFechaHoraInic());
@@ -332,23 +332,23 @@ public class registroBean {
 
 //    Se guarda un cliente con el horario y direcciones
     public void guardarClienteBd() {
-        if(Utilitarios.validacionRegistroClienteBd(cliente)){
+        if (Utilitarios.validacionRegistroClienteBd(cliente)) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Error", "No ha llenado todos los datos del cliente"));
             return;
         }
-        
+
         try {
             new ClienteDB().insertar(cliente);
-            for(Horario hor : cliente.getHorarios()){
+            for (Horario hor : cliente.getHorarios()) {
                 new HorarioDB().insertar(hor);
             }
             for (Direccion direcc : cliente.getDirecciones()) {
                 new DireccionDB().insertar(direcc);
             }
-            
-             FacesContext.getCurrentInstance().addMessage(null,
+
+            FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Exito", "Registro completo"));
         } catch (SNMPExceptions e) {
@@ -357,37 +357,38 @@ public class registroBean {
                             "Error", e.getMessage()));
         }
     }
-    
+
     private void limpiarCliente() {
-        setIdentificacion("");
-        setNombre("");
-        setApellidos("");
-        setCorreo("");
-        setTelefono("");
+        this.setIdentificacion("");
+        this.setNombre("");
+        this.setApellidos("");
+        this.setCorreo("");
+        this.setTelefono("");
     }
 
     private void limpiarDireccion() {
-        setProvincia(0);
-        setCanton(0);
-        setDistrito(0);
-        setBarrio(0);
-        setOtrasSenas("");
+        this.setTipoDireccion(0);
+        this.setProvincia(0);
+        this.setCanton(0);
+        this.setDistrito(0);
+        this.setBarrio(0);
+        this.setOtrasSenas("");
     }
 
     private void limpiarHorario() {
-        setFechaHoraFin(null);
-        setFechaHoraInic(null);
+        this.setFechaHoraFin(null);
+        this.setFechaHoraInic(null);
     }
 
 //    Se cargan todos los componentes
     @PostConstruct
     public void cargarComponentes() {
         try {
-            cargarTiposDireccion();
-            cargarProvincias();
-            cargarCantones();
-            cargarDistritos();
-            cargarBarrios();
+            this.cargarTiposDireccion();
+            this.cargarProvincias();
+            this.cargarCantones();
+            this.cargarDistritos();
+            this.cargarBarrios();
         } catch (SNMPExceptions e) {
 
         }

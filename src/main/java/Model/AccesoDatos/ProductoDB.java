@@ -32,7 +32,7 @@ public class ProductoDB {
         List<Producto> productos = new ArrayList<>();
         try {
             ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos.getConexion()
-                    .prepareStatement("Select Id, Descripcion, Foto, Precio, Stock, CantMin, Estado, PorcDescuento from Producto"));
+                    .prepareStatement("Select Id, Descripcion, Foto, Precio, Stock, CantMin, Estado, PorcDescuento from Producto where Estado = 1"));
             while (rs.next()) {
                 productos.add(new Producto(rs.getInt("Id"), rs.getBoolean("Estado"),
                         rs.getInt("Stock"), rs.getInt("CantMin"), rs.getString("Descripcion"),
@@ -91,7 +91,7 @@ public class ProductoDB {
     public void eliminar(int idProducto) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion()
-                    .prepareStatement("Delete From Producto where id = ?");
+                    .prepareStatement("Update Producto set Estado = 0 where id = ?");
             ps.setInt(1, idProducto);
             accesoDatos.ejecutaSQL(ps);
         } catch (SQLException e) {
@@ -103,7 +103,7 @@ public class ProductoDB {
     public Producto seleccionarPorId(int idProducto) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion()
-                    .prepareStatement("Select Id, Descripcion, Foto, Precio, Stock, CantMin, Estado, PorcDescuento from Producto where Id = ?");
+                    .prepareStatement("Select Id, Descripcion, Foto, Precio, Stock, CantMin, Estado, PorcDescuento from Producto where Id = ? and Estado = 1");
             ps.setInt(1, idProducto);
             ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
             if (rs.next()) {
@@ -120,7 +120,7 @@ public class ProductoDB {
     public List<Producto> seleccionarPorNombre(String nombreProducto) throws SNMPExceptions{
         List<Producto> productos =  new ArrayList<>();
         try {
-            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Id, Descripcion, Foto, Precio, Stock, CantMin, Estado, PorcDescuento from Producto where descripcion like ?;");
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Id, Descripcion, Foto, Precio, Stock, CantMin, Estado, PorcDescuento from Producto where descripcion like ? and Estado = 1");
             ps.setString(1, "%" + nombreProducto +"%");
             ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
             while (rs.next()) {

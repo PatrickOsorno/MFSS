@@ -5,6 +5,8 @@
 package Controller;
 
 import DAO.SNMPExceptions;
+import Model.AccesoDatos.DespachoDB;
+import Model.AccesoDatos.EstadoPedidoDB;
 import Model.AccesoDatos.HorarioDB;
 import Model.Entidades.Cliente;
 import Model.Entidades.Direccion;
@@ -14,11 +16,15 @@ import Model.AccesoDatos.PedidoDB;
 import Model.Entidades.PedidoDetalle;
 import Model.Entidades.Producto;
 import Model.AccesoDatos.ProductoDB;
+import Model.Entidades.EstadoPedido;
+import Model.Entidades.MedioDespacho;
 import Model.Entidades.Usuario;
 import Util.Utilitarios;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -33,29 +39,49 @@ public class pedidosBean {
     List<Producto> productos;
     List<PedidoDetalle> detallesPedido;
     List<Direccion> direcciones;
-    List<SelectItem> horariosEntrega;
+    List<SelectItem> horariosEntrega, mediosDespacho;
     String txtBuscar;
     Date fechaEntrega;
     Direccion direccionEntrega;
     Horario horarioEntrega;
-    int cantidad, idHorario;
+    MedioDespacho medioDespacho;
+    int cantidad, idHorario, idMedioDespacho;
 
     @PostConstruct
     public void cargarComponentes() {
         this.setHorariosEntrega(new ArrayList<>());
         this.setDetallesPedido(new ArrayList<>());
-        this.setDirecciones(((Usuario) (FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("Usuario"))).getCliente().getDirecciones());
-        List<Horario> horarios = ((Usuario) (FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("Usuario"))).getCliente().getHorarios();
-        this.horariosEntrega.add(new SelectItem(0, "Seleccione el Horario de Entrega"));
-        horarios.forEach(horarioT -> {
-            this.horariosEntrega.add(new SelectItem(horarioT.getId(), horarioT.toString()));
-        });
+        this.setMediosDespacho(new ArrayList<>());
+
         try {
-            this.setProductos(new ProductoDB().SeleccionarTodo());
+            this.llenarComponentes();
         } catch (SNMPExceptions ex) {
         }
+
+    }
+
+    public MedioDespacho getMedioDespacho() {
+        return medioDespacho;
+    }
+
+    public void setMedioDespacho(MedioDespacho medioDespacho) {
+        this.medioDespacho = medioDespacho;
+    }
+
+    public List<SelectItem> getMediosDespacho() {
+        return mediosDespacho;
+    }
+
+    public void setMediosDespacho(List<SelectItem> mediosDespacho) {
+        this.mediosDespacho = mediosDespacho;
+    }
+
+    public int getIdMedioDespacho() {
+        return idMedioDespacho;
+    }
+
+    public void setIdMedioDespacho(int idMedioDespacho) {
+        this.idMedioDespacho = idMedioDespacho;
     }
 
     public int getIdHorario() {
@@ -138,16 +164,35 @@ public class pedidosBean {
         this.horarioEntrega = horarioEntrega;
     }
 
+    public void llenarComponentes() throws SNMPExceptions {
+        this.setDirecciones(((Usuario) (FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("Usuario"))).getCliente().getDirecciones());
+        List<Horario> horarios = ((Usuario) (FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("Usuario"))).getCliente().getHorarios();
+        this.horariosEntrega.add(new SelectItem(0, "Seleccione el Horario de Entrega"));
+        horarios.forEach(horarioT -> {
+            this.horariosEntrega.add(new SelectItem(horarioT.getId(), horarioT.toString()));
+        });
+        this.setProductos(new ProductoDB().SeleccionarTodo());
+        List<MedioDespacho> mediosD = new DespachoDB().seleccionarMediosDespacho();
+        mediosD.forEach(medio -> {
+            this.mediosDespacho.add(new SelectItem(medio.getId(), medio.getDescripcion()));
+        });
+    }
+
 //    Se confirma el pedido 
     public void confirmarPedido() throws SNMPExceptions {
         Cliente cliente = ((Usuario) (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario"))).getCliente();
         this.setHorarioEntrega(new HorarioDB().seleccionarPorId(this.getIdHorario()));
+        this.setMedioDespacho(new DespachoDB().seleccionarMedioDespachoPorId(this.getIdMedioDespacho()));
         Pedido pedido = new Pedido(0, true,
-                cliente.getId(),
-                this.getFechaEntrega(), this.getHorarioEntrega(), this.getDireccionEntrega(), detallesPedido, 0,
-                new PedidoDB().SeleccionarEstadoPedidoPorId(1));
+                cliente,
+                this.getFechaEntrega(), this.getHorarioEntrega(), this.getDireccionEntrega(), this.getDetallesPedido(), 0,
+                new EstadoPedidoDB().SeleccionarEstadoPedidoPorId(1),
+                this.getMedioDespacho());
 
-        if (Utilitarios.validarDatosPedido(detallesPedido, fechaEntrega, direccionEntrega, horarioEntrega)) {
+        if (Utilitarios.validarDatosPedido(this.getDetallesPedido(), this.getFechaEntrega(),
+                this.getDireccionEntrega(), this.getHorarioEntrega(), this.getMedioDespacho())) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Error", "Datos incompletos"));
@@ -181,6 +226,7 @@ public class pedidosBean {
         this.setDetallesPedido(new ArrayList<>());
         this.setFechaEntrega(null);
         this.setIdHorario(0);
+        this.setIdMedioDespacho(0);
         this.setDireccionEntrega(null);
     }
 

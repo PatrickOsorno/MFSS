@@ -85,15 +85,21 @@
                             </p:panel>
 
                             <p:panel header="Datos de Entrega">
-                                <h:panelGrid columns="2" cellpadding="10">
+                                <h:panelGrid columns="2">
                                     <label>Fecha de entrega: </label>
                                     <p:datePicker value="#{pedidosBean.fechaEntrega}"/>
+                                    
+                                    <label>Medio de Despacho: </label>
+                                    <p:selectOneMenu value="#{pedidosBean.idMedioDespacho}">
+                                        <f:selectItems value="#{pedidosBean.mediosDespacho}"/>
+                                    </p:selectOneMenu>
                                     
                                     <label>Horario de entrega: </label>
                                     <p:selectOneMenu value="#{pedidosBean.idHorario}">
                                         <f:selectItems value="#{pedidosBean.horariosEntrega}"/>
                                     </p:selectOneMenu>
                                     
+   
                                 </h:panelGrid>
                                 <p:dataTable var="direccion" value="#{pedidosBean.direcciones}" paginator="true"
                                              rows="1" rowSelectMode="add" paginatorPosition="bottom">
