@@ -4,34 +4,43 @@
  */
 package Controller;
 
+import DAO.SNMPExceptions;
+import Model.AccesoDatos.DespachoDB;
+import Model.AccesoDatos.FacturaDB;
+import Model.AccesoDatos.MedioDespachoDB;
+import Model.AccesoDatos.PedidoDB;
+import Model.Entidades.Despacho;
+import Model.Entidades.Pedido;
+import Util.Utilitarios;
 import java.util.Date;
 import java.util.List;
-import javax.faces.model.SelectItem;
-
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 /**
  *
  * @author Patrick Osorno
  */
 public class despachoBean {
-    List<Object> pedidos;
-    List<SelectItem> mediosDespacho;
+    List<Pedido> pedidos;
     Date fechaHoraEnvio;
-    String medioDespacho, txtBuscar;
+    Pedido pedido;
+    String observacion, txtBuscar;
 
-    public List<Object> getPedidos() {
+    public List<Pedido> getPedidos() {
         return pedidos;
     }
 
-    public void setPedidos(List<Object> pedidos) {
+    public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
 
-    public List<SelectItem> getMediosDespacho() {
-        return mediosDespacho;
+    public Pedido getPedido() {
+        return pedido;
     }
 
-    public void setMediosDespacho(List<SelectItem> mediosDespacho) {
-        this.mediosDespacho = mediosDespacho;
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
 
     public Date getFechaHoraEnvio() {
@@ -42,12 +51,12 @@ public class despachoBean {
         this.fechaHoraEnvio = fechaHoraEnvio;
     }
 
-    public String getMedioDespacho() {
-        return medioDespacho;
+    public String getObservacion() {
+        return observacion;
     }
 
-    public void setMedioDespacho(String medioDespacho) {
-        this.medioDespacho = medioDespacho;
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
     }
 
     public String getTxtBuscar() {
@@ -58,13 +67,42 @@ public class despachoBean {
         this.txtBuscar = txtBuscar;
     }
     
+    
+    @PostConstruct
+    public void cargarComponentes() {
+        try {
+            this.setPedidos(new PedidoDB().SeleccionarFacturados());
+        } catch (SNMPExceptions ex) {
+        }
+    }
+    
 //    Busca los pedidos
     public void buscar(){
         
     }
     
 //    Registra el despacho del pedido
-    public void registrarDespacho(){
-        
+    public void registrarDespacho() throws SNMPExceptions{
+        Despacho despacho = new Despacho(0,true, pedido, 
+                new FacturaDB().seleccionarPorPedido(this.getPedido().getId()).getId(), 
+                this.getFechaHoraEnvio(), this.getObservacion());
+
+        if (Utilitarios.validarDespacho(this.getFechaHoraEnvio(), this.getObservacion())) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error", "Datos incompletos"));
+            return;
+        }
+        new DespachoDB().insertar(despacho);
+        this.limpiar();
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Éxito", "Despacho realizado"));
+    }
+    
+     public void limpiar() {
+        this.setFechaHoraEnvio(null);
+        this.setObservacion("");
+        this.cargarComponentes();
     }
 }

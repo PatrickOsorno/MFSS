@@ -10,8 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
@@ -59,26 +57,6 @@ public class AccesoDatos {
     public Connection getConexion() {
         return conexion;
     }
-
-//    public void ejecutaSQL(String Sql) throws SNMPExceptions {
-//        try {
-//            st = conectar().createStatement();
-//            st.execute(Sql);
-//        } catch (SQLException e) {
-//            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION,
-//                    e.getMessage(), e.getErrorCode());
-//        }
-//    }
-//
-//    public ResultSet ejecutaSQLRetornaRS(String Sql) throws SNMPExceptions {
-//        try {
-//            st = conectar().createStatement();
-//            return st.executeQuery(Sql);
-//        } catch (SQLException e) {
-//            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION,
-//                    e.getMessage(), e.getErrorCode());
-//        }
-//    }
 
     public void ejecutaSQL(PreparedStatement ps) throws SNMPExceptions {
         try {

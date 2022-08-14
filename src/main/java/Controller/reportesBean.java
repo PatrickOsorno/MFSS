@@ -4,10 +4,17 @@
  */
 package Controller;
 
+import DAO.SNMPExceptions;
+import Model.AccesoDatos.EstadoPedidoDB;
+import Model.AccesoDatos.PedidoDB;
+import Model.Entidades.EstadoPedido;
 import Model.Entidades.Pedido;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.model.SelectItem;
 
@@ -16,37 +23,30 @@ import javax.faces.model.SelectItem;
  * @author Patrick Osorno
  */
 public class reportesBean {
-
-    Date rangoFechas;
-    String estado, tipoPago;
+    
+    List<Date> rangoFechasPedido, rangoFechasVenta;
     List<SelectItem> estados, tiposPago;
-    List<Pedido> pedidos = new ArrayList<>();
+    List<Pedido> pedidos;
     List<Object> ventas;
+    int idEstado, idTipoPago;
 
-    public Date getRangoFechas() {
-        return rangoFechas;
+    public List<Date> getRangoFechasPedido() {
+        return rangoFechasPedido;
     }
 
-    public void setRangoFechas(Date rangoFechas) {
-        this.rangoFechas = rangoFechas;
+    public void setRangoFechasPedido(List<Date> rangoFechasPedido) {
+        this.rangoFechasPedido = rangoFechasPedido;
     }
 
-    public String getEstado() {
-        return estado;
+    public List<Date> getRangoFechasVenta() {
+        return rangoFechasVenta;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setRangoFechasVenta(List<Date> rangoFechasVenta) {
+        this.rangoFechasVenta = rangoFechasVenta;
     }
 
-    public String getTipoPago() {
-        return tipoPago;
-    }
-
-    public void setTipoPago(String tipoPago) {
-        this.tipoPago = tipoPago;
-    }
-
+    
     public List<SelectItem> getEstados() {
         return estados;
     }
@@ -78,20 +78,51 @@ public class reportesBean {
     public void setVentas(List<Object> ventas) {
         this.ventas = ventas;
     }
-    
-    public boolean activarBotonExportar(){
+
+    public boolean activarBotonExportar() {
         return this.getPedidos().isEmpty();
     }
 
-//    Se carga la tabla
+    public int getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(int idEstado) {
+        this.idEstado = idEstado;
+    }
+
+    public int getIdTipoPago() {
+        return idTipoPago;
+    }
+
+    public void setIdTipoPago(int idTipoPago) {
+        this.idTipoPago = idTipoPago;
+    }
+    
+     public String formatearFecha(Date fecha) {
+        return new SimpleDateFormat("dd/M/yyyy").format(fecha);
+    }
+
     @PostConstruct
-    public void cargarComponentes() {
+    public void cargarCombo() {
+        this.setEstados(new ArrayList<>());
+        this.setPedidos(new ArrayList<>());
+        try {
+            List<EstadoPedido> estadosPedido = new EstadoPedidoDB().seleccionarTodos();
+            estados.add(new SelectItem(0, "Seleccione el estado"));
+            estadosPedido.forEach(est -> {
+                estados.add(new SelectItem(est.getId(), est.getDescripcion()));
+            });
+        } catch (SNMPExceptions ex) {
+            Logger.getLogger(reportesBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
 //    Se muesta el reporte de pedidos
-    public void mostrarReportePedidos() {
-
+    public void mostrarReportePedidos() throws SNMPExceptions {
+        this.setPedidos(new PedidoDB().seleccionarPorRangoDeFechaYEstado(this.getRangoFechasPedido().get(0), 
+                this.getRangoFechasPedido().get(1), this.getIdEstado()));
     }
 
 //    Se muestra el reporte de las ventas

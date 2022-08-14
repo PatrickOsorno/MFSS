@@ -127,7 +127,7 @@ public class facturacionBean {
             detalles.add(new FacturaDetalle(0, pedidoSel, true));
         });
         
-        Factura factura = new Factura(0, true, new TipoPagoDB().seleccionarPorId(this.getTipoPago()), 0, 0, 0, null, detalles);
+        Factura factura = new Factura(0, true, new TipoPagoDB().seleccionarPorId(this.getTipoPago()), 0, 0, 0, 0, 0, null, detalles);
         if(Util.Utilitarios.validarFacturacion(this.getPedidosSel(), this.getTipoPago())){
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Datos incorrectos"));
@@ -140,7 +140,6 @@ public class facturacionBean {
     }
 
     public boolean validarPerteneciaCliente(List<Pedido> pedidos) {
-//        String idCliente = "";
         for (Pedido pedido : this.getPedidosSel()) {
             for (Pedido pedido1 : this.getPedidosSel()) {
                 if(!pedido.getCliente().getId().equals(pedido1.getCliente().getId())){
@@ -148,14 +147,6 @@ public class facturacionBean {
                 }
             }
         }
-        
-//        for (Pedido pedido : this.getPedidosSel()) {
-//            if (idCliente.equals("")) {
-//                idCliente = pedido.getCliente().getId();
-//            } else {
-//                return !pedido.getCliente().getId().equals(idCliente);
-//            }
-//        }
         return true;
     }
 

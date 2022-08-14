@@ -133,4 +133,15 @@ public class ProductoDB {
         }
         return productos;
     }
+    
+    public void restarCantidadDisponible(int idProducto, int cantidadVendida) throws SNMPExceptions{
+        try {
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Update Producto set Stock = Stock - ? where id = ?;");
+            ps.setInt(1, cantidadVendida);
+            ps.setInt(2, idProducto);
+            accesoDatos.ejecutaSQL(ps);
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
+    }
 }

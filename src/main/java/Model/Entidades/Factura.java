@@ -16,12 +16,12 @@ public class Factura {
     private int id;
     private boolean estado;
     private TipoPago tipoPago;
-    private float costoEnvio, descuento, subTotal;
+    private float costoEnvio, descuento, subTotal, total, impuesto;
     private Date fecha;
     private List<FacturaDetalle> detalle;
     private final float IMPUESTO = 0.13f;
 
-    public Factura(int id, boolean estado, TipoPago tipoPago, float costoEnvio, float descuento, float subTotal, Date fecha, List<FacturaDetalle> detalle) {
+    public Factura(int id, boolean estado, TipoPago tipoPago, float costoEnvio, float descuento, float subTotal, float total, float impuesto, Date fecha, List<FacturaDetalle> detalle) {
         this.id = id;
         this.estado = estado;
         this.tipoPago = tipoPago;
@@ -30,6 +30,8 @@ public class Factura {
         this.subTotal = subTotal;
         this.fecha = fecha;
         this.detalle = detalle;
+        this.total = total;
+        this.impuesto = impuesto;
     }
 
     public int getId() {
@@ -94,6 +96,22 @@ public class Factura {
 
     public void setDetalle(List<FacturaDetalle> detalle) {
         this.detalle = detalle;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
+    }
+
+    public float getImpuesto() {
+        return impuesto;
+    }
+
+    public void setImpuesto(float impuesto) {
+        this.impuesto = impuesto;
     }
 
     public float calcularCostoEnvio() {

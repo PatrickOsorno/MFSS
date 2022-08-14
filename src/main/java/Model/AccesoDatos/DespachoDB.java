@@ -29,16 +29,15 @@ public class DespachoDB {
 
     public void insertar(Despacho despacho) throws SNMPExceptions {
         try {
-            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Insert into Despacho(Id, IdPedido, IdFactura, FechaHora, Observacion, IdMedioDespacho, Estado) "
-                    + "values(?, ?, ?, ?, ?, ?, ?)");
-            ps.setInt(1, despacho.getId());
-            ps.setInt(2, despacho.getPedido().getId());
-            ps.setInt(3, despacho.getFactura().getId());
-            ps.setTimestamp(4, new Timestamp(despacho.getFechaHora().getTime()));
-            ps.setString(5, despacho.getObservacion());
-            ps.setInt(6, despacho.getMedio().getId());
-            ps.setBoolean(7, despacho.getEstado());
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Insert into Despacho(IdPedido, IdFactura, FechaHora, Observacion, Estado) "
+                    + "values(?, ?, ?, ?, ?)");
+            ps.setInt(1, despacho.getPedido().getId());
+            ps.setInt(2, despacho.getIdFactura());
+            ps.setTimestamp(3, new Timestamp(despacho.getFechaHora().getTime()));
+            ps.setString(4, despacho.getObservacion());
+            ps.setBoolean(5, despacho.getEstado());
             accesoDatos.ejecutaSQL(ps);
+            new PedidoDB().modificarEstadoPedido(despacho.getPedido().getId(), 3);
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }

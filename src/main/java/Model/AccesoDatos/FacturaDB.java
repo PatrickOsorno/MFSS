@@ -43,17 +43,12 @@ public class FacturaDB {
             ps.setString(8, ((Usuario) (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario"))).getCorreo());
             accesoDatos.ejecutaSQL(ps);
 
-//            factura.getDetalle().forEach(det -> {
-//                try {
-//                    this.insertarDetalle(det);
-//                } catch (SNMPExceptions ex) {
-//                }
-//            });
-
-            for (FacturaDetalle facturaDetalle : factura.getDetalle()) {
-                this.insertarDetalle(facturaDetalle);
-            }
-
+            factura.getDetalle().forEach(det -> {
+                try {
+                    this.insertarDetalle(det);
+                } catch (SNMPExceptions ex) {
+                }
+            });
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }
@@ -82,8 +77,31 @@ public class FacturaDB {
             ps.setInt(2, detalle.getPedido().getId());
             ps.setBoolean(3, detalle.isEstado());
             accesoDatos.ejecutaSQL(ps);
+            new PedidoDB().modificarEstadoPedido(detalle.getPedido().getId(), 2);
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }
+    }
+
+    public Factura seleccionarPorPedido(int idPedido) throws SNMPExceptions {
+        try {
+            PreparedStatement ps = accesoDatos.getConexion()
+                    .prepareStatement("Select f.Id, f.IdTipoPago, f.CostoEnvio, "
+                            + "f.Descuento, f.Subtotal, f.Total, f.Impuesto, "
+                            + "f.Fecha, f.Estado from Factura as f "
+                            + "inner join FacturaDetalle as d on f.Id = d.idFactura "
+                            + "and d.IdPedido = ?");
+            ps.setInt(1, idPedido);
+            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
+            if (rs.next()) {
+                return new Factura(rs.getInt("Id"), rs.getBoolean("Estado"),
+                        new TipoPagoDB().seleccionarPorId(rs.getInt("IdTipoPago")), rs.getFloat("CostoEnvio"),
+                        rs.getFloat("Descuento"), rs.getFloat("SubTotal"), rs.getFloat("Total"), rs.getFloat("Impuesto"), rs.getDate("Fecha"), null);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
+        return null;
     }
 }

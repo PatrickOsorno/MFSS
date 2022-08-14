@@ -21,6 +21,7 @@
             </h:form>
         </div>
         <h:form class="centrarFormulario">
+            <p:growl id="growlDespacho" showDetail="true"/>
             <p:panel header="Registrar Despacho" class="panDespach">
                 <p:toolbar>
                     <p:toolbarGroup>
@@ -35,42 +36,42 @@
                     </p:toolbarGroup>
                 </p:toolbar>
                 <p:dataTable var="pedido" value="#{despachoBean.pedidos}" paginator="true"
-                             rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                             rows="3" rowSelectMode="add" paginatorPosition="bottom">
                     <p:column headerText="Cliente">
-                        <h:outputText/>
+                        <h:outputText value="#{pedido.cliente}"/>
                     </p:column>
 
                     <p:column headerText="Fecha de Entrega">
-                        <h:outputText/>
+                        <h:outputText value="#{pedido.fechaEntrega}"/>
                     </p:column>
 
                     <p:column headerText="Direcci&oacute;n">
-                        <h:outputText/>
+                        <h:outputText value="#{pedido.direccion}"/>
                     </p:column>
 
                     <p:column headerText="Horario de Entrega">
-                        <h:outputText/>
+                        <h:outputText value="#{pedido.horario}"/>
                     </p:column>
 
                     <p:column>
-                        <p:commandButton value="Despachar" icon="pi pi-sign-out" oncomplete="PF('dlgRegistrarDesp').show()"/>
+                        <p:commandButton value="Despachar" icon="pi pi-sign-out" oncomplete="PF('dlgRegistrarDesp').show()">
+                            <f:setPropertyActionListener value="#{pedido}" target="#{despachoBean.pedido}"/>
+                        </p:commandButton>
                     </p:column>
                 </p:dataTable>
-                 <p:dialog header="Registrar Despacho" showEffect="fade" modal="true"
-                     widgetVar="dlgRegistrarDesp" responsive="true">
-                     <h:panelGrid columns="2" cellpadding="5">
-                         <label>Fecha y hora de env&iacute;o: </label>
-                         <p:datePicker showTime="true" value="#{despachoBean.fechaHoraEnvio}"/>
-                         <label>Medio de Despacho: </label>
-                         <p:selectOneMenu value="#{despachoBean.medioDespacho}">
-                             <f:selectItems />
-                         </p:selectOneMenu>
-                     </h:panelGrid>
-                     <h:panelGrid columns="1" cellpadding="5" class="centrar">
-                         <p:commandButton value="Confirmar" icon="pi pi-check" oncomplete="PF('dlgRegistrarDesp').hide()" 
-                                          action="#{despachoBean.registrarDespacho()}"/>
-                     </h:panelGrid>
-                 </p:dialog>
+                <p:dialog header="Registrar Despacho" showEffect="fade" modal="true"
+                          widgetVar="dlgRegistrarDesp" responsive="true">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <label>Fecha y hora de env&iacute;o: </label>
+                        <p:datePicker showTime="true" value="#{despachoBean.fechaHoraEnvio}"/>
+                        <label>Observacion: </label>
+                        <p:inputTextarea value="#{despachoBean.observacion}"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" cellpadding="5" class="centrar">
+                        <p:commandButton value="Confirmar" icon="pi pi-check" oncomplete="PF('dlgRegistrarDesp').hide()" 
+                                         action="#{despachoBean.registrarDespacho()}" update="@form"/>
+                    </h:panelGrid>
+                </p:dialog>
             </p:panel>
         </h:form>
     </h:body>

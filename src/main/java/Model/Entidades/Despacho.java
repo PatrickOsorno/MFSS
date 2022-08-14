@@ -12,22 +12,19 @@ import java.util.Date;
  */
 public class Despacho {
 
-    int id;
-    boolean estado;
-    Pedido pedido;
-    Factura factura;
-    Date fechaHora;
-    String observacion;
-    MedioDespacho medio;
+    private int id, idFactura;
+    private boolean estado;
+    private Pedido pedido;
+    private Date fechaHora;
+    private String observacion;
 
-    public Despacho(int id, boolean estado, Pedido pedido, Factura factura, Date fechaHora, String observacion, MedioDespacho medio) {
+    public Despacho(int id, boolean estado, Pedido pedido, int idFactura, Date fechaHora, String observacion) {
         this.id = id;
         this.estado = estado;
         this.pedido = pedido;
-        this.factura = factura;
+        this.idFactura = idFactura;
         this.fechaHora = fechaHora;
         this.observacion = observacion;
-        this.medio = medio;
     }
 
     public int getId() {
@@ -54,12 +51,12 @@ public class Despacho {
         this.pedido = pedido;
     }
 
-    public Factura getFactura() {
-        return factura;
+    public int getIdFactura() {
+        return idFactura;
     }
 
-    public void setFactura(Factura factura) {
-        this.factura = factura;
+    public void setIdFactura(int idFactura) {
+        this.idFactura = idFactura;
     }
 
     public Date getFechaHora() {
@@ -77,13 +74,4 @@ public class Despacho {
     public void setObservacion(String observacion) {
         this.observacion = observacion;
     }
-
-    public MedioDespacho getMedio() {
-        return medio;
-    }
-
-    public void setMedio(MedioDespacho medio) {
-        this.medio = medio;
-    }
-
 }

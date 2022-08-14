@@ -89,6 +89,10 @@ public class Utilitarios {
     public static boolean validarFacturacion(List<Pedido> pedidos, int tipoPago){
         return (pedidos.isEmpty() || tipoPago == 0);
     }
+    
+    public static boolean validarDespacho(Date fechaHoraEnvio, String observacion) {
+        return (fechaHoraEnvio == null || observacion.equals(""));
+    }
 
 //Mediante este metodo se le enviará al solicitante si fue aprovada su inscripcion
     public static void enviarCorreo(String correo, String mensaje, String asunto) {

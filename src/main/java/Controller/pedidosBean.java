@@ -208,6 +208,13 @@ public class pedidosBean {
 
 //    Se agrega la orden al carrito
     public void agregarAOrden(Producto producto) {
+        if(producto.getCantidad() > producto.getCantDisponible()){
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error", "La cantidad seleccionada del producto: " + producto.getDescripcion() 
+                                    +" es mayor a la cantidad disponible para la venta"));
+            return;
+        }
         if (!validarExistenciaProd(producto)) {
             detallesPedido.add(new PedidoDetalle(0, producto, producto.getCantidad(), true, producto.calcularDescuento()));
             FacesContext.getCurrentInstance().addMessage(null,

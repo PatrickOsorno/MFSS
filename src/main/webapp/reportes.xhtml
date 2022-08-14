@@ -27,14 +27,14 @@
                             <h:panelGrid columns="5" cellpadding="10">
 
                                 <label>Rango de Fechas: </label>
-                                <p:datePicker selectionMode="range" readonlyInput="true" value="#{reportesBean.rangoFechas}"/>
+                                <p:datePicker selectionMode="multiple" readonlyInput="true" value="#{reportesBean.rangoFechasPedido}"/>
 
                                 <label>Filtrar Por:</label>
-                                <p:selectOneMenu value="#{reportesBean.estado}">
-                                    <f:selectItems />
+                                <p:selectOneMenu value="#{reportesBean.idEstado}">
+                                    <f:selectItems value="#{reportesBean.estados}"/>
                                 </p:selectOneMenu>
 
-                                <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o" action="#{reportesBean.mostrarReportePedidos()}"/>
+                                <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o" action="#{reportesBean.mostrarReportePedidos()}" update="tablaPedidos btnExportarPedidos"/>
                             </h:panelGrid>
 
                             <p:toolbar>
@@ -42,7 +42,7 @@
                                     <h3>Pedidos</h3>
                                 </p:toolbarGroup>
                                 <p:toolbarGroup align="right">
-                                    <p:commandButton value="Exportar" disabled="#{reportesBean.activarBotonExportar()}" icon="pi pi-upload" update="tablaPedidos" styleClass="ui-button-help" ajax="false">
+                                    <p:commandButton id="btnExportarPedidos" value="Exportar" disabled="#{reportesBean.activarBotonExportar()}" icon="pi pi-upload" update="tablaPedidos" styleClass="ui-button-help" ajax="false">
                                         <p:dataExporter type="pdf" target="tablaPedidos" fileName="ReportePedidos" encoding="ISO-8859-1"/>
                                     </p:commandButton>
                                 </p:toolbarGroup>
@@ -50,25 +50,25 @@
 
 
                             <p:dataTable id="tablaPedidos" var="pedido" value="#{reportesBean.pedidos}" paginator="true"
-                                         rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                                         rows="2" rowSelectMode="add" paginatorPosition="bottom">
                                 <p:column headerText="Cliente">
-                                    <h:outputText/>
+                                    <h:outputText value="#{pedido.cliente}"/>
                                 </p:column>
 
                                 <p:column headerText="Fecha de Entrega">
-                                    <h:outputText/>
+                                    <h:outputText value="#{reportesBean.formatearFecha(pedido.fechaEntrega)}"/>
                                 </p:column>
 
                                 <p:column headerText="Direcci&oacute;n">
-                                    <h:outputText/>
+                                    <h:outputText value="#{pedido.direccion}"/>
                                 </p:column>
 
                                 <p:column headerText="Horario de Entrega">
-                                    <h:outputText/>
+                                    <h:outputText value="#{pedido.horario}"/>
                                 </p:column>
 
                                 <p:column headerText="Estado">
-                                    <h:outputText/>
+                                    <h:outputText value="#{pedido.estadoPedido}"/>
                                 </p:column>
                             </p:dataTable>
                         </p:tab>
@@ -77,10 +77,10 @@
                             <h:panelGrid columns="5" cellpadding="10">
 
                                 <label>Rango de Fechas: </label>
-                                <p:datePicker selectionMode="range" readonlyInput="true" value="#{reportesBean.rangoFechas}"/>
+                                <p:datePicker selectionMode="range" readonlyInput="true" value="#{reportesBean.rangoFechasVenta}"/>
 
                                 <label>Filtrar Por:</label>
-                                <p:selectOneMenu value="#{reportesBean.tipoPago}">
+                                <p:selectOneMenu value="#{reportesBean.idTipoPago}">
                                     <f:selectItem />
                                 </p:selectOneMenu>
 
