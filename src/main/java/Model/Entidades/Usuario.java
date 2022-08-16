@@ -12,12 +12,12 @@ import java.util.Date;
  */
 public class Usuario {
 
-    String correo, contrasena;
-    Date fechaRegistro;
-    Date ultimaEdicion;
-    boolean estado;
-    RolUsuario rol;
-    Cliente cliente;
+    private String correo, contrasena;
+    private Date fechaRegistro;
+    private Date ultimaEdicion;
+    private boolean estado;
+    private RolUsuario rol;
+    private Cliente cliente;
 
     public Usuario(String correo, String contrasena, Date fechaRegistro, Date ultimaEdicion, boolean estado, RolUsuario rol, Cliente cliente) {
         this.correo = correo;

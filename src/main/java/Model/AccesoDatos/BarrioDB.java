@@ -34,10 +34,11 @@ public class BarrioDB {
             ps.setInt(1, idProvincia);
             ps.setInt(2, idCanton);
             ps.setInt(3, idDistrito);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            while (rs.next()) {                
-                barrios.add(new Barrio(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"), 
-                        new DistritoDB().seleccionarPorId(idProvincia, idCanton, idDistrito)));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                while (rs.next()) {
+                    barrios.add(new Barrio(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"),
+                            new DistritoDB().seleccionarPorId(idProvincia, idCanton, idDistrito)));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -54,10 +55,11 @@ public class BarrioDB {
             ps.setInt(2, idCanton);
             ps.setInt(3, idDistrito);
             ps.setInt(4, idBarrio);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            if(rs.next()){
-                return new Barrio(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"), 
-                        new DistritoDB().seleccionarPorId(idProvincia, idCanton, idDistrito));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                if(rs.next()){
+                    return new Barrio(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"),
+                            new DistritoDB().seleccionarPorId(idProvincia, idCanton, idDistrito));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

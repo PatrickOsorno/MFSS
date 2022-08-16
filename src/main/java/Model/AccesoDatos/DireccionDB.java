@@ -31,12 +31,13 @@ public class DireccionDB {
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select IdCliente, IdProvincia, IdCanton, IdDistrito, IdBarrio, OtrasSenas, IdTipoDireccion, Estado, Id from direccion where idCliente = ?");
             ps.setString(1, IdCliente);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            while (rs.next()) {
-                direcciones.add(new Direccion(rs.getInt("Id"), rs.getBoolean("Estado"),
-                        null, new BarrioDB().seleccionarPorId(rs.getInt("IdProvincia"), rs.getInt("IdCanton"), rs.getInt("IdDistrito"), rs.getInt("IdBarrio")),
-                        rs.getString("OtrasSenas"),
-                        new TipoDireccionDB().seleccionarPorId(rs.getInt("IdTipoDireccion"))));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                while (rs.next()) {
+                    direcciones.add(new Direccion(rs.getInt("Id"), rs.getBoolean("Estado"),
+                            null, new BarrioDB().seleccionarPorId(rs.getInt("IdProvincia"), rs.getInt("IdCanton"), rs.getInt("IdDistrito"), rs.getInt("IdBarrio")),
+                            rs.getString("OtrasSenas"),
+                            new TipoDireccionDB().seleccionarPorId(rs.getInt("IdTipoDireccion"))));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -48,12 +49,13 @@ public class DireccionDB {
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select IdCliente, IdProvincia, IdCanton, IdDistrito, IdBarrio, OtrasSenas, IdTipoDireccion, Estado, Id from direccion where Id = ?");
             ps.setInt(1, idDireccion);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            while (rs.next()) {
-                return new Direccion(rs.getInt("Id"), rs.getBoolean("Estado"),
-                        null, new BarrioDB().seleccionarPorId(rs.getInt("IdProvincia"), rs.getInt("IdCanton"), rs.getInt("IdDistrito"), rs.getInt("IdBarrio")),
-                        rs.getString("OtrasSenas"),
-                        new TipoDireccionDB().seleccionarPorId(rs.getInt("IdTipoDireccion")));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                while (rs.next()) {
+                    return new Direccion(rs.getInt("Id"), rs.getBoolean("Estado"),
+                            null, new BarrioDB().seleccionarPorId(rs.getInt("IdProvincia"), rs.getInt("IdCanton"), rs.getInt("IdDistrito"), rs.getInt("IdBarrio")),
+                            rs.getString("OtrasSenas"),
+                            new TipoDireccionDB().seleccionarPorId(rs.getInt("IdTipoDireccion")));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

@@ -26,9 +26,10 @@ public class MedioDespachoDB {
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Id, Descripcion, Costo, Estado From MedioDespacho where id = ?");
             ps.setInt(1, idMedioDespacho);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            while (rs.next()) {                
-                return new MedioDespacho(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descripcion"), rs.getFloat("Costo"));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                while (rs.next()) {
+                    return new MedioDespacho(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descripcion"), rs.getFloat("Costo"));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

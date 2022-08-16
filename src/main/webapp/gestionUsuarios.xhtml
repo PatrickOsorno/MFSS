@@ -25,7 +25,7 @@
             <p:growl id="growlUsuarios" showDetail="true"/>
             <p:panel header="Gesti&oacute;n de Usuarios" class="panNuevoUs">
                 <p:tabView>
-                    <p:tab title="Solicitudes">
+                    <p:tab title="Solicitudes" rendered="#{gestionUsuariosBean.esAdministrador}">
                         <p:dataTable id="tablaSolicitudes" value="#{gestionUsuariosBean.clientes}" var="cliente">
                             <p:column headerText="Identificaci&oacute;n">
                                 <h:outputText value="#{cliente.id}" />

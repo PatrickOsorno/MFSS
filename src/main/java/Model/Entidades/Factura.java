@@ -19,7 +19,7 @@ public class Factura {
     private float costoEnvio, descuento, subTotal, total, impuesto;
     private Date fecha;
     private List<FacturaDetalle> detalle;
-    private final float IMPUESTO = 0.13f;
+    private final float IMPUESTO = 0.15f;
 
     public Factura(int id, boolean estado, TipoPago tipoPago, float costoEnvio, float descuento, float subTotal, float total, float impuesto, Date fecha, List<FacturaDetalle> detalle) {
         this.id = id;

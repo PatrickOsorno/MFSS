@@ -20,7 +20,8 @@
                 </p:menubar>
             </h:form>
 
-            <h:form class="centrarFormulario">
+            <h:form id="form" class="centrarFormulario">
+                <p:growl id="growlReportes" showDetail="true"/>
                 <p:panel header="Reportes" class="panReportes">
                     <p:tabView>
                         <p:tab title="Reporte de Pedidos">
@@ -34,7 +35,7 @@
                                     <f:selectItems value="#{reportesBean.estados}"/>
                                 </p:selectOneMenu>
 
-                                <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o" action="#{reportesBean.mostrarReportePedidos()}" update="tablaPedidos btnExportarPedidos"/>
+                                <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o" action="#{reportesBean.mostrarReportePedidos()}" update="tablaPedidos btnExportarPedidos form:growlReportes"/>
                             </h:panelGrid>
 
                             <p:toolbar>
@@ -42,8 +43,8 @@
                                     <h3>Pedidos</h3>
                                 </p:toolbarGroup>
                                 <p:toolbarGroup align="right">
-                                    <p:commandButton id="btnExportarPedidos" value="Exportar" disabled="#{reportesBean.activarBotonExportar()}" icon="pi pi-upload" update="tablaPedidos" styleClass="ui-button-help" ajax="false">
-                                        <p:dataExporter type="pdf" target="tablaPedidos" fileName="ReportePedidos" encoding="ISO-8859-1"/>
+                                    <p:commandButton id="btnExportarPedidos" value="Exportar" disabled="#{reportesBean.activarBotonExportarPedidos()}" icon="pi pi-upload" update="tablaPedidos" styleClass="ui-button-help" ajax="false">
+                                        <p:dataExporter type="pdf" target="tablaPedidos" fileName="ReportePedidos"/>
                                     </p:commandButton>
                                 </p:toolbarGroup>
                             </p:toolbar>
@@ -77,44 +78,43 @@
                             <h:panelGrid columns="5" cellpadding="10">
 
                                 <label>Rango de Fechas: </label>
-                                <p:datePicker selectionMode="range" readonlyInput="true" value="#{reportesBean.rangoFechasVenta}"/>
+                                <p:datePicker selectionMode="multiple" readonlyInput="true" value="#{reportesBean.rangoFechasVenta}"/>
 
                                 <label>Filtrar Por:</label>
                                 <p:selectOneMenu value="#{reportesBean.idTipoPago}">
-                                    <f:selectItem />
+                                    <f:selectItems value="#{reportesBean.tiposPago}" />
                                 </p:selectOneMenu>
 
-                                <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o" action="#{reportesBean.mostrarReporteVentas()}"/>
+                                <p:commandButton value="Mostrar Reporte" icon="pi pi-file-o" action="#{reportesBean.mostrarReporteVentas()}" update="tablaFactura btnExportarVenta form:growlReportes"/>
                             </h:panelGrid>
                             <p:toolbar>
                                 <p:toolbarGroup>
                                     <h3>Ventas</h3>
                                 </p:toolbarGroup>
                                 <p:toolbarGroup align="right">
-                                    <p:commandButton value="Exportar" icon="pi pi-upload" update="tablaPedidos" styleClass="ui-button-help" ajax="false">
-                                        <p:dataExporter type="pdf" target="tablaFactura" fileName="ReporteVentas" encoding="ISO-8859-1"/>
+                                    <p:commandButton id="btnExportarVenta" value="Exportar" disabled="#{reportesBean.activarBotonExportarFacturas()}" icon="pi pi-upload" update="tablaPedidos" styleClass="ui-button-help" ajax="false">
+                                        <p:dataExporter type="pdf" target="tablaFactura" fileName="ReporteVentas"/>
                                     </p:commandButton>
                                 </p:toolbarGroup>
                             </p:toolbar>
 
 
-                            <p:dataTable id="tablaFactura" var="pedido" value="#" paginator="true"
+                            <p:dataTable id="tablaFactura" var="factura" value="#{reportesBean.facturas}" paginator="true"
                                          rows="10" rowSelectMode="add" paginatorPosition="bottom">
-                                <p:column headerText="Pedido">
-                                    <h:outputText/>
+                                <p:column headerText="N&uacute;mero de Factura">
+                                    <h:outputText value="#{factura.id}"/>
                                 </p:column>
 
                                 <p:column headerText="Fecha">
-                                    <h:outputText/>
+                                    <h:outputText value="#{reportesBean.formatearFecha(factura.fecha)}"/>
                                 </p:column>
 
                                 <p:column headerText="Tipo de Pago">
-                                    <h:outputText/>
+                                    <h:outputText value="#{factura.tipoPago}"/>
                                 </p:column>
 
-
                                 <p:column headerText="Total">
-                                    <h:outputText>
+                                    <h:outputText value="#{factura.total}">
                                         <f:convertNumber currencySymbol="₡" type="currency"/>
                                     </h:outputText>
                                 </p:column>

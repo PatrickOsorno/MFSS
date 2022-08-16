@@ -10,10 +10,10 @@ package Model.Entidades;
  */
 public class MedioDespacho {
 
-    int id;
-    boolean estado;
-    String descripcion;
-    float costo;
+    private int id;
+    private boolean estado;
+    private String descripcion;
+    private float costo;
 
     public MedioDespacho(int id, boolean estado, String descripcion, float costo) {
         this.id = id;

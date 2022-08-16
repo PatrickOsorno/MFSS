@@ -6,16 +6,21 @@ package Controller;
 
 import DAO.SNMPExceptions;
 import Model.AccesoDatos.EstadoPedidoDB;
+import Model.AccesoDatos.FacturaDB;
 import Model.AccesoDatos.PedidoDB;
+import Model.AccesoDatos.TipoPagoDB;
 import Model.Entidades.EstadoPedido;
+import Model.Entidades.Factura;
 import Model.Entidades.Pedido;
+import Model.Entidades.TipoPago;
+import Util.Utilitarios;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 /**
@@ -23,11 +28,11 @@ import javax.faces.model.SelectItem;
  * @author Patrick Osorno
  */
 public class reportesBean {
-    
+
     List<Date> rangoFechasPedido, rangoFechasVenta;
     List<SelectItem> estados, tiposPago;
     List<Pedido> pedidos;
-    List<Object> ventas;
+    List<Factura> facturas;
     int idEstado, idTipoPago;
 
     public List<Date> getRangoFechasPedido() {
@@ -46,7 +51,6 @@ public class reportesBean {
         this.rangoFechasVenta = rangoFechasVenta;
     }
 
-    
     public List<SelectItem> getEstados() {
         return estados;
     }
@@ -71,16 +75,20 @@ public class reportesBean {
         this.pedidos = pedidos;
     }
 
-    public List<Object> getVentas() {
-        return ventas;
+    public List<Factura> getFacturas() {
+        return facturas;
     }
 
-    public void setVentas(List<Object> ventas) {
-        this.ventas = ventas;
+    public void setFacturas(List<Factura> facturas) {
+        this.facturas = facturas;
     }
 
-    public boolean activarBotonExportar() {
+    public boolean activarBotonExportarPedidos() {
         return this.getPedidos().isEmpty();
+    }
+
+    public boolean activarBotonExportarFacturas() {
+        return this.getFacturas().isEmpty();
     }
 
     public int getIdEstado() {
@@ -98,35 +106,61 @@ public class reportesBean {
     public void setIdTipoPago(int idTipoPago) {
         this.idTipoPago = idTipoPago;
     }
-    
-     public String formatearFecha(Date fecha) {
+
+    public String formatearFecha(Date fecha) {
         return new SimpleDateFormat("dd/M/yyyy").format(fecha);
     }
 
     @PostConstruct
-    public void cargarCombo() {
+    public void cargarCombos() {
         this.setEstados(new ArrayList<>());
+        this.setTiposPago(new ArrayList<>());
         this.setPedidos(new ArrayList<>());
+        this.setFacturas(new ArrayList<>());
         try {
             List<EstadoPedido> estadosPedido = new EstadoPedidoDB().seleccionarTodos();
+            List<TipoPago> tipsPago = new TipoPagoDB().seleccionarTodos();
             estados.add(new SelectItem(0, "Seleccione el estado"));
             estadosPedido.forEach(est -> {
                 estados.add(new SelectItem(est.getId(), est.getDescripcion()));
             });
+
+            tiposPago.add(new SelectItem(0, "Seleccione el tipo"));
+            tipsPago.forEach(tipoPago -> {
+                tiposPago.add(new SelectItem(tipoPago.getId(), tipoPago.getDescripcion()));
+            });
         } catch (SNMPExceptions ex) {
-            Logger.getLogger(reportesBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
 //    Se muesta el reporte de pedidos
     public void mostrarReportePedidos() throws SNMPExceptions {
-        this.setPedidos(new PedidoDB().seleccionarPorRangoDeFechaYEstado(this.getRangoFechasPedido().get(0), 
+
+        if (Utilitarios.validarMostrarReportePedidos(this.getRangoFechasPedido(), this.getIdEstado())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Datos incorrectos"));
+            return;
+        }
+        if (this.getRangoFechasPedido().size() > 2) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Solo debe seleccionar dos fechas"));
+            return;
+        }
+        this.setPedidos(new PedidoDB().seleccionarPorRangoDeFechaYEstado(this.getRangoFechasPedido().get(0),
                 this.getRangoFechasPedido().get(1), this.getIdEstado()));
     }
 
-//    Se muestra el reporte de las ventas
-    public void mostrarReporteVentas() {
+//    Se muestra el reporte de las facturas
+    public void mostrarReporteVentas() throws SNMPExceptions {
 
+        if (Utilitarios.validarMostrarReporteVentas(this.getRangoFechasVenta(), this.getIdTipoPago())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Datos incorrectos"));
+            return;
+        }
+        if (this.getRangoFechasVenta().size() > 2) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Solo debe seleccionar dos fechas"));
+            return;
+        }
+        this.setFacturas(new FacturaDB().seleccionarPorRangoDeFechaYTipoPago(this.getRangoFechasVenta().get(0),
+                this.getRangoFechasVenta().get(1), this.getIdTipoPago()));
     }
 }

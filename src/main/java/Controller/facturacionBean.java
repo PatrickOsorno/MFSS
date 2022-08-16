@@ -155,7 +155,7 @@ public class facturacionBean {
         if(this.getTxtBuscar().equals("")){
             this.setPedidos(new PedidoDB().seleccionarNoFacturados());
         }else{
-            this.setPedidos(new PedidoDB().seleccionarPorNombre(this.getTxtBuscar()));
+            this.setPedidos(new PedidoDB().seleccionarNoFacturadosPorNombre(this.getTxtBuscar()));
         }
     }
 }

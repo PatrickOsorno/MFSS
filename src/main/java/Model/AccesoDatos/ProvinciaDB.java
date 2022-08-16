@@ -28,10 +28,11 @@ public class ProvinciaDB {
     public List<Provincia> seleccionarProvincias() throws SNMPExceptions{
         List<Provincia> provincias = new ArrayList<>();
         try {
-           ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos.getConexion()
-                    .prepareStatement("Select Id, Descrip, Estado from Provincia"));
-            while (rs.next()) {                
-                provincias.add(new Provincia(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip")));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos.getConexion()
+                    .prepareStatement("Select Id, Descrip, Estado from Provincia"))) {
+                while (rs.next()) {
+                    provincias.add(new Provincia(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip")));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -45,9 +46,10 @@ public class ProvinciaDB {
             PreparedStatement ps = accesoDatos.getConexion()
                     .prepareStatement("Select Id, Descrip, Estado from Provincia where Id = ?");
             ps.setInt(1, Id);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            if (rs.next()) {                
-                return new Provincia(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                if (rs.next()) {
+                    return new Provincia(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"));
+                }
             }
         }  catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

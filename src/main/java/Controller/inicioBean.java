@@ -12,6 +12,7 @@ import Model.AccesoDatos.UsuarioDB;
 import Util.Utilitarios;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -57,12 +58,18 @@ public class inicioBean {
     public void setRoles(List<SelectItem> roles) {
         this.roles = roles;
     }
+    @PostConstruct
+    public void cargar(){
+        this.setRoles(new ArrayList<>());
+        roles.add(new SelectItem(0, "Seleccione el rol"));
+    }
 
 //    Se cargan los roles de usuario
     public void cargarRoles() {
-        roles = new ArrayList<>();
+        this.setRoles(new ArrayList<>());
         try {
             List<RolUsuario> rolesUsuario = new RolUsuarioDB().seleccionarPorCorreo(usuario);
+            roles.add(new SelectItem(0, "Seleccione el rol"));
             rolesUsuario.forEach(rolUsuario -> {
                 roles.add(new SelectItem(rolUsuario.getId(), rolUsuario.getDescripcion()));
             });

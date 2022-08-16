@@ -13,16 +13,16 @@ import java.util.List;
  */
 public class Pedido {
 
-    int id;
-    boolean estado;
-    Cliente cliente;
-    Date fechaEntrega;
-    Direccion direccion;
-    Horario horario;
-    float subTotal;
-    List<PedidoDetalle> detalle;
-    EstadoPedido estadoPedido;
-    MedioDespacho medioDespacho;
+    private int id;
+    private boolean estado;
+    private Cliente cliente;
+    private Date fechaEntrega;
+    private Direccion direccion;
+    private Horario horario;
+    private float subTotal;
+    private List<PedidoDetalle> detalle;
+    private EstadoPedido estadoPedido;
+    private MedioDespacho medioDespacho;
 
     public Pedido(int id, boolean estado, Cliente cliente, Date fechaEntrega, Horario horario, Direccion direccion,
             List<PedidoDetalle> detalle, float subTotal, EstadoPedido estadoPedido, MedioDespacho medioDespacho) {

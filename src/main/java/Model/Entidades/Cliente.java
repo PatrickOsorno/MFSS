@@ -12,10 +12,10 @@ import java.util.List;
  */
 public class Cliente {
 
-    String id, nombre, apellidos, telefono, correo;
-    boolean estado;
-    List<Horario> horarios;
-    List<Direccion> direcciones;
+    private String id, nombre, apellidos, telefono, correo;
+    private boolean estado;
+    private List<Horario> horarios;
+    private List<Direccion> direcciones;
 
     public Cliente(String id, String nombre, String apellidos, String correo, String telefono, boolean estado, List<Direccion> direcciones, List<Horario> horarios) {
         this.id = id;

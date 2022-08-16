@@ -23,35 +23,35 @@
 
                     <p:divider layout="vertical"/>
 
-                    <p:submenu label="Productos" icon="pi pi-inbox">
+                    <p:submenu label="Productos" icon="pi pi-inbox" rendered="#{principalBean.esAdministrador}">
                         <p:menuitem value="Gestionar Productos" icon="pi pi-book" action="gestionProductos?faces-redirect=true"/>
                     </p:submenu>
 
-                    <p:divider layout="vertical"/>
+                    <p:divider layout="vertical" rendered="#{principalBean.esAdministrador}"/>
 
-                    <p:submenu label="Pedidos" icon="pi pi-shopping-cart">
+                    <p:submenu label="Pedidos" icon="pi pi-shopping-cart" rendered="#{principalBean.esCliente || principalBean.esAdministrador}">
                         <p:menuitem value="Nuevo" icon="pi pi-plus" action="pedidos?faces-redirect=true"/>
                     </p:submenu>
 
-                    <p:divider layout="vertical"/>
+                    <p:divider layout="vertical" rendered="#{principalBean.esCliente || principalBean.esAdministrador}"/>
                     
-                    <p:submenu label="Facturaci&oacute;n" icon="pi pi-print">
+                    <p:submenu label="Facturaci&oacute;n" icon="pi pi-print" rendered="#{principalBean.esProduccion || principalBean.esAdministrador}">
                         <p:menuitem value="Facturar" icon="pi pi-plus" action="facturar?faces-redirect=true"/>
                     </p:submenu>
 
-                    <p:divider layout="vertical"/>
+                    <p:divider layout="vertical" rendered="#{principalBean.esProduccion || principalBean.esAdministrador}"/>
 
-                    <p:submenu label="Despachos" icon="pi pi-car">
+                    <p:submenu label="Despachos" icon="pi pi-car" rendered="#{principalBean.esBodeguero || principalBean.esAdministrador}">
                         <p:menuitem value="Registrar" icon="pi pi-plus" action="despachos?faces-redirect=true"/>
                     </p:submenu>
 
-                    <p:divider layout="vertical"/>
+                    <p:divider layout="vertical" rendered="#{principalBean.esBodeguero || principalBean.esAdministrador}"/>
 
-                    <p:submenu label="Reportes" icon="pi pi-file-o">
+                    <p:submenu label="Reportes" icon="pi pi-file-o" rendered="#{principalBean.esAdministrador}">
                         <p:menuitem value="Mostrar Reportes" icon="pi pi-eye" action="reportes?faces-redirect=true"/>
                     </p:submenu>
 
-                    <p:divider layout="vertical"/>
+                    <p:divider layout="vertical" rendered="#{principalBean.esAdministrador}"/>
 
                     <p:menuitem value="Ayuda" icon="pi pi-question-circle" action="ayuda?faces-redirect=true"/>
 

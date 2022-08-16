@@ -5,6 +5,7 @@
 package Controller;
 
 import Model.Entidades.Usuario;
+import Util.Utilitarios;
 import java.io.IOException;
 import javax.faces.context.FacesContext;
 
@@ -14,27 +15,57 @@ import javax.faces.context.FacesContext;
  */
 public class principalBean {
 
-    Usuario usuario; 
-//    boolean esCliente = usuario.getRol().getId() == 1;
+    Usuario usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
 
-//    public boolean isEsCliente() {
-//        return esCliente;
-//    }
-//
-//    public void setEsCliente(boolean esCliente) {
-//        this.esCliente = esCliente;
-//    }
+    boolean esCliente = Utilitarios.cliente(usuario);
+
+    boolean esBodeguero = Utilitarios.bodeguero(usuario);
+
+    boolean esProduccion = Utilitarios.produccion(usuario);
+    
+    boolean esAdministrador = Utilitarios.administrador(usuario);
+
+    public boolean isEsCliente() {
+        return esCliente;
+    }
+
+    public void setEsCliente(boolean esCliente) {
+        this.esCliente = esCliente;
+    }
+
+    public boolean isEsBodeguero() {
+        return esBodeguero;
+    }
+
+    public void setEsBodeguero(boolean esBodeguero) {
+        this.esBodeguero = esBodeguero;
+    }
+
+    public boolean isEsProduccion() {
+        return esProduccion;
+    }
+
+    public void setEsProduccion(boolean esProduccion) {
+        this.esProduccion = esProduccion;
+    }    
+
+    public boolean isEsAdministrador() {
+        return esAdministrador;
+    }
+
+    public void setEsAdministrador(boolean esAdministrador) {
+        this.esAdministrador = esAdministrador;
+    }
 
 //    Verifica el rol del inicio de sesion
     public void verificarSesion() {
-        usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
         if (usuario == null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             } catch (IOException ex) {
 
             }
-        } 
+        }
     }
 
 //    Se devuelve al inicio de sesion

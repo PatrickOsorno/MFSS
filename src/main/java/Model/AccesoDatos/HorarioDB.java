@@ -46,9 +46,10 @@ public class HorarioDB {
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Inicio, Fin, Estado, Id, IdCliente from Horario where IdCliente = ?");
             ps.setString(1, idCliente);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            while (rs.next()) {
-                horarios.add(new Horario(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("IdCliente"), rs.getTimestamp("Inicio"), rs.getTimestamp("Fin")));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                while (rs.next()) {
+                    horarios.add(new Horario(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("IdCliente"), rs.getTimestamp("Inicio"), rs.getTimestamp("Fin")));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -70,9 +71,10 @@ public class HorarioDB {
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Inicio, Fin, Estado, Id, IdCliente from Horario where Id = ?");
             ps.setInt(1, idHorario);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            if (rs.next()) {
-                return new Horario(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("IdCliente"), rs.getTimestamp("Inicio"), rs.getTimestamp("Fin"));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                if (rs.next()) {
+                    return new Horario(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("IdCliente"), rs.getTimestamp("Inicio"), rs.getTimestamp("Fin"));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

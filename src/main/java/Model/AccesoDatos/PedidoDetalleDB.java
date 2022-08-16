@@ -30,10 +30,11 @@ public class PedidoDetalleDB {
             PreparedStatement ps = accesoDatos.getConexion()
                     .prepareStatement("Select IdPedido, IdProducto, Cantidad, Estado, DescuentoProd from PedidoDetalle where IdPedido = ?");
             ps.setInt(1, IdPedido);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            while (rs.next()) {
-                detalles.add(new PedidoDetalle(IdPedido, new ProductoDB().seleccionarPorId(rs.getInt("IdProducto")), rs.getInt("Cantidad"),
-                        rs.getBoolean("Estado"), rs.getFloat("DescuentoProd")));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                while (rs.next()) {
+                    detalles.add(new PedidoDetalle(IdPedido, new ProductoDB().seleccionarPorId(rs.getInt("IdProducto")), rs.getInt("Cantidad"),
+                            rs.getBoolean("Estado"), rs.getFloat("DescuentoProd")));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

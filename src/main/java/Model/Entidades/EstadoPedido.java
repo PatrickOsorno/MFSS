@@ -9,9 +9,9 @@ package Model.Entidades;
  * @author Patrick Osorno
  */
 public class EstadoPedido {
-    int id;
-    String descripcion;
-    boolean estado;
+    private int id;
+    private String descripcion;
+    private boolean estado;
 
     public EstadoPedido(int id, String descripcion, boolean estado) {
         this.id = id;

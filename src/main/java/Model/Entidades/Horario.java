@@ -13,10 +13,10 @@ import java.util.Date;
  */
 public class Horario {
 
-    int id;
-    boolean estado;
-    String idCliente;
-    Date inicio, fin;
+    private int id;
+    private boolean estado;
+    private String idCliente;
+    private Date inicio, fin;
 
     public Horario(int id, boolean estado, String idCliente, Date inicio, Date fin) {
         this.id = id;

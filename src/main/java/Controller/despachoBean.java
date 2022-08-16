@@ -7,11 +7,13 @@ package Controller;
 import DAO.SNMPExceptions;
 import Model.AccesoDatos.DespachoDB;
 import Model.AccesoDatos.FacturaDB;
-import Model.AccesoDatos.MedioDespachoDB;
 import Model.AccesoDatos.PedidoDB;
 import Model.Entidades.Despacho;
 import Model.Entidades.Pedido;
 import Util.Utilitarios;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -23,7 +25,6 @@ import javax.faces.context.FacesContext;
  */
 public class despachoBean {
     List<Pedido> pedidos;
-    Date fechaHoraEnvio;
     Pedido pedido;
     String observacion, txtBuscar;
 
@@ -41,14 +42,6 @@ public class despachoBean {
 
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
-    }
-
-    public Date getFechaHoraEnvio() {
-        return fechaHoraEnvio;
-    }
-
-    public void setFechaHoraEnvio(Date fechaHoraEnvio) {
-        this.fechaHoraEnvio = fechaHoraEnvio;
     }
 
     public String getObservacion() {
@@ -71,23 +64,28 @@ public class despachoBean {
     @PostConstruct
     public void cargarComponentes() {
         try {
-            this.setPedidos(new PedidoDB().SeleccionarFacturados());
+            this.setPedidos(new PedidoDB().seleccionarFacturados());
         } catch (SNMPExceptions ex) {
         }
     }
     
 //    Busca los pedidos
-    public void buscar(){
-        
+    public void buscar() throws SNMPExceptions{
+         if(this.getTxtBuscar().equals("")){
+            this.setPedidos(new PedidoDB().seleccionarFacturados());
+        }else{
+            this.setPedidos(new PedidoDB().seleccionarFacturadosPorNombre(this.getTxtBuscar()));
+        }
     }
     
 //    Registra el despacho del pedido
     public void registrarDespacho() throws SNMPExceptions{
+        
         Despacho despacho = new Despacho(0,true, pedido, 
                 new FacturaDB().seleccionarPorPedido(this.getPedido().getId()).getId(), 
-                this.getFechaHoraEnvio(), this.getObservacion());
+                Calendar.getInstance().getTime(), this.getObservacion());
 
-        if (Utilitarios.validarDespacho(this.getFechaHoraEnvio(), this.getObservacion())) {
+        if (Utilitarios.validarDespacho(this.getObservacion())) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Error", "Datos incompletos"));
@@ -101,7 +99,6 @@ public class despachoBean {
     }
     
      public void limpiar() {
-        this.setFechaHoraEnvio(null);
         this.setObservacion("");
         this.cargarComponentes();
     }

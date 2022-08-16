@@ -32,10 +32,11 @@ public class DistritoDB {
                     .prepareStatement("Select Id, Descrip, Estado from Distrito where Idprovincia = ? and IdCanton = ?");
             ps.setInt(1, idProvincia);
             ps.setInt(2, idCanton);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            while(rs.next()){
-                distritos.add(new Distrito(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"), 
-                        new CantonDB().seleccionarPorId(idProvincia, idCanton)));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                while(rs.next()){
+                    distritos.add(new Distrito(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"),
+                            new CantonDB().seleccionarPorId(idProvincia, idCanton)));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -50,10 +51,11 @@ public class DistritoDB {
             ps.setInt(1, idProvincia);
             ps.setInt(2, idCanton);
             ps.setInt(3, idDistrito);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            if (rs.next()) {                
-                return new Distrito(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"), 
-                        new CantonDB().seleccionarPorId(idProvincia, idCanton));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                if (rs.next()) {
+                    return new Distrito(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"),
+                            new CantonDB().seleccionarPorId(idProvincia, idCanton));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

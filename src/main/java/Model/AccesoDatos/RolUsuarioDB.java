@@ -29,10 +29,11 @@ public class RolUsuarioDB {
     public List<RolUsuario> SeleccionarTodo() throws SNMPExceptions {
         List<RolUsuario> roles = new ArrayList<>();
         try {
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos.getConexion()
-                    .prepareStatement("Select Id, Estado, Descripcion from RolUsuario"));
-            while (rs.next()) {
-                roles.add(new RolUsuario(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descripcion")));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos.getConexion()
+                    .prepareStatement("Select Id, Estado, Descripcion from RolUsuario"))) {
+                while (rs.next()) {
+                    roles.add(new RolUsuario(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descripcion")));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -47,9 +48,10 @@ public class RolUsuarioDB {
             PreparedStatement ps = accesoDatos.getConexion()
                     .prepareStatement("select Id, Descripcion from RolUsuario r inner join UsuarioRoles u on r.Id = u.idRol and u.email = ?;");
             ps.setString(1, correo);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            while (rs.next()) {
-                roles.add(new RolUsuario(rs.getInt("Id"), true, rs.getString("Descripcion")));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                while (rs.next()) {
+                    roles.add(new RolUsuario(rs.getInt("Id"), true, rs.getString("Descripcion")));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -63,9 +65,10 @@ public class RolUsuarioDB {
             PreparedStatement ps = accesoDatos.getConexion()
                     .prepareStatement("Select Id, Estado, Descripcion from RolUsuario where Id = ?;");
             ps.setInt(1, IdRol);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            if (rs.next()) {
-                return new RolUsuario(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descripcion"));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                if (rs.next()) {
+                    return new RolUsuario(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descripcion"));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

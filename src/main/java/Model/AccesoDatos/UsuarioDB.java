@@ -30,12 +30,13 @@ public class UsuarioDB {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Email, Contrasena, IdCliente from Usuario where Email = ? and Contrasena = ?");
             ps.setString(1, correo);
             ps.setString(2, contrasena);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            if (rs.next()) {
-                usuario = new Usuario();
-                usuario.setCorreo(rs.getString("Email"));
-                usuario.setContrasena(rs.getString("Contrasena"));
-                usuario.setCliente(new ClienteDB().seleccionarPorId(rs.getString("IdCliente")));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                if (rs.next()) {
+                    usuario = new Usuario();
+                    usuario.setCorreo(rs.getString("Email"));
+                    usuario.setContrasena(rs.getString("Contrasena"));
+                    usuario.setCliente(new ClienteDB().seleccionarPorId(rs.getString("IdCliente")));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

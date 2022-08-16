@@ -10,6 +10,7 @@ import Model.Entidades.Horario;
 import Model.Entidades.MedioDespacho;
 import Model.Entidades.Pedido;
 import Model.Entidades.PedidoDetalle;
+import Model.Entidades.Usuario;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +61,6 @@ public class Utilitarios {
 //    public static boolean validarGestionNuevUsuario(String correo, String contrasena, String rolUsuario) {
 //        return !(correo.equals("") || contrasena.equals("") || rolUsuario.equals(""));
 //    }
-
 //Se valida que el gestion de Productos, en el mantenimiento de Productos no halla espacios en nulo
 //      GestionProductosBean=>GestionProductos(btnNuevo y btnEditar => MantenimientoProductos)
     public static boolean validarProductoNuevo(int codigo, String descripcion, String foto, float precio, int stock, int cantMinima) {
@@ -69,29 +69,29 @@ public class Utilitarios {
 
 //Se valida que el gestion de Pedidos, en la confirmacion de orden no halla espacios en nulo
 //      PedidosBean=>Pedidos(btnConfirmarOrden => ConfirmarOrden)
-    public static boolean validarDatosPedido(List<PedidoDetalle> detalles, Date fechaEntrega, 
+    public static boolean validarDatosPedido(List<PedidoDetalle> detalles, Date fechaEntrega,
             Direccion direccionEntrega, Horario horarioEntrega, MedioDespacho medioDespacho) {
         return (detalles.isEmpty() || fechaEntrega == null || direccionEntrega == null || horarioEntrega == null || medioDespacho == null);
     }
 //Se valida que los reportes, en el reporte de Pedidos no halla espacios en nulo
 //      ReportesBean=>Reportes(btnMostrarReporte => ReportePedidos)
 
-    public static boolean validarMostrarReportePedidos(Date fecha, String estado) {
-        return (fecha == null || estado.equals(""));
+    public static boolean validarMostrarReportePedidos(List<Date> fecha, int estado) {
+        return (fecha == null || estado == 0);
     }
 
 //Se valida que los reportes, en el reporte de Ventas no halla espacios en nulo
 //      ReportesBean=>Reportes(btnMostrarReporte => ReporteVentas)
-    public static boolean validarMostrarReporteVentas(Date fecha, String tipoPago) {
-        return (fecha == null || tipoPago.equals(""));
+    public static boolean validarMostrarReporteVentas(List<Date> fecha, int tipoPago) {
+        return (fecha == null || tipoPago == 0);
     }
-    
-    public static boolean validarFacturacion(List<Pedido> pedidos, int tipoPago){
+
+    public static boolean validarFacturacion(List<Pedido> pedidos, int tipoPago) {
         return (pedidos.isEmpty() || tipoPago == 0);
     }
-    
-    public static boolean validarDespacho(Date fechaHoraEnvio, String observacion) {
-        return (fechaHoraEnvio == null || observacion.equals(""));
+
+    public static boolean validarDespacho(String observacion) {
+        return (observacion.equals(""));
     }
 
 //Mediante este metodo se le enviará al solicitante si fue aprovada su inscripcion
@@ -131,5 +131,22 @@ public class Utilitarios {
             sb.append(chars.charAt(random.nextInt(chars.length())));
         }
         return sb.toString();
+    }
+    
+
+    public static boolean administrador(Usuario usuario) {
+        return usuario.getRol().getId() == 1;
+    }
+
+    public static boolean cliente(Usuario usuario) {
+        return usuario.getRol().getId() == 2;
+    }
+
+    public static boolean bodeguero(Usuario usuario) {
+        return usuario.getRol().getId() == 3;
+    }
+
+    public static boolean produccion(Usuario usuario) {
+        return usuario.getRol().getId() == 4;
     }
 }

@@ -31,11 +31,11 @@
                         <span class="filter-container ui-input-icon-left">
                             <i class="pi pi-search"></i>
                             <p:inputText placeholder="Buscar" value="#{despachoBean.txtBuscar}"/>
-                            <p:commandButton value="Buscar" icon="pi pi-search" action="#{despachoBean.buscar()}"/>
+                            <p:commandButton value="Buscar" icon="pi pi-search" action="#{despachoBean.buscar()}" update="tablaPedidos"/>
                         </span>
                     </p:toolbarGroup>
                 </p:toolbar>
-                <p:dataTable var="pedido" value="#{despachoBean.pedidos}" paginator="true"
+                <p:dataTable id="tablaPedidos" var="pedido" value="#{despachoBean.pedidos}" paginator="true"
                              rows="3" rowSelectMode="add" paginatorPosition="bottom">
                     <p:column headerText="Cliente">
                         <h:outputText value="#{pedido.cliente}"/>
@@ -62,8 +62,6 @@
                 <p:dialog header="Registrar Despacho" showEffect="fade" modal="true"
                           widgetVar="dlgRegistrarDesp" responsive="true">
                     <h:panelGrid columns="2" cellpadding="5">
-                        <label>Fecha y hora de env&iacute;o: </label>
-                        <p:datePicker showTime="true" value="#{despachoBean.fechaHoraEnvio}"/>
                         <label>Observacion: </label>
                         <p:inputTextarea value="#{despachoBean.observacion}"/>
                     </h:panelGrid>

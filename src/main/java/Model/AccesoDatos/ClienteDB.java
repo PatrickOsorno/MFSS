@@ -31,14 +31,15 @@ public class ClienteDB {
     public List<Cliente> seleccionarNoAceptados() throws SNMPExceptions {
         List<Cliente> clientes =  new ArrayList<>();
         try {
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos
-                    .getConexion().prepareStatement("Select Id, Nombre, Apellidos, Email, Telefono, Estado  from Cliente where email not in(select email from Usuario)"));
-            while (rs.next()) {                
-                clientes.add(new Cliente(rs.getString("Id"), rs.getString("Nombre"), 
-                        rs.getString("Apellidos"), rs.getString("Email"), 
-                        rs.getString("Telefono"), rs.getBoolean("Estado"), 
-                        null,
-                        null));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos
+                    .getConexion().prepareStatement("Select Id, Nombre, Apellidos, Email, Telefono, Estado  from Cliente where email not in(select email from Usuario)"))) {
+                while (rs.next()) {
+                    clientes.add(new Cliente(rs.getString("Id"), rs.getString("Nombre"),
+                            rs.getString("Apellidos"), rs.getString("Email"),
+                            rs.getString("Telefono"), rs.getBoolean("Estado"),
+                            null,
+                            null));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -52,13 +53,14 @@ public class ClienteDB {
             PreparedStatement ps = accesoDatos.getConexion()
                     .prepareStatement("Select Id, Nombre, Apellidos, Email, Telefono, Estado  from Cliente where Id = ?");
             ps.setString(1, idCliente);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            if(rs.next()){
-                return new Cliente(rs.getString("Id"), rs.getString("Nombre"), 
-                        rs.getString("Apellidos"), rs.getString("Email"), 
-                        rs.getString("Estado"), rs.getBoolean("Estado"), 
-                        new DireccionDB().seleccionarPorCliente(rs.getString("Id")), 
-                        new HorarioDB().seleccionarPorCliente(idCliente));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                if(rs.next()){
+                    return new Cliente(rs.getString("Id"), rs.getString("Nombre"),
+                            rs.getString("Apellidos"), rs.getString("Email"),
+                            rs.getString("Estado"), rs.getBoolean("Estado"),
+                            new DireccionDB().seleccionarPorCliente(rs.getString("Id")),
+                            new HorarioDB().seleccionarPorCliente(idCliente));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -71,13 +73,14 @@ public class ClienteDB {
             PreparedStatement ps = accesoDatos.getConexion()
                     .prepareStatement("Select Id, Nombre, Apellidos, Email, Telefono, Estado  from Cliente where Email = ?");
             ps.setString(1, email);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            if(rs.next()){
-                return new Cliente(rs.getString("Id"), rs.getString("Nombre"), 
-                        rs.getString("Apellidos"), rs.getString("Email"), 
-                        rs.getString("Estado"), rs.getBoolean("Estado"), 
-                        new DireccionDB().seleccionarPorCliente(rs.getString("Id")), 
-                        new HorarioDB().seleccionarPorCliente(rs.getString("Id")));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                if(rs.next()){
+                    return new Cliente(rs.getString("Id"), rs.getString("Nombre"),
+                            rs.getString("Apellidos"), rs.getString("Email"),
+                            rs.getString("Estado"), rs.getBoolean("Estado"),
+                            new DireccionDB().seleccionarPorCliente(rs.getString("Id")),
+                            new HorarioDB().seleccionarPorCliente(rs.getString("Id")));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

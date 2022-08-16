@@ -31,12 +31,13 @@ public class ProductoDB {
     public List<Producto> SeleccionarTodo() throws SNMPExceptions {
         List<Producto> productos = new ArrayList<>();
         try {
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos.getConexion()
-                    .prepareStatement("Select Id, Descripcion, Foto, Precio, Stock, CantMin, Estado, PorcDescuento from Producto where Estado = 1"));
-            while (rs.next()) {
-                productos.add(new Producto(rs.getInt("Id"), rs.getBoolean("Estado"),
-                        rs.getInt("Stock"), rs.getInt("CantMin"), rs.getString("Descripcion"),
-                        rs.getString("Foto"), rs.getFloat("Precio"),0, rs.getFloat("PorcDescuento")));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos.getConexion()
+                    .prepareStatement("Select Id, Descripcion, Foto, Precio, Stock, CantMin, Estado, PorcDescuento from Producto where Estado = 1"))) {
+                while (rs.next()) {
+                    productos.add(new Producto(rs.getInt("Id"), rs.getBoolean("Estado"),
+                            rs.getInt("Stock"), rs.getInt("CantMin"), rs.getString("Descripcion"),
+                            rs.getString("Foto"), rs.getFloat("Precio"),0, rs.getFloat("PorcDescuento")));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -105,11 +106,12 @@ public class ProductoDB {
             PreparedStatement ps = accesoDatos.getConexion()
                     .prepareStatement("Select Id, Descripcion, Foto, Precio, Stock, CantMin, Estado, PorcDescuento from Producto where Id = ? and Estado = 1");
             ps.setInt(1, idProducto);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            if (rs.next()) {
-                return new Producto(rs.getInt("Id"), rs.getBoolean("Estado"),
-                        rs.getInt("Stock"), rs.getInt("CantMin"), rs.getString("Descripcion"),
-                        rs.getString("Foto"), rs.getFloat("Precio"), 0, rs.getFloat("PorcDescuento"));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                if (rs.next()) {
+                    return new Producto(rs.getInt("Id"), rs.getBoolean("Estado"),
+                            rs.getInt("Stock"), rs.getInt("CantMin"), rs.getString("Descripcion"),
+                            rs.getString("Foto"), rs.getFloat("Precio"), 0, rs.getFloat("PorcDescuento"));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -122,11 +124,12 @@ public class ProductoDB {
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Id, Descripcion, Foto, Precio, Stock, CantMin, Estado, PorcDescuento from Producto where descripcion like ? and Estado = 1");
             ps.setString(1, "%" + nombreProducto +"%");
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            while (rs.next()) {
-                productos.add(new Producto(rs.getInt("Id"), rs.getBoolean("Estado"),
-                        rs.getInt("Stock"), rs.getInt("CantMin"), rs.getString("Descripcion"),
-                        rs.getString("Foto"), rs.getFloat("Precio"),0, rs.getFloat("PorcDescuento")));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                while (rs.next()) {
+                    productos.add(new Producto(rs.getInt("Id"), rs.getBoolean("Estado"),
+                            rs.getInt("Stock"), rs.getInt("CantMin"), rs.getString("Descripcion"),
+                            rs.getString("Foto"), rs.getFloat("Precio"),0, rs.getFloat("PorcDescuento")));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

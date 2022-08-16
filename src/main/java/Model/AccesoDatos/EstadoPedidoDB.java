@@ -29,7 +29,7 @@ public class EstadoPedidoDB {
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Id, Descripcion, Estado from EstadoPedido where id = ?");
             ps.setInt(1, id);
-            try ( ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
                 if (rs.next()) {
                     return new EstadoPedido(rs.getInt("Id"), rs.getString("Descripcion"), rs.getBoolean("Estado"));
                 }

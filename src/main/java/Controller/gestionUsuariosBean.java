@@ -33,6 +33,17 @@ public class gestionUsuariosBean {
     Cliente clienteDenegado;
     List<SelectItem> rolesUsuario;
     List<Cliente> clientes;
+    
+    boolean esAdministrador = Utilitarios.administrador((Usuario)FacesContext.getCurrentInstance()
+            .getExternalContext().getSessionMap().get("Usuario"));
+
+    public boolean isEsAdministrador() {
+        return esAdministrador;
+    }
+
+    public void setEsAdministrador(boolean esAdministrador) {
+        this.esAdministrador = esAdministrador;
+    }
 
     public String getHorario() {
         return horario;

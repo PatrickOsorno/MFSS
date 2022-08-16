@@ -28,9 +28,10 @@ public class TipoDireccionDB {
     public List<TipoDireccion> seleccionarTodos() throws SNMPExceptions{
         List<TipoDireccion> tiposDireccion =  new ArrayList<>();
         try {
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos.getConexion().prepareStatement("Select Id, Descrip, Estado from TipoDireccion"));
-            while (rs.next()) {                
-                tiposDireccion.add(new TipoDireccion(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip")));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos.getConexion().prepareStatement("Select Id, Descrip, Estado from TipoDireccion"))) {
+                while (rs.next()) {
+                    tiposDireccion.add(new TipoDireccion(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip")));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
@@ -43,9 +44,10 @@ public class TipoDireccionDB {
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Select Id, Descrip, Estado from TipoDireccion where Id = ?");
             ps.setInt(1, idTipo);
-            ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps);
-            if (rs.next()) {                
-                return new TipoDireccion(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"));
+            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                if (rs.next()) {
+                    return new TipoDireccion(rs.getInt("Id"), rs.getBoolean("Estado"), rs.getString("Descrip"));
+                }
             }
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());

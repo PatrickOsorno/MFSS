@@ -10,11 +10,11 @@ package Model.Entidades;
  */
 public class Direccion {
 
-    int id;
-    boolean estado;
-    Barrio barrio;
-    String otrasSenas, idCliente;
-    TipoDireccion tipo;
+    private int id;
+    private boolean estado;
+    private Barrio barrio;
+    private String otrasSenas, idCliente;
+    private TipoDireccion tipo;
 
     public Direccion(int id, boolean estado, String idCliente, Barrio barrio, String otrasSenas, TipoDireccion tipo) {
         this.id = id;
