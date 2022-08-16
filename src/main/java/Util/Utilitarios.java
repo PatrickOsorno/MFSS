@@ -27,26 +27,26 @@ import javax.mail.internet.MimeMessage;
  * @author Melisa
  */
 public class Utilitarios {
-//Se valida que el ingreso no haya espacios en blanco
+//Se valida que en el ingreso no hayan espacios en blanco
 //      inicioBean=>index(btnIngresar)
 
     public static boolean validacionInicio(String usuario, String contrasena, int rol) {
         return (usuario.equals("") || contrasena.equals("") || rol == 0);
     }
 
-//Se valida que el autorregistro del cliente no halla espacios en nulo
+//Se valida que en el autorregistro del cliente no hayan espacios en blanco
 //      RegistroBean=>RegistroClientes(btnGuardar => RegistroUsuarios)
     public static boolean validacionRegistroCliente(String identificacion, String nombre, String apellidos, String correo, String telefono) {
         return (identificacion.equals("") || nombre.equals("") || apellidos.equals("") || correo.equals("") || telefono.equals(""));
     }
 
-//Se valida que el registro de direcciones no halla espacios en nulo
+//Se valida que en el registro de direcciones no hayan espacios en blanco
 //      RegistroBean=>RegistroClientes(btnGuardar => RegistroDirecciones)
     public static boolean validacionRegistroDireccion(int tipoDireccion, int provincia, int canton, int distrito, int barrio, String otrasSenas) {
         return (tipoDireccion == 0 || provincia == 0 || canton == 0 || distrito == 0 || barrio == 0 || otrasSenas.equals(""));
     }
 
-//Se valida que el registro de Horarios no halla espacios en nulo
+//Se valida que en el registro de Horarios no hayan espacios en blanco
 //      RegistroBean=>RegistroClientes(btnGuardar => RegistroHorarios)
     public static boolean validacionRegistroHorario(Date fechaHoraInic, Date fechaHoraFin) {
         return (fechaHoraFin == null || fechaHoraInic == null);
@@ -55,13 +55,7 @@ public class Utilitarios {
     public static boolean validacionRegistroClienteBd(Cliente cliente) {
         return (cliente == null || cliente.getHorarios().isEmpty() || cliente.getHorarios().isEmpty());
     }
-
-//Se valida que el gestion de usuarios, en los usuarios no halla espacios en nulo
-//      GestionUsuariosBean=>GestionUsuarios(btnCrearUsuario => NuevoUsuario)
-//    public static boolean validarGestionNuevUsuario(String correo, String contrasena, String rolUsuario) {
-//        return !(correo.equals("") || contrasena.equals("") || rolUsuario.equals(""));
-//    }
-//Se valida que el gestion de Productos, en el mantenimiento de Productos no halla espacios en nulo
+//Se valida que en el mantenimiento de Productos no hayan espacios en blanco
 //      GestionProductosBean=>GestionProductos(btnNuevo y btnEditar => MantenimientoProductos)
     public static boolean validarProductoNuevo(int codigo, String descripcion, String foto, float precio, int stock, int cantMinima) {
         return (codigo == 0 || descripcion.equals("") || foto.equals("") || precio == 0f || stock == 0 || cantMinima == 0);
@@ -73,14 +67,14 @@ public class Utilitarios {
             Direccion direccionEntrega, Horario horarioEntrega, MedioDespacho medioDespacho) {
         return (detalles.isEmpty() || fechaEntrega == null || direccionEntrega == null || horarioEntrega == null || medioDespacho == null);
     }
-//Se valida que los reportes, en el reporte de Pedidos no halla espacios en nulo
+//Se valida en el reporte de Pedidos no hayan espacios en blanco
 //      ReportesBean=>Reportes(btnMostrarReporte => ReportePedidos)
 
     public static boolean validarMostrarReportePedidos(List<Date> fecha, int estado) {
         return (fecha == null || estado == 0);
     }
 
-//Se valida que los reportes, en el reporte de Ventas no halla espacios en nulo
+//Se valida que  en el reporte de Ventas no hayan espacios en blanco
 //      ReportesBean=>Reportes(btnMostrarReporte => ReporteVentas)
     public static boolean validarMostrarReporteVentas(List<Date> fecha, int tipoPago) {
         return (fecha == null || tipoPago == 0);
