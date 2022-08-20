@@ -8,16 +8,13 @@ import DAO.SNMPExceptions;
 import Model.AccesoDatos.FacturaDB;
 import Model.AccesoDatos.PedidoDB;
 import Model.AccesoDatos.TipoPagoDB;
-import Model.Entidades.Cliente;
-import Model.Entidades.Direccion;
-import Model.Entidades.EstadoPedido;
 import Model.Entidades.Factura;
 import Model.Entidades.FacturaDetalle;
-import Model.Entidades.Horario;
-import Model.Entidades.MedioDespacho;
 import Model.Entidades.Pedido;
-import Model.Entidades.PedidoDetalle;
 import Model.Entidades.TipoPago;
+import Model.Entidades.Usuario;
+import Util.Utilitarios;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,6 +34,17 @@ public class facturacionBean {
     int porcDescuento, tipoPago;
     List<Pedido> pedidos, pedidosSel;
     List<SelectItem> tiposPago;
+    
+    public void verificarRol(){
+        Usuario usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
+        if (!(Utilitarios.administrador(usuario) || Utilitarios.produccion(usuario))) {
+             try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("principal.xhtml");
+            } catch (IOException ex) {
+
+            }
+        }
+    }
 
     public String getTxtBuscar() {
         return txtBuscar;

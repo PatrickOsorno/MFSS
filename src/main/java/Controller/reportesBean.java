@@ -13,7 +13,9 @@ import Model.Entidades.EstadoPedido;
 import Model.Entidades.Factura;
 import Model.Entidades.Pedido;
 import Model.Entidades.TipoPago;
+import Model.Entidades.Usuario;
 import Util.Utilitarios;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +36,17 @@ public class reportesBean {
     List<Pedido> pedidos;
     List<Factura> facturas;
     int idEstado, idTipoPago;
+
+    public void verificarRol() {
+        Usuario usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
+        if (!Utilitarios.administrador(usuario)) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("principal.xhtml");
+            } catch (IOException ex) {
+
+            }
+        }
+    }
 
     public List<Date> getRangoFechasPedido() {
         return rangoFechasPedido;

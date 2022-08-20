@@ -10,23 +10,35 @@ import Model.AccesoDatos.FacturaDB;
 import Model.AccesoDatos.PedidoDB;
 import Model.Entidades.Despacho;
 import Model.Entidades.Pedido;
+import Model.Entidades.Usuario;
 import Util.Utilitarios;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+
 /**
  *
  * @author Patrick Osorno
  */
 public class despachoBean {
+
     List<Pedido> pedidos;
     Pedido pedido;
     String observacion, txtBuscar;
+
+    public void verificarRol() {
+        Usuario usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
+        if (!(Utilitarios.administrador(usuario) || Utilitarios.bodeguero(usuario))) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("principal.xhtml");
+            } catch (IOException ex) {
+
+            }
+        }
+    }
 
     public List<Pedido> getPedidos() {
         return pedidos;
@@ -59,8 +71,7 @@ public class despachoBean {
     public void setTxtBuscar(String txtBuscar) {
         this.txtBuscar = txtBuscar;
     }
-    
-    
+
     @PostConstruct
     public void cargarComponentes() {
         try {
@@ -68,21 +79,21 @@ public class despachoBean {
         } catch (SNMPExceptions ex) {
         }
     }
-    
+
 //    Busca los pedidos
-    public void buscar() throws SNMPExceptions{
-         if(this.getTxtBuscar().equals("")){
+    public void buscar() throws SNMPExceptions {
+        if (this.getTxtBuscar().equals("")) {
             this.setPedidos(new PedidoDB().seleccionarFacturados());
-        }else{
+        } else {
             this.setPedidos(new PedidoDB().seleccionarFacturadosPorNombre(this.getTxtBuscar()));
         }
     }
-    
+
 //    Registra el despacho del pedido
-    public void registrarDespacho() throws SNMPExceptions{
-        
-        Despacho despacho = new Despacho(0,true, pedido, 
-                new FacturaDB().seleccionarPorPedido(this.getPedido().getId()).getId(), 
+    public void registrarDespacho() throws SNMPExceptions {
+
+        Despacho despacho = new Despacho(0, true, pedido,
+                new FacturaDB().seleccionarPorPedido(this.getPedido().getId()).getId(),
                 Calendar.getInstance().getTime(), this.getObservacion());
 
         if (Utilitarios.validarDespacho(this.getObservacion())) {
@@ -97,8 +108,8 @@ public class despachoBean {
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Éxito", "Despacho realizado"));
     }
-    
-     public void limpiar() {
+
+    public void limpiar() {
         this.setObservacion("");
         this.cargarComponentes();
     }

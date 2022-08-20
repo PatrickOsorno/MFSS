@@ -110,7 +110,7 @@ public class Utilitarios {
                 transporte.sendMessage(mail, mail.getAllRecipients());
             }
         } catch (MessagingException ex) {
-
+            ex.getMessage();
         }
     }
 
@@ -127,7 +127,6 @@ public class Utilitarios {
         return sb.toString();
     }
     
-
     public static boolean administrador(Usuario usuario) {
         return usuario.getRol().getId() == 1;
     }

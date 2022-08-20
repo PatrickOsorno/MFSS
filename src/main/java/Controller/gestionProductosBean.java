@@ -7,7 +7,9 @@ package Controller;
 import DAO.SNMPExceptions;
 import Model.Entidades.Producto;
 import Model.AccesoDatos.ProductoDB;
+import Model.Entidades.Usuario;
 import Util.Utilitarios;
+import java.io.IOException;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -124,6 +126,17 @@ public class gestionProductosBean {
 
     public void setDescuento(float descuento) {
         this.descuento = descuento;
+    }
+    
+    public void verificarRol(){
+        Usuario usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
+        if (!Utilitarios.administrador(usuario)) {
+             try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("principal.xhtml");
+            } catch (IOException ex) {
+
+            }
+        }
     }
 
 //    Se carga las tablas

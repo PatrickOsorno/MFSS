@@ -16,15 +16,13 @@ import Model.AccesoDatos.PedidoDB;
 import Model.Entidades.PedidoDetalle;
 import Model.Entidades.Producto;
 import Model.AccesoDatos.ProductoDB;
-import Model.Entidades.EstadoPedido;
 import Model.Entidades.MedioDespacho;
 import Model.Entidades.Usuario;
 import Util.Utilitarios;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -58,6 +56,16 @@ public class pedidosBean {
         } catch (SNMPExceptions ex) {
         }
 
+    }
+     public void verificarRol(){
+        Usuario usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario");
+        if (!(Utilitarios.administrador(usuario) || Utilitarios.cliente(usuario))) {
+             try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("principal.xhtml");
+            } catch (IOException ex) {
+
+            }
+        }
     }
 
     public MedioDespacho getMedioDespacho() {

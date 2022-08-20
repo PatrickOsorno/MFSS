@@ -54,6 +54,7 @@ public class UsuarioDB {
             ps.setBoolean(3, usuario.getEstado());
             ps.setString(4, usuario.getCliente().getId());
             accesoDatos.ejecutaSQL(ps);
+            new ClienteDB().modificarUsuarioAcepta(usuario.getCliente());
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }

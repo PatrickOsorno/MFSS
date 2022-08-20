@@ -20,18 +20,18 @@ import javax.faces.context.FacesContext;
  * @author Melisa
  */
 public class ClienteDB {
-
+    
     private AccesoDatos accesoDatos;
-
+    
     public ClienteDB() {
         accesoDatos = AccesoDatos.obtenerInstancia();
     }
 
 //    Por medio de este método se hace una consulta en la base de datos sobre todos los que nos se encuentran en la tabla de Clientes
     public List<Cliente> seleccionarNoAceptados() throws SNMPExceptions {
-        List<Cliente> clientes =  new ArrayList<>();
+        List<Cliente> clientes = new ArrayList<>();
         try {
-            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos
+            try ( ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(accesoDatos
                     .getConexion().prepareStatement("Select Id, Nombre, Apellidos, Email, Telefono, Estado  from Cliente where email not in(select email from Usuario)"))) {
                 while (rs.next()) {
                     clientes.add(new Cliente(rs.getString("Id"), rs.getString("Nombre"),
@@ -46,15 +46,15 @@ public class ClienteDB {
         }
         return clientes;
     }
-    
+
 //    Por medio de este método se hace una consulta en la base de datos sobre todos los los atributos de la tabla cliente por medio del ID
-    public Cliente seleccionarPorId(String idCliente) throws SNMPExceptions{
+    public Cliente seleccionarPorId(String idCliente) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion()
                     .prepareStatement("Select Id, Nombre, Apellidos, Email, Telefono, Estado  from Cliente where Id = ?");
             ps.setString(1, idCliente);
-            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
-                if(rs.next()){
+            try ( ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                if (rs.next()) {
                     return new Cliente(rs.getString("Id"), rs.getString("Nombre"),
                             rs.getString("Apellidos"), rs.getString("Email"),
                             rs.getString("Estado"), rs.getBoolean("Estado"),
@@ -68,13 +68,13 @@ public class ClienteDB {
         return null;
     }
     
-    public Cliente seleccionarPorEmail(String email) throws SNMPExceptions{
+    public Cliente seleccionarPorEmail(String email) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion()
                     .prepareStatement("Select Id, Nombre, Apellidos, Email, Telefono, Estado  from Cliente where Email = ?");
             ps.setString(1, email);
-            try (ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
-                if(rs.next()){
+            try ( ResultSet rs = accesoDatos.ejecutaSQLRetornaRS(ps)) {
+                if (rs.next()) {
                     return new Cliente(rs.getString("Id"), rs.getString("Nombre"),
                             rs.getString("Apellidos"), rs.getString("Email"),
                             rs.getString("Estado"), rs.getBoolean("Estado"),
@@ -99,14 +99,26 @@ public class ClienteDB {
             ps.setString(4, cliente.getCorreo());
             ps.setString(5, cliente.getTelefono());
             ps.setBoolean(6, cliente.getEstado());
-            ps.setString(7, ((Usuario)(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario"))).getCorreo());
+            ps.setString(7, "");
             ps.setString(8, cliente.toString());
             accesoDatos.ejecutaSQL(ps);
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
         }
     }
-
+    
+    public void modificarUsuarioAcepta(Cliente cliente) throws SNMPExceptions {
+        try {
+            PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Update cliente set UsuarioAcepta = ? where Id = ?");
+            ps.setString(1, ((Usuario) (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("Usuario"))).getCorreo());
+            ps.setString(2, cliente.getId());
+            accesoDatos.ejecutaSQL(ps);
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        }
+        
+    }
+    
     public void eliminar(String idCliente) throws SNMPExceptions {
         try {
             PreparedStatement ps = accesoDatos.getConexion().prepareStatement("Delete from Cliente where Id = ?");

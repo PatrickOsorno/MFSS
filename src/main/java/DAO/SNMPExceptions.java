@@ -12,7 +12,7 @@ public class SNMPExceptions extends Exception {
     public static final int GLOBAL_EXCEPTION = 8;
     public static final int PARSE_EXCEPTION = 9;
     public static final int OBJECT_NOT_FOUND_EXCEPTION = 10;
-    public static final int HOME_fACTORY_EXCEPTION = 11;
+    public static final int HOME_FACTORY_EXCEPTION = 11;
     public static final int JR_EXCEPTION = 12;
     public static final int SAX_EXCEPTION = 13;
     public static final int PARSER_CONFIGURATION_EXCEPTION = 14;

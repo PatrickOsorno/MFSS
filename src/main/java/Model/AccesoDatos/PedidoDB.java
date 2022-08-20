@@ -34,7 +34,7 @@ public class PedidoDB {
         try {
             PreparedStatement ps = accesoDatos.getConexion()
                     .prepareStatement("Insert into Pedido(IdCliente, FechaEntrega, Estado, "
-                            + "IdEstadoPedido, subTotal, IdDireccion, IdHorario, IdMedioDespacho, FechaRegistra) "
+                            + "IdEstadoPedido, subTotal, IdDireccion, IdHorario, IdMedioDespacho, FechaRegistro) "
                             + "values(?, ?, ?, ?, ?, ?, ?, ?, getdate())");
             ps.setString(1, pedido.getCliente().getId());
             ps.setTimestamp(2, new Timestamp(pedido.getFechaEntrega().getTime()));

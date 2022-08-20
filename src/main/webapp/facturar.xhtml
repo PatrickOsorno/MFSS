@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="css/estilo.css"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="icon" href="img/logo.png"/>
+        <f:event type="preRenderView" listener="#{facturacionBean.verificarRol()}"/>
     </h:head>
     <h:body>
         <div class="card">
@@ -68,10 +69,6 @@
                 </p:dataTable>
                 <br></br>
                 <p:commandButton value="Facturar" icon="pi pi-file-o" action="#{facturacionBean.crearFactura()}" update="@form"/>
-                <!--<p:commandButton value="Exportar" ajax="false">
-                    <p:dataExporter type="pdf" target="tablaPedidos" fileName="pedidos" encoding="ISO-8859-1"/>
-                </p:commandButton>-->
-
             </p:panel>
         </h:form>
     </h:body>

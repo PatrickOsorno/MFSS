@@ -9,7 +9,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
@@ -20,7 +19,6 @@ import javax.faces.context.FacesContext;
 public class AccesoDatos {
 
     private final String driver, servidor, usuarioBd, contrasenaBd;
-    private Statement st = null;
     private Connection conexion = null;
 
     private static AccesoDatos instancia = null;
