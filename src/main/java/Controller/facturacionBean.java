@@ -145,6 +145,7 @@ public class facturacionBean {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Facturación exitosa"));
         this.llenarTabla();
+        this.setTipoPago(0);
     }
 
     public boolean validarPerteneciaCliente(List<Pedido> pedidos) {
